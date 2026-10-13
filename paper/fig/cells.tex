@@ -1,0 +1,67 @@
+\begin{tikzpicture}[x=1cm,y=1cm,
+    port/.style={circle,draw,fill=white,inner sep=0pt,minimum size=5pt},
+    endpt/.style={circle,draw,thick,inner sep=0.5pt,minimum size=11pt,font=\scriptsize},
+    harr/.style={-{Stealth[length=4pt]},thick},
+    succ/.style={gray!60,thin}]
+  % ---------- (a) order of the vertices in one cell ----------
+  \node[font=\small] at (-0.7,0.35) {(a)};
+  \draw[succ] (0,0) -- (7.0,0);
+  \node[port] (a0) at (0,0) {}; \node[port] (a1) at (0.7,0) {};
+  \node[endpt] (u) at (1.4,0) {$u$};
+  \fill[gray!15] (1.75,-0.18) rectangle (4.95,0.18);
+  \node[font=\scriptsize] at (3.35,0) {interior of the module};
+  \node[endpt] (v) at (5.6,0) {$v$};
+  \node[port] (b0) at (6.3,0) {}; \node[port] (b1) at (7.0,0) {};
+  \node[font=\scriptsize,below=1pt] at (a0.south) {$p^{i-1}_0$};
+  \node[font=\scriptsize,below=1pt,xshift=-2pt] at (a1.south) {$p^{i-1}_1$};
+  \node[font=\scriptsize,below=1pt] at (b0.south) {$p^{i}_0$};
+  \node[font=\scriptsize,below=1pt] at (b1.south) {$p^{i}_1$};
+  \draw[red!70!black,-{Stealth[length=4pt]}] (u) to[bend left=22] node[above,font=\scriptsize]{$\vb$} (v);
+  \draw[decorate,decoration={brace,amplitude=3pt}] (0,0.25) -- (1.25,0.25) node[midway,above=2pt,font=\scriptsize]{$\St^{2}$};
+  \draw[decorate,decoration={brace,mirror,amplitude=3pt}] (0.7,-0.62) -- (1.4,-0.62) node[midway,below=2pt,font=\scriptsize]{$\St$};
+  \draw[decorate,decoration={brace,amplitude=3pt}] (5.75,0.25) -- (7.0,0.25) node[midway,above=2pt,font=\scriptsize]{$\St^{2}$};
+  \draw[decorate,decoration={brace,mirror,amplitude=3pt}] (5.6,-0.62) -- (6.3,-0.62) node[midway,below=2pt,font=\scriptsize]{$\St$};
+  % ---------- (b) H-edges of one cell, two tracks ----------
+  \begin{scope}[shift={(0,-2.9)}]
+    \node[font=\small] at (-0.7,1.6) {(b)};
+    \foreach \x/\bit/\K in {0/1/\Kt, 4.6/0/\Nt}{
+      \begin{scope}[shift={(\x,0)}]
+        \node[port] (l0) at (0,0) {}; \node[port] (l1) at (0,1.2) {};
+        \node[port] (r0) at (2.6,0) {}; \node[port] (r1) at (2.6,1.2) {};
+        \node[font=\scriptsize,left=1pt] at (l0.west) {$p^{i-1}_0$};
+        \node[font=\scriptsize,left=1pt] at (l1.west) {$p^{i-1}_1$};
+        \node[font=\scriptsize,right=1pt] at (r0.east) {$p^{i}_0$};
+        \node[font=\scriptsize,right=1pt] at (r1.east) {$p^{i}_1$};
+        \ifnum\bit=1
+          \draw[harr] (l0) -- node[pos=0.22,below right=-1pt,font=\scriptsize]{$\St^{2}\compo\Kt\compo\St^{2}$} (r1);
+          \draw[harr] (l1) -- node[pos=0.22,above right=-1pt,font=\scriptsize]{$\St\compo\Kt\compo\St$} (r0);
+          \node[font=\scriptsize] at (1.3,-0.55) {$w_i = 1$: $\Kt(u_i, v_i)$, swap};
+        \else
+          \draw[harr] (l0) -- node[below,font=\scriptsize]{$\St^{2}\compo\Nt\compo\St$} (r0);
+          \draw[harr] (l1) -- node[above,font=\scriptsize]{$\St\compo\Nt\compo\St^{2}$} (r1);
+          \node[font=\scriptsize] at (1.3,-0.55) {$w_i = 0$: $\Nt(u_i, v_i)$, identity};
+        \fi
+      \end{scope}
+    }
+  \end{scope}
+  % ---------- (c) two-track view of C(101) ----------
+  \begin{scope}[shift={(0,-5.6)}]
+    \node[font=\small] at (-0.7,1.2) {(c)};
+    \foreach \i in {0,1,2,3}{
+      \node[port] (q\i0) at (2.2*\i,0) {};
+      \node[port] (q\i1) at (2.2*\i,0.9) {};
+      \node[font=\scriptsize,below=1pt] at (q\i0.south) {$p^{\i}_0$};
+      \node[font=\scriptsize,above=1pt] at (q\i1.north) {$p^{\i}_1$};
+    }
+    \foreach \i/\j/\b in {0/1/1,1/2/0,2/3/1}{
+      \ifnum\b=1
+        \draw[harr] (q\i0) -- (q\j1); \draw[harr] (q\i1) -- (q\j0);
+      \else
+        \draw[harr] (q\i0) -- (q\j0); \draw[harr] (q\i1) -- (q\j1);
+      \fi
+      \node[font=\scriptsize] at (2.2*\i+1.1,-0.55) {$w_{\j}=\b$};
+    }
+    \draw[very thick,orange!80!black,opacity=0.5] (q00.center) -- (q11.center) -- (q21.center) -- (q30.center);
+    \node[font=\scriptsize,anchor=west,align=left] at (7.0,0.45) {$\Psit(p^0_0,p^3_0)$ holds,\\ $\Psit(p^0_0,p^3_1)$ fails};
+  \end{scope}
+\end{tikzpicture}

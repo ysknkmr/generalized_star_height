@@ -1,0 +1,16 @@
+\begin{table}[t]
+    \centering
+    \begin{tabular}{lccl}
+        \toprule
+        \kl{term} & $\dg{\bl}$ & $\ib{\bl}$ & period polynomial $\per{\bl}$ \\
+        \midrule
+        variable or constant & $1$ & $0$ & $1$ \\
+        $\com{\term[2]}$ & $\dg{\term[2]}$ & $\ib{\term[2]}$ & $\per{\term[2]}$ \\
+        $\term[2] \union \term[3]$, $\term[2] \compo \term[3]$ & $\dg{\term[2]} + \dg{\term[3]}$ & $\max(\ib{\term[2]}, \ib{\term[3]})$ & $\per{\term[2]} \cdot \per{\term[3]}$ \\
+        $\term[2]^{*}$ & $(m + 1) \dg{\term[2]}$ & $\dg{\term[2]}$ & $\per{\term[2]} \cdot \prod_{C} \cyw{C}$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{The degree bound $\dg{\term}$ of the period polynomial and the bound $\ib{\term}$ on the degrees of its irreducible factors (\Cref{claim: tame}).
+        The product in the last row ranges over the cyclic strongly connected components $C$ of the \kl{phase graph} of $\term[2]$, and $\cyw{C}$ is the least positive \kl{weight} of a short closed walk in $C$ (\Cref{section: upper bound proof}).}
+    \label{table: invariants}
+\end{table}

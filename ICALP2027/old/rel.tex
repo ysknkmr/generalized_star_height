@@ -1,0 +1,211 @@
+
+
+% identity relation は全体。
+% aI = a のため。
+% R is reflexive. (I)
+% R is transitive. TT <= T
+% Symmetric なし
+% G/I
+
+\section{$\RSUB$: finite relational models for language models}\label{section: relation}
+In this section, we define the class $\RSUB$ of \emph{\kl{relational subword models}}, for the \kl{equational theory w.r.t.\ languages} of $\KA_{\set{-}}$.
+$\RSUB$ is a subclass of finite \kl{generalized relational models} where the universe relation $U$ is a total order.
+% By using $\RSUB$ instead of $\LANG$, we can focus on \kl{words} (and their subwords) instead of \kl{languages}.
+\begin{definition}\label{definition: relational bounded language model}
+    Let $n \in \nat$.
+    The \intro*\kl{relational subword language model} $\alg$ of length $n$, written $\rsub_{n}$, is the \kl{generalized relational model} on the set $U = \set{\tuple{i,j} \in \range{0, n}^2 \mid i \le j}$ s.t.\ 
+    \[\domain{\alg} \quad=\quad \set{\rel[1] \in \wp(U) \mid R \supseteq \triangle_{\range{0, n}} \ \lor \  U \setminus R \supseteq \triangle_{\range{0, n}}}.\]
+    We write $\RSUB_{n}$ for the class of all \kl{valuations} of $\rsub_{n}$ and write $\RSUB$ for $\bigcup_{n \ge 0} \RSUB_{n}$.
+    \lipicsEnd
+\end{definition}
+Each $\rsub_{n}$ is based on the image of Pratt's embedding (or called Cayley map) \cite{prattDynamicAlgebrasNature1980}\footnote{This trick itself is already used to prove equivalences between relational and language models, e.g., for KAT \cite{kozenKleeneAlgebraTests1996} and for $\KA_{\set{\top}}$ \cite{zhangIncorrectnessLogicKleene2022,pousCompletenessTheoremsKleene2022}.}:
+\[\iota_{X} \colon L \mapsto \set{\tuple{\word[1], \word[1]\word[2]} \mid \word[1] \in X^{*} \land \word[2] \in L}\]
+where we restrict the universe $X^*$ of \kl{words} into the subwords of a \kl{word} of length $n$ with \emph{pairwise distinct} \kl{letters} (i.e., a subword of length $i$ corresponds to the vertex $i$ in $\rsub_{n}$).
+%  (this idea is also used in \cite[Lem.\ 2.4]{andrekaEquationalTheoryKleene2011} and \cite[Def.\ 21]{nakamuraWordstoLettersValuationsLanguage2023}).
+
+Let $\rlang_{X}$ be the \kl{generalized relational model} on $\iota_{X}(X^*)$ with the universe $\set{\iota_{X}(L) \mid L \subseteq X^*}$.
+It is easy to see that the map $\iota_{X}$ forms an $\sig$-isomorphism from $\lang_{X}$ to $\rlang_{X}$.
+For a \kl{word} $\word$, let $\Subw(\word)$ be the set of subwords of $\word$.
+By \Cref{definition: relational bounded language model}, it is easily shown that
+\begin{itemize}
+    \item for a \kl{word} $\word \in X^*$ of length $n$,
+    the \kl{generalized relational model} $\rlang_{X} \restriction \Subw(\word)$ is isomorphic to a \kl{subalgebra} of $\rsub_n$,
+    \item for a \kl{word} $\word = a_1 \dots a_n \in X$ where $a_1, \dots, a_n$ are pairwise distinct \kl{letters},
+    the \kl{generalized relational model} $\rlang_{X} \restriction \Subw(\word)$ is isomorphic to $\rsub_n$,
+\end{itemize}
+by the map
+\[\theta \colon R \mapsto \set{\tuple{\len{\word}, \len{\word[2]}} \mid \tuple{\word, \word[2]} \in R}.\]
+We then have that the \kl{equational theory w.r.t.\ languages} coincides with that w.r.t.\ $\RSUB$.
+\begin{theorem}\label{theorem: LANG and ORD}
+    For all $\KA_{\set{-}}$ \kl{terms} $\term[1]$ and $\term[2]$,
+    we have: $\LANG \models \term[1] \le \term[2] \Leftrightarrow \RSUB \models \term[1] \le \term[2]$.
+\end{theorem}
+\begin{proof}
+    ($\Rightarrow$):
+    For each $n \in \nat$, by the \emph{surjective} \kl{$\sig$-homomorphism} given by:
+    \[\lang_{X} \xrightarrow{\iota_{X}} \rlang_{X} \xrightarrow{\kappa_{\Subw(a_1 \dots a_n)}}
+    \rlang_{X} \restriction \Subw(a_1 \dots a_n) \xrightarrow{\theta} \rsub_{n}\]
+    where $a_1, \dots, a_n$ are any pairwise distinct \kl{letters} and $X = \set{a_1, \dots, a_n}$.
+    (As $\Subw(a_1 \dots a_n)$ is \kl{$\top$-closed}, $\kappa_{\Subw(a_1 \dots a_n)}$ is indeed an \kl{$\sig$-homomorphism}.)
+    ($\Leftarrow$):
+    We prove the contraposition.
+    By $\LANG \not\models \term[1] \le \term[2]$, there are $X$, $\val \in \LANG_X$, and $\word_0 \in X^*$ such that $\word_0 \in \hat{\val}(\term[1]) \setminus \hat{\val}(\term[2])$.
+    We then consider the \kl{$\sig$-homomorphism} given by:
+    \[\lang_{X} \xrightarrow{\iota_{X}} \rlang_{X} \xrightarrow{\kappa_{\Subw(\word_0)}} \rlang_{X} \restriction \Subw(\word_0) \xrightarrow{\theta} \rsub_{\len{\word_0}}\]
+    Let $\val'$, $\val''$, and $\val'''$ be the \kl{valuations} of $\rlang_{X}$, $\rlang_{X} \restriction \Subw(\word_0)$, and $\rsub_n$, given by
+    $\iota_X \circ \val$, $\kappa_{\Subw(\word_0)} \circ \val'$, and $\theta \circ \val''$, respectively.
+    We then have:
+    \begin{align*}
+        &\word_0 \in \hat{\val}(\term[1]) \setminus \hat{\val}(\term[2]) \quad\Rightarrow\quad \tuple{\eps, \word_0} \in \hat{\val}'(\term[1]) \setminus \hat{\val}'(\term[2]) \tag{By $\word_0 \in L$ iff $\tuple{\eps, \word_0} \in \iota_{X}(L)$}\\
+        &\Rightarrow\quad \tuple{\eps, \word_0} \in \hat{\val}''(\term[1])  \setminus \hat{\val}''(\term[2])\tag{By $\eps, \word_0 \in \Subw(\word_0)$}\\
+        &\Rightarrow\quad \tuple{0, \len{\word_0}} \in \hat{\val}'''(\term[1]) \setminus \hat{\val}'''(\term[2]). \tag{By $\tuple{\eps, \word_0} \in R$ iff $\tuple{0, \len{\word_0}} \in \theta(R)$}
+    \end{align*}
+    Hence, $\RSUB \not\models \term[1] \le \term[2]$.
+\end{proof}
+
+\begin{remark}\label{remark: quantifier-free}
+    By almost the same argument as \Cref{theorem: LANG and ORD}, we can extend the coincidence between $\LANG$ and $\RSUB$ from the \kl{equational theory} to the \kl[positive quantifier-free theory]{\emph{positive} quantifier-free theory} (see \Cref{section: LANG and ORD for positive quantifier-free formulas} for more details).
+    However, this coincidence is broken (only $\LANG \models \fml \Leftarrow \RSUB \models \fml$ holds) for the \kl{quantifier-free theory} and even for \kl{Horn theory}.
+    For instance, $\fml[1] \defeq x x \le \emp \to x \le \emp$ is a counter-example
+    ($\LANG \models \fml$ holds because, if $\word \in \hat{\val}(x)$, then $\word \word \in \hat{\val}(x x)$;
+    however, $\RSUB_1 \not\models \fml$ under the \kl{valuation} $x \mapsto \set{\tuple{0, 1}}$).
+    % Let $\fml \defeq (x x \le \com{x} \land \com{\id} \le x^{+} \land x x \le \emp) \to \com{\id} \le \emp$.
+    % We then have $\RSUB_1 \not\models \fml$ under the \kl{valuation} $x \mapsto \set{\tuple{0, 1}}$.
+    % However, we have $\LANG \models \fml$ as follows.
+    % When $X = \emptyset$, we have $\LANG_{X} \models \com{\id} \le \emp$.
+    % When $X \neq \emptyset$, let $\val \in \LANG_{X}$ be such that $\val \models x x \le \com{x} \land \com{\id} \le x^{+}$.
+    % Then $\val(x) = X$ should hold.
+    % Thus by $\hat{\val}(x x) = X^2 \neq \emptyset$, we have $\val \models \lnot x x \le \emp$.
+    % For instance, let $\fml[1] \defeq x x \le \emp \to x \le \emp$.
+    % We then have $\LANG \models \fml[1]$ but $\RSUB \not\models \fml[1]$.
+    % Combining with the above yields that the \kl{quantifier-free theories} w.r.t.\ $\LANG$ and $\RSUB$ are incomparable.
+    % (This counter-example shows that \textcolor{red}{\cite[Lem.\ 3.6]{nakamuraLanguageKleeneAlgebra2024} in version 1 of this paper is incorrect; L.185 fails when negation occurs}.)
+    \lipicsEnd
+\end{remark}
+
+\begin{corollary}\label{corollary: in Pi01}
+    The \kl{equational theory w.r.t.\ languages} is in $\Pi^{0}_{1}$ for $\KAtermclass_{\set{-}}$ \kl{terms}.
+\end{corollary}
+\begin{proof}
+    By the finite model property of $\RSUB$ (the universe $\domain{\rsub_{n}}$ is finite for each $n$).
+\end{proof}
+
+\subsection{Comparison to other semantics}
+\begin{remark}[$\RSUB$ and $\GREL$]\label{remark: LANG and GREL}
+    For $\KAtermclass_{\set{\top}}$, the \kl{equational theory} of $\LANG$ coincides with that of $\GREL$ \cite[$\REL'$ in Sect.\ 5]{pousCompletenessTheoremsKleene2022}\cite{zhangIncorrectnessLogicKleene2022}.
+    However for $\KAtermclass_{\set{-}}$, this coincidence is broken.
+    For instance, the following \kl{equations} are valid w.r.t.\ $\LANG$ but not valid w.r.t.\ $\GREL$
+    (the first equation is not valid also w.r.t.\ $\REL$):
+    \begin{align*}
+        a &\le \com{b} a \com{b} \union bab  & \begin{tikzpicture}[baseline = -.5ex]
+            \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+            {0/{}[mynode]}
+            -!- {1/{}[mynode]}
+            };
+            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            0 ->["$a$"] 1;
+            0 ->["$\com{a}, \com{b}$", out=-150, in=-30, looseness=16] 0;
+            1 ->["$\com{a}, b$", out=-150, in=-30, looseness=16] 1;
+            1 ->["$\com{a}$", bend right = 40] 0;
+            };
+        \end{tikzpicture}      & \hspace{2em}\mid \hspace{2em} &
+        a b \cap c d &\le a \top d \union c \top b  & \begin{tikzpicture}[baseline = -2.5ex]
+            \graph[grow right = 1.2cm, branch down = 2.ex, nodes={}]{
+            {/, 0/{}[mynode]}
+            -!- {1/{}[mynode], /, 2/{}[mynode]}
+            -!- {/, 3/{}[mynode]}
+            };
+            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            0 ->["$a$,$\top$"] 1;
+            1 ->["$b$,$\top$"] 3;
+            0 ->["$c$,$\top$"] 2;
+            2 ->["$d$,$\top$"] 3;
+            };
+        \end{tikzpicture}
+    \end{align*}
+    (Each figure expresses a \kl{valuation} for $(\mathsf{G})\REL \not\models \bl$ where some edges are omitted.)
+    Here, $\LANG \models a \le \com{b} a \com{b} \union bab$ is shown by
+    distinguishing the cases based on $\LANG \models \id \le b \lor \id \le \com{b}$.
+    The \kl{inequation} $a b \cap c d \le a \top d \union c \top b$ is Levi's inequation \cite{leviSemigroups1944}\cite[Example 26]{brunetCompleteAxiomatisationFragment2020}.
+    \lipicsEnd
+\end{remark}
+% The map given in \Cref{proposition: subw and subwrel iso} is the same as Pratt's embedding \cite[third page]{prattDynamicAlgebrasNature1980} (or called, Cayley map), cf.\ \cite{zhangIncorrectnessLogicKleene2022,pousCompletenessTheoremsKleene2022}: $L \mapsto \set{\tuple{\word[1], \word[1]\word[2]} \mid \word[1] \in X^{*} \land \word[2] \in L}$, up to isomorphism,
+% except that the universe is restricted to \kl{subwords} of $\ell_{0} \dots \ell_{n-1}$.
+% Another intuition of $\RSUB$ can be given by the is ... TODO:
+
+Additionally, \kl{the standard language valuation} can also be given as a subclass of $\RSUB$ (cf.\ \Cref{theorem: LANG and ORD}),
+based on the following correspondence between \kl{words} and relations:
+\begin{center}
+       $a_1 a_2 \dots a_{n}$
+\hspace{2em}
+$\mid$
+\hspace{2em}
+\begin{tikzpicture}[baseline = -.5ex]
+       \graph[grow right = 1.2cm, branch down = 6ex]{
+       {0/{}[mynode]}-!-{1/{}[mynode]}-!-{2/{}[mynode]}-!-{3/{\tiny $\dots$}[xshift = -1.5em]}-!-{n/{}[mynode]}
+       };
+       \node[left = .5em of 0](l){};
+       \node[right = .5em of n](r){};
+       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+       0 ->["$a_1$"] 1;
+       1 ->["$a_2$"] 2;
+       2 -- 3;
+       3 ->["$a_{n}$"]n;
+       l -> 0; n -> r;
+       };
+   \end{tikzpicture}.
+\end{center}
+\begin{theorem}\label{theorem: ord for the standard language valuation}
+    For all \kl{terms} $\term[1]$ and $\term[2]$, 
+    $\ljump{\term[1]} = \ljump{\term[2]}$ iff $\RSUB_{\mathrm{st}} \models \term[1] = \term[2]$ where
+    \[\RSUB_{\mathrm{st}} \defeq \bigcup_{n \ge 0} \left\{\val \in \RSUB_{n} \mathrel{\Big|}
+        \begin{aligned}
+            \mbox{$\bigcup_{a \in \vsig} \val(a) = \set{\tuple{i-1, i} \mid i \in \range{1, n}}$} \\
+            \mbox{$\val(a)$ (where $a$ ranges over $\vsig$) are disjoint sets}
+        \end{aligned}
+        \right\}.\]
+\end{theorem}
+\begin{proof}
+    By the same construction in the proof of \Cref{theorem: LANG and ORD}, as $\RSUB_{\mathrm{st}}$ is the subclass of $\RSUB$ obtained by restricting \kl{valuations} to \kl{the standard language valuation} $\set{\val_{\mathrm{st}}}$.
+\end{proof}
+
+
+\Cref{figure: equational theories} summarizes the \kl{equational theories} above where the inclusions are shown by $\REL \subseteq \GREL \supseteq \RSUB \supseteq \RSUB_{\mathrm{st}}$ (and \Cref{theorem: LANG and ORD}) and the non-inclusions are shown by counter-examples.
+Additionally, note that $\mathrm{EqT}(\set{\val_{\mathrm{st}}}) = \mathrm{EqT}(\GREL)$ for $\KAtermclass$ \cite{kozenCompletenessTheoremKleene1991} and $\mathrm{EqT}(\LANG) = \mathrm{EqT}(\GREL)$ for $\KAtermclass_{\set{\top}}$ \cite{zhangIncorrectnessLogicKleene2022,pousCompletenessTheoremsKleene2022}.
+
+% (We additionally note that we can also give a \kl{language model} $\SUBW$ (\Cref{section: SUBW}), which is isomorphic to $\RSUB$.)
+
+\begin{figure}[t]
+    \begin{center}
+        \begin{tikzpicture}[baseline = -.5ex]
+            \graph[grow right = 1.8cm, branch up = 6.ex, nodes={}]{
+            {/, REL/{$\mathrm{EqT}(\REL)$}[fill = blue!10, inner sep = 1pt]}
+            -!- {/,/, GREL/{$\mathrm{EqT}(\GREL)$}[fill = blue!10, inner sep = 1pt]}
+            -!- {RSUBst/{$\mathrm{EqT}(\RSUB_{\mathrm{st}})$}[fill = blue!10, inner sep = 1pt], RSUB/{$\mathrm{EqT}(\RSUB)$}[fill = blue!10, inner sep = 1pt]}
+            -!- {LANGst/{$\mathrm{EqT}(\set{\val_{\mathrm{st}}})$}[xshift = .7cm, fill = blue!10, inner sep = 1pt], LANG/{$\mathrm{EqT}(\LANG)$}[xshift = .7cm, fill = blue!10, inner sep = 1pt]}
+            };
+            \path (REL) edge[opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \small, opacity = 1, anchor=center, sloped]{$\supseteq$}(GREL);
+            \path (RSUB) edge[opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \small, opacity = 1, anchor=center, sloped]{$\subseteq$}(GREL);
+            \path (LANG) edge[opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \small, opacity = 1, anchor=center, sloped]{$=$}(RSUB);
+            \path (LANGst) edge[opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \small, opacity = 1, anchor=center, sloped]{$=$}(RSUBst);
+            \path (RSUB) edge[opacity = 0] node(RSUB-RSUBst)[pos= 0.5, inner sep = 1.5pt, font = \small, opacity = 1, anchor=center, sloped, align= left]{$\nsupseteq$\\[1.5ex]$\subseteq$}(RSUBst);
+            \path (REL) edge[opacity = 0] node(REL-RSUB)[pos= 0.5, inner sep = 1.5pt, font = \small, opacity = 1, anchor=center, sloped]{$\nsupseteq$}(RSUB);
+            \path (REL) edge[opacity = 0] node(REL-RSUBst)[pos= 0.5, inner sep = 1.5pt, font = \small, opacity = 1, anchor=center, sloped]{$\nsubseteq$}(RSUBst.west);
+            \node(REL-RSUBst-ex)[below left = -1.ex and 1.5cm of REL-RSUBst, font = \footnotesize, color = black]{$a \le a \top a$ \cite{zhangIncorrectnessLogicKleene2022,pousCompletenessTheoremsKleene2022}};
+            \draw[color = gray!50] (REL-RSUBst.south) --(REL-RSUBst-ex.east);
+            \node(RSUB-RSUBst-ex)[above right = 1.cm and -.3cm of RSUB-RSUBst, font = \footnotesize, color = black, align = left]{
+            $a \cap b = \emp$ where $a \neq b$\\
+            $\com{a} = \com{a}\,\com{a}$ \cite{nakamuraWordstoLettersValuationsLanguage2023}
+            % ($\vsig^* = \top$ when $\vsig$ finite, cf.\ \cite[Remark 3.6]{pousCompletenessTheoremsKleene2022})
+            };
+            \draw[color = gray!50] ($(RSUB-RSUBst.north)$) -- ($(RSUB-RSUBst.north) + (.5, .1)$) -- ($(RSUB-RSUBst-ex.south)+(-0.6,0)$);
+            \node(REL-RSUB-ex)[above left = .1cm and 1.3cm of REL-RSUB, font = \footnotesize, color = black, align = left]{
+                $(a b) \cap \id = (a \cap \id) (b \cap \id)$ \cite{andrekaEquationalTheoryKleene2011}\\
+                $a \le \com{b} a \com{b} \union b a b$ (\Cref{remark: LANG and GREL})};
+            \draw[color = gray!50] (REL-RSUB) -- ($(REL-RSUB-ex.south east) + (0, .1)$);
+        \end{tikzpicture}
+        % \Cref{remark: LANG and GREL}
+    \end{center}
+    \caption{\kl{Equational theories} for $\KAtermclass_{\set{-}}$ under $\GREL$.}
+    \label{figure: equational theories}
+\end{figure}

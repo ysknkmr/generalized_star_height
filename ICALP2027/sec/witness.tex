@@ -1,0 +1,62 @@
+\section{The witness}\label{section: witness}
+
+In this section we prove \Cref{proposition: witness}.
+
+\subsection{An operator that turns an lcm into a period}\label{section: witness operator}
+\begin{lemma}\label{lemma: one step}
+    Let $q_1, \dots, q_m \in \pnat$ and $L \defeq \lcm(q_1, \dots, q_m)$.
+    If $\dset{Q}{i}{i}(a) = q_i \nat$ for all $i$, then $\dset{\Phit(Q)}{i}{i}(a) = (L + p i) \nat$ for all $i$.
+\end{lemma}
+\begin{proof}
+    We use \eqref{equation: shift} throughout.
+    The \kl{term} $\id \union c \union c \compo c$ relates exactly the pairs with time difference $0$, $1$, or $2$ (in any \kl{phases}), so $\Zthree$ relates exactly the pairs in the same \kl{phase} with time difference at least $3$.
+    The \kl{term} $z \inter \com{Q}$ relates $\pt{t}{k}$ and $\pt{t + n}{k}$ iff $q_k \ndiv n$; the values of $Q$ across different \kl{phases} play no role.
+    Consider a pair $(\pt{t}{i}, \pt{t + n}{i})$ with $n \ge 3$.
+    As $c$ moves one time step between arbitrary \kl{phases},
+    the pair is in $c \compo (z \inter \com{Q}) \compo c$ iff $q_k \ndiv n - 2$ for some $k$, \ie, iff $L \ndiv n - 2$.
+    Therefore $\Mt(Q)$ relates exactly the pairs $(\pt{t}{i}, \pt{t + 2 + r L}{i})$ with $r \ge 1$.
+    The \kl{term} $c \compo z$ relates exactly the pairs whose \kl{time} strictly increases, so $\Mt(Q) \compo c \compo z$ relates $u$ to $v$ iff some $\Mt(Q)$-successor of $u$ has smaller \kl{time} than $v$.
+    So $\Jt(Q)$ keeps only the first $\Mt(Q)$-successor, and relates exactly the pairs $(\pt{t}{i}, \pt{t + L + 2}{i})$.
+    Then $\Jt(Q) \compo y$ relates exactly $(\pt{t}{i}, \pt{t + L + p i}{i})$, and its reflexive transitive closure gives $\dset{\Phit(Q)}{i}{i}(a) = (L + p i) \nat$.
+\end{proof}
+
+\AP Let $\intro*\fseq{0}(a) \defeq a$ and $\fseq{r+1}(a) \defeq \lcm_{i \in \range{1, m}} (\fseq{r}(a) + p i)$, and let $\intro*\qseq{r}(a) \defeq \fseq{r}(a) + p$.
+Since $\dset{x^{*}}{i}{i}(a) = (a + p i) \nat$, induction with \Cref{lemma: one step} yields:
+\begin{corollary}\label{corollary: witness periods}
+    $\dset{\Qt{r}}{i}{i}(a) = (\fseq{r}(a) + p i) \nat$ for all $r$, $i$, and $a$. In particular, $\dset{\Qt{r}}{1}{1}(a) = \qseq{r}(a) \nat$.
+\end{corollary}
+
+\subsection{The periods are values of irreducible polynomials}\label{section: witness arithmetic}
+\AP Recall $\Hm = \lcm(1, \dots, m)$, and let $\intro*\Dm \defeq m! / \Hm$; note that $p \ndiv \Hm \Dm$ as $p > m$.
+The lcm in the definition of $\fseq{r}$ is a product divided by $\Dm$ under the following condition.
+\begin{restatable}{lemma}{lemmaLcm}\label{lemma: lcm}
+    Let $b \in \pnat$ with $\Hm \mid b$ and $p \ndiv b$.
+    Then $\lcm_{i \in \range{1, m}} (b + p i) = \frac{1}{\Dm} \prod_{i = 1}^{m} (b + p i)$, and this number is divisible by $\Hm$ but not by $p$.
+\end{restatable}
+The proof (\Cref{section: appendix: witness}) compares $\ell$-adic valuations for each prime $\ell$.
+Every $a$ in the progression $\mathcal{A}$ of \Cref{section: strategy} satisfies $\Hm \mid a$ and $p \ndiv a$, so \Cref{lemma: lcm} applies inductively, and $\fseq{r+1}(a) = \frac{1}{\Dm} \prod_{i=1}^{m} (\fseq{r}(a) + p i)$ for all $a \in \mathcal{A}$.
+\AP To clear denominators, let $\intro*\dseq{r} \defeq (m^r - 1) / (m - 1)$ and define $\intro*\Aseq{r}, \intro*\Nseq{r} \in \inte[a]$ by
+\[\Aseq{0}(a) \defeq a, \qquad \Aseq{r+1}(a) \defeq \prod_{i = 1}^{m} \left(\Aseq{r}(a) + p i \Dm^{\dseq{r}}\right), \qquad \Nseq{r}(a) \defeq \Aseq{r}(a) + p \Dm^{\dseq{r}}.\]
+As $\dseq{r+1} = 1 + m \dseq{r}$, induction on $r$ gives $\fseq{r}(a) = \Aseq{r}(a) / \Dm^{\dseq{r}}$ and hence
+\begin{equation}
+    \qseq{r}(a) = \Nseq{r}(a) / \Dm^{\dseq{r}} \qquad \text{for all } a \in \mathcal{A}. \label{equation: q N}
+\end{equation}
+
+\begin{lemma}\label{lemma: irreducible}
+    For every $r \in \nat$, $\Nseq{r}$ is a monic polynomial of degree $m^{r}$ that is irreducible over $\rat$.
+\end{lemma}
+\begin{proof}
+    By induction, $\Aseq{r}$ is monic of degree $m^r$, and so is $\Nseq{r}$.
+    For $r = 0$, $\Nseq{0}(a) = a + p$ is linear.
+    Let $r \ge 1$; we apply Eisenstein's criterion at $p$.
+    Modulo $p$, we have $\Aseq{r+1} \equiv \Aseq{r}^{m}$, so $\Aseq{r} \equiv a^{m^{r}}$ and $\Nseq{r} \equiv a^{m^{r}} \pmod p$.
+    Thus all non-leading coefficients of $\Nseq{r}$ are divisible by $p$.
+    For the constant term, $p$ divides every factor $\Aseq{r-1}(0) + p i \Dm^{\dseq{r-1}}$ (as $\Aseq{0}(0) = 0$ and $\Aseq{r-1}(0) \equiv 0 \pmod p$), so $p^{m} \mid \Aseq{r}(0)$ with $m \ge 2$.
+    Since $p \ndiv \Dm$, we get $\Nseq{r}(0) \equiv p \Dm^{\dseq{r}} \not\equiv 0 \pmod{p^2}$.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{proposition: witness}]
+    By \Cref{corollary: witness periods}, $\dset{\Qt{h}}{1}{1}(a) = \qseq{h}(a) \nat$ with $\qseq{h}(a) \ge a$, and $\qseq{h}(a)$ divides $\Nseq{h}(a) = \Dm^{\dseq{h}} \qseq{h}(a)$ by~\eqref{equation: q N}.
+    \Cref{lemma: irreducible} gives irreducibility and the degree.
+\end{proof}
+Only the \emph{irreducibility} of $\Nseq{h}$ is used; we need no information on the prime factorization of the values $\qseq{h}(a)$.

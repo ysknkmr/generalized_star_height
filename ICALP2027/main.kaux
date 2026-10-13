@@ -1,0 +1,763 @@
+
+\KAuxCommand \KAuxEOF {m}{Does nothing, useless empty argument, and is searched for knowing if the kaux file was written till the end.}
+\KAuxCommand \KAuxUndeclaredScopeTag {m}{Package scope: States that a labelname is used in a knowledge definition.}
+\KAuxCommand \KAuxDeclaredScopeTag {m}{Package scope: States that a labelname has been declared.}
+\KAuxCommand \KAuxNewLinkScopetagInstance {mm}{Package scope: Declares that a label is declared in an instance of a scope.}
+\KAuxCommand \KAuxScopeNewInstance {mmm}{Package scope: Declares a new instance of a scope.}
+\KAuxCommand \KAuxScopeTag {mm}{Package scope: Links a scopetag to an instance of a scope.}
+\KAuxCommand \KAuxKnowledge {mmmm}{Package knowledge: Declares a knowledge. Takes the {namespace}{instance}{knowledge}{directives}.}
+\KAuxCommand \KAuxErrorKnowledgeRecursive {mmmm}{Package 'knowledge: A knowledge has recursive definition. {namespace}{scope}{undefined knowledge}{base knowledge}}
+\KAuxCommand \KAuxErrorKnowledgeUnknown {mmmmm}{Package 'knowledge: A knowledge is not defined. {namespace}{scope/empty}{undefined knowledge}{base knowledge}{command}}
+\KAuxCommand \KAuxErrorLabelUnknown {m}{Package 'knowledge: A label is not defined. {label}}
+\KAuxCommand \KAuxAutoref {mmm}{Package knowledge: Declares an autoref knowledge. Arguments {namespace}{instance}{knowledge}.}
+\KAuxCommand \KAuxAutorefTarget {mmm}{Package knowledge: Declares the use of a target to an autoref knowledge. Arguments {namespace}{instance}{knowledge}.}
+\KAuxCommand \KAuxUseKnowledge {mmm}{Package knowledge: Identifies the use of some knowledge. Arguments {namespace}{instance}{knowledge}.}
+
+
+\KAuxFileAt {macros.tex}{20}
+\KAuxAutoref {default}{base}{\vsig }
+
+\KAuxFileAt {macros.tex}{36}
+\KAuxAutoref {default}{base}{\sh }
+
+\KAuxFileAt {macros.tex}{37}
+\KAuxAutoref {default}{base}{\tsize }
+
+\KAuxFileAt {macros.tex}{38}
+\KAuxAutoref {default}{base}{\Hcl }
+
+\KAuxFileAt {macros.tex}{43}
+\KAuxAutoref {default}{base}{\univ }
+
+\KAuxFileAt {macros.tex}{45}
+\KAuxAutoref {default}{base}{\sem }
+
+\KAuxFileAt {macros.tex}{46}
+\KAuxAutoref {default}{base}{\RSUB }
+
+\KAuxFileAt {macros.tex}{47}
+\KAuxAutoref {default}{base}{\LANG }
+
+\KAuxFileAt {macros.tex}{48}
+\KAuxAutoref {default}{base}{\REL }
+
+\KAuxFileAt {macros.tex}{49}
+\KAuxAutoref {default}{base}{\semR }
+
+\KAuxFileAt {macros.tex}{50}
+\KAuxAutoref {default}{base}{\equivR }
+
+\KAuxFileAt {macros.tex}{55}
+\KAuxAutoref {default}{base}{\chainm }
+
+\KAuxFileAt {macros.tex}{56}
+\KAuxAutoref {default}{base}{\chainmC }
+
+\KAuxFileAt {macros.tex}{57}
+\KAuxAutoref {default}{base}{\Mod }
+
+\KAuxFileAt {macros.tex}{58}
+\KAuxAutoref {default}{base}{\ModR }
+
+\KAuxFileAt {macros.tex}{59}
+\KAuxAutoref {default}{base}{\dset }
+
+\KAuxFileAt {macros.tex}{60}
+\KAuxAutoref {default}{base}{\dsetR }
+
+\KAuxFileAt {macros.tex}{67}
+\KAuxAutoref {default}{base}{\Mt }
+
+\KAuxFileAt {macros.tex}{68}
+\KAuxAutoref {default}{base}{\Jt }
+
+\KAuxFileAt {macros.tex}{69}
+\KAuxAutoref {default}{base}{\Phit }
+
+\KAuxFileAt {macros.tex}{70}
+\KAuxAutoref {default}{base}{\Qt }
+
+\KAuxFileAt {macros.tex}{75}
+\KAuxAutoref {default}{base}{\fseq }
+
+\KAuxFileAt {macros.tex}{76}
+\KAuxAutoref {default}{base}{\qseq }
+
+\KAuxFileAt {macros.tex}{77}
+\KAuxAutoref {default}{base}{\Aseq }
+
+\KAuxFileAt {macros.tex}{78}
+\KAuxAutoref {default}{base}{\Nseq }
+
+\KAuxFileAt {macros.tex}{79}
+\KAuxAutoref {default}{base}{\Hm }
+
+\KAuxFileAt {macros.tex}{80}
+\KAuxAutoref {default}{base}{\Dm }
+
+\KAuxFileAt {macros.tex}{81}
+\KAuxAutoref {default}{base}{\dseq }
+
+\KAuxFileAt {macros.tex}{86}
+\KAuxAutoref {default}{base}{\per }
+
+\KAuxFileAt {macros.tex}{87}
+\KAuxAutoref {default}{base}{\thr }
+
+\KAuxFileAt {macros.tex}{88}
+\KAuxAutoref {default}{base}{\dg }
+
+\KAuxFileAt {macros.tex}{89}
+\KAuxAutoref {default}{base}{\ib }
+
+\KAuxFileAt {macros.tex}{90}
+\KAuxAutoref {default}{base}{\minw }
+
+\KAuxFileAt {macros.tex}{91}
+\KAuxAutoref {default}{base}{\cyw }
+
+\KAuxFileAt {macros.tex}{92}
+\KAuxAutoref {default}{base}{\kfold }
+
+\KAuxFileAt {macros.tex}{103}
+\KAuxAutoref {default}{base}{\dom }
+
+\KAuxFileAt {macros.tex}{104}
+\KAuxAutoref {default}{base}{\cyc }
+
+\KAuxFileAt {macros.tex}{105}
+\KAuxAutoref {default}{base}{\bnd }
+
+\KAuxFileAt {macros.tex}{106}
+\KAuxAutoref {default}{base}{\far }
+
+\KAuxFileAt {macros.tex}{107}
+\KAuxAutoref {default}{base}{\grp }
+
+\KAuxFileAt {macros.tex}{108}
+\KAuxAutoref {default}{base}{\sgn }
+
+\KAuxFileAt {kl-abbreviations.tex}{5}
+
+\KAuxFileAt {kl-abbreviations.tex}{6}
+
+\KAuxFileAt {kl-abbreviations.tex}{8}
+
+\KAuxFileAt {kl-abbreviations.tex}{9}
+
+\KAuxFileAt {kl-abbreviations.tex}{11}
+
+\KAuxFileAt {kl-abbreviations.tex}{12}
+
+\KAuxFileAt {kl-abbreviations.tex}{14}
+
+\KAuxFileAt {kl-abbreviations.tex}{15}
+
+\KAuxFileAt {kl-abbreviations.tex}{17}
+
+\KAuxFileAt {kl-abbreviations.tex}{18}
+
+\KAuxFileAt {kl-abbreviations.tex}{20}
+
+\KAuxFileAt {kl-abbreviations.tex}{21}
+
+\KAuxFileAt {kl-abbreviations.tex}{23}
+
+\KAuxFileAt {kl-abbreviations.tex}{24}
+
+\KAuxFileAt {kl-abbreviations.tex}{26}
+
+\KAuxFileAt {kl-abbreviations.tex}{27}
+
+\KAuxFileAt {kl-abbreviations.tex}{29}
+
+\KAuxFileAt {kl-abbreviations.tex}{30}
+
+\KAuxFileAt {kl-abbreviations.tex}{32}
+
+\KAuxFileAt {kl-abbreviations.tex}{33}
+
+\KAuxFileAt {kl-abbreviations.tex}{36}
+
+\KAuxFileAt {kl-abbreviations.tex}{37}
+
+\KAuxFileAt {kl-abbreviations.tex}{39}
+
+\KAuxFileAt {kl-abbreviations.tex}{40}
+
+\KAuxFileAt {kl-abbreviations.tex}{42}
+
+\KAuxFileAt {kl-abbreviations.tex}{43}
+
+\KAuxFileAt {kl-abbreviations.tex}{45}
+
+\KAuxFileAt {kl-abbreviations.tex}{46}
+
+\KAuxFileAt {kl-abbreviations.tex}{47}
+
+\KAuxFileAt {kl-paper.tex}{6}
+
+\KAuxFileAt {kl-paper.tex}{7}
+\KAuxAutoref {default}{base}{$P$-periodic from $T$}
+
+\KAuxFileAt {kl-paper.tex}{8}
+
+\KAuxFileAt {kl-paper.tex}{10}
+
+\KAuxFileAt {kl-paper.tex}{11}
+\KAuxAutoref {default}{base}{period}
+
+\KAuxFileAt {kl-paper.tex}{12}
+
+\KAuxFileAt {kl-paper.tex}{14}
+
+\KAuxFileAt {kl-paper.tex}{15}
+\KAuxAutoref {default}{base}{preperiod}
+
+\KAuxFileAt {kl-paper.tex}{16}
+
+\KAuxFileAt {kl-paper.tex}{18}
+
+\KAuxFileAt {kl-paper.tex}{19}
+\KAuxAutoref {default}{base}{ultimately periodic}
+
+\KAuxFileAt {kl-paper.tex}{24}
+
+\KAuxFileAt {kl-paper.tex}{25}
+\KAuxAutoref {default}{base}{variables}
+
+\KAuxFileAt {kl-paper.tex}{26}
+
+\KAuxFileAt {kl-paper.tex}{28}
+
+\KAuxFileAt {kl-paper.tex}{29}
+\KAuxAutoref {default}{base}{Terms}
+
+\KAuxFileAt {kl-paper.tex}{30}
+
+\KAuxFileAt {kl-paper.tex}{31}
+
+\KAuxFileAt {kl-paper.tex}{33}
+
+\KAuxFileAt {kl-paper.tex}{34}
+\KAuxAutoref {default}{base}{star height}
+
+\KAuxFileAt {kl-paper.tex}{36}
+
+\KAuxFileAt {kl-paper.tex}{37}
+\KAuxAutoref {default}{base}{size}
+
+\KAuxFileAt {kl-paper.tex}{42}
+
+\KAuxFileAt {kl-paper.tex}{43}
+\KAuxAutoref {default}{base}{language valuation}
+
+\KAuxFileAt {kl-paper.tex}{44}
+
+\KAuxFileAt {kl-paper.tex}{46}
+
+\KAuxFileAt {kl-paper.tex}{47}
+\KAuxAutoref {default}{base}{language-equivalent}
+
+\KAuxFileAt {kl-paper.tex}{48}
+
+\KAuxFileAt {kl-paper.tex}{49}
+
+\KAuxFileAt {kl-paper.tex}{51}
+
+\KAuxFileAt {kl-paper.tex}{52}
+\KAuxAutoref {default}{base}{forward pairs}
+
+\KAuxFileAt {kl-paper.tex}{53}
+
+\KAuxFileAt {kl-paper.tex}{55}
+
+\KAuxFileAt {kl-paper.tex}{56}
+\KAuxAutoref {default}{base}{relational valuation}
+
+\KAuxFileAt {kl-paper.tex}{57}
+
+\KAuxFileAt {kl-paper.tex}{59}
+
+\KAuxFileAt {kl-paper.tex}{60}
+\KAuxAutoref {default}{base}{Interval locality}
+
+\KAuxFileAt {kl-paper.tex}{61}
+
+\KAuxFileAt {kl-paper.tex}{63}
+
+\KAuxFileAt {kl-paper.tex}{64}
+\KAuxAutoref {default}{base}{$\RSUB $ valuation}
+
+\KAuxFileAt {kl-paper.tex}{65}
+
+\KAuxFileAt {kl-paper.tex}{67}
+
+\KAuxFileAt {kl-paper.tex}{68}
+\KAuxAutoref {default}{base}{diagonal-uniform}
+
+\KAuxFileAt {kl-paper.tex}{70}
+
+\KAuxFileAt {kl-paper.tex}{71}
+\KAuxAutoref {default}{base}{forward semantics}
+
+\KAuxFileAt {kl-paper.tex}{76}
+
+\KAuxFileAt {kl-paper.tex}{77}
+\KAuxAutoref {default}{base}{time}
+
+\KAuxFileAt {kl-paper.tex}{79}
+
+\KAuxFileAt {kl-paper.tex}{80}
+\KAuxAutoref {default}{base}{phase}
+
+\KAuxFileAt {kl-paper.tex}{81}
+
+\KAuxFileAt {kl-paper.tex}{83}
+
+\KAuxFileAt {kl-paper.tex}{84}
+\KAuxAutoref {default}{base}{chain model}
+
+\KAuxFileAt {kl-paper.tex}{85}
+
+\KAuxFileAt {kl-paper.tex}{87}
+
+\KAuxFileAt {kl-paper.tex}{88}
+\KAuxAutoref {default}{base}{cyclic model}
+
+\KAuxFileAt {kl-paper.tex}{89}
+
+\KAuxFileAt {kl-paper.tex}{91}
+
+\KAuxFileAt {kl-paper.tex}{92}
+\KAuxAutoref {default}{base}{window}
+
+\KAuxFileAt {kl-paper.tex}{94}
+
+\KAuxFileAt {kl-paper.tex}{95}
+\KAuxAutoref {default}{base}{admissible}
+
+\KAuxFileAt {kl-paper.tex}{97}
+
+\KAuxFileAt {kl-paper.tex}{98}
+\KAuxAutoref {default}{base}{difference set}
+
+\KAuxFileAt {kl-paper.tex}{99}
+
+\KAuxFileAt {kl-paper.tex}{104}
+
+\KAuxFileAt {kl-paper.tex}{105}
+\KAuxAutoref {default}{base}{witness terms}
+
+\KAuxFileAt {kl-paper.tex}{106}
+
+\KAuxFileAt {kl-paper.tex}{108}
+
+\KAuxFileAt {kl-paper.tex}{109}
+\KAuxAutoref {default}{base}{encodes}
+
+\KAuxFileAt {kl-paper.tex}{114}
+
+\KAuxFileAt {kl-paper.tex}{115}
+\KAuxAutoref {default}{base}{parametric Presburger family}
+
+\KAuxFileAt {kl-paper.tex}{116}
+
+\KAuxFileAt {kl-paper.tex}{119}
+
+\KAuxFileAt {kl-paper.tex}{120}
+\KAuxAutoref {default}{base}{quasi-polynomial}
+
+\KAuxFileAt {kl-paper.tex}{122}
+
+\KAuxFileAt {kl-paper.tex}{123}
+\KAuxAutoref {default}{base}{phase graph}
+
+\KAuxFileAt {kl-paper.tex}{125}
+
+\KAuxFileAt {kl-paper.tex}{126}
+\KAuxAutoref {default}{base}{weight}
+
+\KAuxFileAt {kl-paper.tex}{127}
+
+\KAuxFileAt {kl-paper.tex}{129}
+
+\KAuxFileAt {kl-paper.tex}{130}
+\KAuxAutoref {default}{base}{small}
+
+\KAuxFileAt {main.tex}{51}
+\KAuxScopeNewInstance {base}{base}{}
+\KAuxScopeNewInstance {document}{document}{base}
+\KAuxDeclaredScopeTag {section: introduction}
+\KAuxNewLinkScopetagInstance {section: introduction}{document}
+
+\KAuxFileAt {introduction.tex}{25}
+\KAuxScopeNewInstance {theorem}{theorem-1}{document}
+\KAuxDeclaredScopeTag {theorem: main}
+\KAuxNewLinkScopetagInstance {theorem: main}{theorem-1}
+\KAuxDeclaredScopeTag {section: preliminaries}
+\KAuxNewLinkScopetagInstance {section: preliminaries}{document}
+
+\KAuxFileAt {preliminaries.tex}{6}
+\KAuxAutorefTarget {default}{base}{$P$-periodic from $T$}
+
+\KAuxFileAt {preliminaries.tex}{7}
+\KAuxAutorefTarget {default}{base}{period}
+\KAuxAutorefTarget {default}{base}{preperiod}
+\KAuxAutorefTarget {default}{base}{ultimately periodic}
+\KAuxDeclaredScopeTag {thmt@@factPeriods@data}
+\KAuxNewLinkScopetagInstance {thmt@@factPeriods@data}{document}
+\KAuxDeclaredScopeTag {thmt@@factPeriods}
+\KAuxNewLinkScopetagInstance {thmt@@factPeriods}{document}
+\KAuxDeclaredScopeTag {fact: periods}
+\KAuxNewLinkScopetagInstance {fact: periods}{document}
+\KAuxDeclaredScopeTag {fact: periods: min}
+\KAuxNewLinkScopetagInstance {fact: periods: min}{document}
+\KAuxDeclaredScopeTag {fact: periods: sum}
+\KAuxNewLinkScopetagInstance {fact: periods: sum}{document}
+\KAuxDeclaredScopeTag {section: terms}
+\KAuxNewLinkScopetagInstance {section: terms}{document}
+
+\KAuxFileAt {preliminaries.tex}{19}
+\KAuxAutorefTarget {default}{base}{\vsig }
+\KAuxAutorefTarget {default}{base}{variables}
+
+\KAuxFileAt {preliminaries.tex}{20}
+\KAuxAutorefTarget {default}{base}{Terms}
+
+\KAuxFileAt {preliminaries.tex}{23}
+\KAuxAutorefTarget {default}{base}{star height}
+\KAuxAutorefTarget {default}{base}{\sh }
+
+\KAuxFileAt {preliminaries.tex}{26}
+\KAuxAutorefTarget {default}{base}{size}
+\KAuxAutorefTarget {default}{base}{\tsize }
+\KAuxDeclaredScopeTag {section: semantics}
+\KAuxNewLinkScopetagInstance {section: semantics}{document}
+
+\KAuxFileAt {preliminaries.tex}{29}
+\KAuxAutorefTarget {default}{base}{language valuation}
+
+\KAuxFileAt {preliminaries.tex}{30}
+\KAuxAutorefTarget {default}{base}{language-equivalent}
+\KAuxAutorefTarget {default}{base}{\LANG }
+
+\KAuxFileAt {preliminaries.tex}{31}
+\KAuxAutorefTarget {default}{base}{\Hcl }
+
+\KAuxFileAt {preliminaries.tex}{34}
+\KAuxAutorefTarget {default}{base}{relational valuation}
+
+\KAuxFileAt {preliminaries.tex}{35}
+\KAuxAutorefTarget {default}{base}{\semR }
+
+\KAuxFileAt {preliminaries.tex}{36}
+\KAuxAutorefTarget {default}{base}{\REL }
+
+\KAuxFileAt {preliminaries.tex}{40}
+\KAuxAutorefTarget {default}{base}{forward pairs}
+\KAuxAutorefTarget {default}{base}{\univ }
+
+\KAuxFileAt {preliminaries.tex}{41}
+\KAuxAutorefTarget {default}{base}{forward semantics}
+\KAuxAutorefTarget {default}{base}{\sem }
+
+\KAuxFileAt {preliminaries.tex}{44}
+\KAuxScopeNewInstance {lemma}{lemma-1}{document}
+\KAuxAutorefTarget {default}{base}{Interval locality}
+\KAuxDeclaredScopeTag {lemma: locality}
+\KAuxNewLinkScopetagInstance {lemma: locality}{lemma-1}
+
+\KAuxFileAt {preliminaries.tex}{48}
+\KAuxAutorefTarget {default}{base}{$\RSUB $ valuation}
+
+\KAuxFileAt {preliminaries.tex}{49}
+\KAuxAutorefTarget {default}{base}{\RSUB }
+
+\KAuxFileAt {preliminaries.tex}{50}
+\KAuxScopeNewInstance {theorem}{theorem-2}{document}
+\KAuxDeclaredScopeTag {theorem: LANG RSUB}
+\KAuxNewLinkScopetagInstance {theorem: LANG RSUB}{theorem-2}
+
+\KAuxFileAt {preliminaries.tex}{53}
+\KAuxAutorefTarget {default}{base}{diagonal-uniform}
+
+\KAuxFileAt {preliminaries.tex}{55}
+\KAuxScopeNewInstance {corollary}{corollary-1}{document}
+\KAuxDeclaredScopeTag {corollary: transfer}
+\KAuxNewLinkScopetagInstance {corollary: transfer}{corollary-1}
+
+\KAuxFileAt {preliminaries.tex}{59}
+\KAuxScopeNewInstance {proof}{proof-1}{document}
+\KAuxDeclaredScopeTag {section: chain models}
+\KAuxNewLinkScopetagInstance {section: chain models}{document}
+\KAuxDeclaredScopeTag {figure: model}
+\KAuxNewLinkScopetagInstance {figure: model}{document}
+
+\KAuxFileAt {preliminaries.tex}{72}
+\KAuxAutorefTarget {default}{base}{\chainm }
+
+\KAuxFileAt {preliminaries.tex}{73}
+\KAuxAutorefTarget {default}{base}{time}
+\KAuxAutorefTarget {default}{base}{phase}
+
+\KAuxFileAt {preliminaries.tex}{74}
+\KAuxAutorefTarget {default}{base}{chain model}
+\KAuxAutorefTarget {default}{base}{\Mod }
+
+\KAuxFileAt {preliminaries.tex}{86}
+\KAuxAutorefTarget {default}{base}{difference set}
+
+\KAuxFileAt {preliminaries.tex}{87}
+\KAuxAutorefTarget {default}{base}{\dset }
+\KAuxDeclaredScopeTag {section: strategy}
+\KAuxNewLinkScopetagInstance {section: strategy}{document}
+
+\KAuxFileAt {strategy.tex}{8}
+\KAuxAutorefTarget {default}{base}{\Mt }
+\KAuxAutorefTarget {default}{base}{\Jt }
+\KAuxAutorefTarget {default}{base}{\Phit }
+
+\KAuxFileAt {strategy.tex}{14}
+\KAuxAutorefTarget {default}{base}{\Qt }
+
+\KAuxFileAt {strategy.tex}{20}
+\KAuxAutorefTarget {default}{base}{\Hm }
+
+\KAuxFileAt {strategy.tex}{22}
+\KAuxScopeNewInstance {proposition}{proposition-1}{document}
+\KAuxDeclaredScopeTag {proposition: witness}
+\KAuxNewLinkScopetagInstance {proposition: witness}{proposition-1}
+
+\KAuxFileAt {strategy.tex}{27}
+\KAuxScopeNewInstance {proposition}{proposition-2}{document}
+\KAuxDeclaredScopeTag {proposition: periods}
+\KAuxNewLinkScopetagInstance {proposition: periods}{proposition-2}
+
+\KAuxFileAt {strategy.tex}{33}
+\KAuxScopeNewInstance {proof}{proof-2}{document}
+\KAuxDeclaredScopeTag {section: witness}
+\KAuxNewLinkScopetagInstance {section: witness}{document}
+\KAuxDeclaredScopeTag {section: witness operator}
+\KAuxNewLinkScopetagInstance {section: witness operator}{document}
+
+\KAuxFileAt {witness.tex}{6}
+\KAuxScopeNewInstance {lemma}{lemma-2}{document}
+\KAuxDeclaredScopeTag {lemma: one step}
+\KAuxNewLinkScopetagInstance {lemma: one step}{lemma-2}
+
+\KAuxFileAt {witness.tex}{10}
+\KAuxScopeNewInstance {proof}{proof-3}{document}
+
+\KAuxFileAt {witness.tex}{23}
+\KAuxAutorefTarget {default}{base}{\fseq }
+\KAuxAutorefTarget {default}{base}{\qseq }
+
+\KAuxFileAt {witness.tex}{25}
+\KAuxScopeNewInstance {corollary}{corollary-2}{document}
+\KAuxDeclaredScopeTag {corollary: witness periods}
+\KAuxNewLinkScopetagInstance {corollary: witness periods}{corollary-2}
+\KAuxDeclaredScopeTag {section: witness arithmetic}
+\KAuxNewLinkScopetagInstance {section: witness arithmetic}{document}
+
+\KAuxFileAt {witness.tex}{30}
+\KAuxAutorefTarget {default}{base}{\Dm }
+\KAuxDeclaredScopeTag {thmt@@lemmaLcm@data}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaLcm@data}{document}
+\KAuxDeclaredScopeTag {thmt@@lemmaLcm}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaLcm}{document}
+\KAuxDeclaredScopeTag {lemma: lcm}
+\KAuxNewLinkScopetagInstance {lemma: lcm}{document}
+
+\KAuxFileAt {witness.tex}{38}
+\KAuxAutorefTarget {default}{base}{\dseq }
+\KAuxAutorefTarget {default}{base}{\Aseq }
+\KAuxAutorefTarget {default}{base}{\Nseq }
+
+\KAuxFileAt {witness.tex}{45}
+\KAuxScopeNewInstance {lemma}{lemma-3}{document}
+\KAuxDeclaredScopeTag {lemma: irreducible}
+\KAuxNewLinkScopetagInstance {lemma: irreducible}{lemma-3}
+
+\KAuxFileAt {witness.tex}{48}
+\KAuxScopeNewInstance {proof}{proof-4}{document}
+
+\KAuxFileAt {witness.tex}{58}
+\KAuxScopeNewInstance {proof}{proof-5}{document}
+\KAuxDeclaredScopeTag {section: upper bound}
+\KAuxNewLinkScopetagInstance {section: upper bound}{document}
+
+\KAuxFileAt {upper-bound.tex}{4}
+\KAuxAutorefTarget {default}{base}{\dom }
+
+\KAuxFileAt {upper-bound.tex}{7}
+\KAuxAutorefTarget {default}{base}{parametric Presburger family}
+
+\KAuxFileAt {upper-bound.tex}{8}
+\KAuxAutorefTarget {default}{base}{quasi-polynomial}
+
+\KAuxFileAt {upper-bound.tex}{9}
+\KAuxScopeNewInstance {theorem}{theorem-3}{document}
+\KAuxDeclaredScopeTag {theorem: BGW}
+\KAuxNewLinkScopetagInstance {theorem: BGW}{theorem-3}
+
+\KAuxFileAt {upper-bound.tex}{14}
+\KAuxAutorefTarget {default}{base}{\dg }
+\KAuxAutorefTarget {default}{base}{\ib }
+\KAuxDeclaredScopeTag {table: invariants}
+\KAuxNewLinkScopetagInstance {table: invariants}{document}
+\KAuxDeclaredScopeTag {claim: tame}
+\KAuxNewLinkScopetagInstance {claim: tame}{document}
+\KAuxDeclaredScopeTag {claim: tame: presburger}
+\KAuxNewLinkScopetagInstance {claim: tame: presburger}{document}
+\KAuxDeclaredScopeTag {claim: tame: period}
+\KAuxNewLinkScopetagInstance {claim: tame: period}{document}
+\KAuxDeclaredScopeTag {section: upper bound proof}
+\KAuxNewLinkScopetagInstance {section: upper bound proof}{document}
+
+\KAuxFileAt {upper-bound.tex}{30}
+\KAuxAutorefTarget {default}{base}{\per }
+\KAuxAutorefTarget {default}{base}{\thr }
+
+\KAuxFileAt {upper-bound.tex}{56}
+\KAuxAutorefTarget {default}{base}{phase graph}
+
+\KAuxFileAt {upper-bound.tex}{57}
+\KAuxAutorefTarget {default}{base}{weight}
+
+\KAuxFileAt {upper-bound.tex}{62}
+\KAuxAutorefTarget {default}{base}{\cyc }
+
+\KAuxFileAt {upper-bound.tex}{63}
+\KAuxAutorefTarget {default}{base}{small}
+\KAuxDeclaredScopeTag {thmt@@lemmaSmallCycle@data}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaSmallCycle@data}{document}
+\KAuxDeclaredScopeTag {thmt@@lemmaSmallCycle}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaSmallCycle}{document}
+\KAuxDeclaredScopeTag {lemma: small cycle}
+\KAuxNewLinkScopetagInstance {lemma: small cycle}{document}
+
+\KAuxFileAt {upper-bound.tex}{73}
+\KAuxAutorefTarget {default}{base}{\cyw }
+\KAuxDeclaredScopeTag {thmt@@lemmaWalkPeriods@data}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaWalkPeriods@data}{document}
+\KAuxDeclaredScopeTag {thmt@@lemmaWalkPeriods}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaWalkPeriods}{document}
+\KAuxDeclaredScopeTag {lemma: walk periods}
+\KAuxNewLinkScopetagInstance {lemma: walk periods}{document}
+\KAuxDeclaredScopeTag {thmt@@lemmaClosure@data}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaClosure@data}{document}
+\KAuxDeclaredScopeTag {thmt@@lemmaClosure}
+\KAuxNewLinkScopetagInstance {thmt@@lemmaClosure}{document}
+\KAuxDeclaredScopeTag {lemma: closure}
+\KAuxNewLinkScopetagInstance {lemma: closure}{document}
+\KAuxDeclaredScopeTag {section: conclusion}
+\KAuxNewLinkScopetagInstance {section: conclusion}{document}
+\KAuxDeclaredScopeTag {section: appendix: witness}
+\KAuxNewLinkScopetagInstance {section: appendix: witness}{document}
+
+\KAuxFileAt {appendix-witness.tex}{4}
+\KAuxScopeNewInstance {proof}{proof-6}{document}
+
+\KAuxFileAt {appendix-witness.tex}{16}
+\KAuxScopeNewInstance {proof}{proof-7}{document}
+
+\KAuxFileAt {appendix-witness.tex}{25}
+\KAuxScopeNewInstance {proof}{proof-8}{document}
+\KAuxDeclaredScopeTag {section: appendix: upper bound}
+\KAuxNewLinkScopetagInstance {section: appendix: upper bound}{document}
+
+\KAuxFileAt {appendix-upper-bound.tex}{3}
+\KAuxScopeNewInstance {proof}{proof-9}{document}
+
+\KAuxFileAt {appendix-upper-bound.tex}{23}
+\KAuxScopeNewInstance {proof}{proof-10}{document}
+
+\KAuxFileAt {appendix-upper-bound.tex}{33}
+\KAuxScopeNewInstance {proof}{proof-11}{document}
+\KAuxDeclaredScopeTag {section: appendix: closure}
+\KAuxNewLinkScopetagInstance {section: appendix: closure}{document}
+
+\KAuxFileAt {appendix-closure.tex}{5}
+\KAuxScopeNewInstance {lemma}{lemma-4}{document}
+\KAuxDeclaredScopeTag {lemma: glue}
+\KAuxNewLinkScopetagInstance {lemma: glue}{lemma-4}
+
+\KAuxFileAt {appendix-closure.tex}{10}
+\KAuxScopeNewInstance {proof}{proof-12}{document}
+
+\KAuxFileAt {appendix-closure.tex}{22}
+\KAuxScopeNewInstance {lemma}{lemma-5}{document}
+\KAuxDeclaredScopeTag {lemma: simplex}
+\KAuxNewLinkScopetagInstance {lemma: simplex}{lemma-5}
+
+\KAuxFileAt {appendix-closure.tex}{27}
+\KAuxScopeNewInstance {proof}{proof-13}{document}
+
+\KAuxFileAt {appendix-closure.tex}{58}
+\KAuxAutorefTarget {default}{base}{\kfold }
+
+\KAuxFileAt {appendix-closure.tex}{59}
+\KAuxScopeNewInstance {lemma}{lemma-6}{document}
+\KAuxDeclaredScopeTag {lemma: iterated sums}
+\KAuxNewLinkScopetagInstance {lemma: iterated sums}{lemma-6}
+
+\KAuxFileAt {appendix-closure.tex}{63}
+\KAuxScopeNewInstance {proof}{proof-14}{document}
+
+\KAuxFileAt {appendix-closure.tex}{80}
+\KAuxScopeNewInstance {proof}{proof-15}{document}
+\KAuxDeclaredScopeTag {section: appendix: rel}
+\KAuxNewLinkScopetagInstance {section: appendix: rel}{document}
+
+\KAuxFileAt {appendix-rel.tex}{4}
+\KAuxScopeNewInstance {theorem}{theorem-4}{document}
+\KAuxDeclaredScopeTag {theorem: main REL}
+\KAuxNewLinkScopetagInstance {theorem: main REL}{theorem-4}
+
+\KAuxFileAt {appendix-rel.tex}{13}
+\KAuxAutorefTarget {default}{base}{cyclic model}
+\KAuxAutorefTarget {default}{base}{\ModR }
+\KAuxAutorefTarget {default}{base}{\chainmC }
+
+\KAuxFileAt {appendix-rel.tex}{21}
+\KAuxAutorefTarget {default}{base}{window}
+
+\KAuxFileAt {appendix-rel.tex}{23}
+\KAuxAutorefTarget {default}{base}{\dsetR }
+
+\KAuxFileAt {appendix-rel.tex}{28}
+\KAuxAutorefTarget {default}{base}{admissible}
+
+\KAuxFileAt {appendix-rel.tex}{29}
+\KAuxScopeNewInstance {lemma}{lemma-7}{document}
+\KAuxDeclaredScopeTag {lemma: one step cyclic}
+\KAuxNewLinkScopetagInstance {lemma: one step cyclic}{lemma-7}
+
+\KAuxFileAt {appendix-rel.tex}{34}
+\KAuxScopeNewInstance {proof}{proof-16}{document}
+
+\KAuxFileAt {appendix-rel.tex}{47}
+\KAuxAutorefTarget {default}{base}{\bnd }
+\KAuxAutorefTarget {default}{base}{\far }
+
+\KAuxFileAt {appendix-rel.tex}{48}
+\KAuxAutorefTarget {default}{base}{\sgn }
+\KAuxDeclaredScopeTag {fact: periods cyclic}
+\KAuxNewLinkScopetagInstance {fact: periods cyclic}{document}
+\KAuxDeclaredScopeTag {fact: periods cyclic: min}
+\KAuxNewLinkScopetagInstance {fact: periods cyclic: min}{document}
+\KAuxDeclaredScopeTag {fact: periods cyclic: sum}
+\KAuxNewLinkScopetagInstance {fact: periods cyclic: sum}{document}
+
+\KAuxFileAt {appendix-rel.tex}{58}
+\KAuxScopeNewInstance {proof}{proof-17}{document}
+
+\KAuxFileAt {appendix-rel.tex}{74}
+\KAuxScopeNewInstance {proposition}{proposition-3}{document}
+\KAuxDeclaredScopeTag {proposition: upper bound cyclic}
+\KAuxNewLinkScopetagInstance {proposition: upper bound cyclic}{proposition-3}
+
+\KAuxFileAt {appendix-rel.tex}{77}
+\KAuxScopeNewInstance {proof}{proof-18}{document}
+\KAuxEOF {}

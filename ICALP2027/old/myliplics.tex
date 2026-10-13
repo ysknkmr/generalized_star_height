@@ -1,0 +1,106 @@
+\usepackage{listings}
+\lstset{
+    breaklines=true,
+}
+\makeatletter
+\def\lst@lettertrue{\let\lst@ifletter\iffalse}
+\makeatother
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\usepackage{graphviz}
+\usepackage{svg}
+
+\newtheorem{notation}[theorem]{Notation}
+\Crefname{theorem}{Thm.}{Thms.}
+\Crefname{proposition}{Prop.}{Props.}
+\Crefname{lemma}{Lem.}{Lems.}
+\Crefname{corollary}{Cor.}{Cors.}
+\Crefname{definition}{Def.}{Defs.}
+\crefname{section}{Sect.}{Sects.}
+\crefname{figure}{Fig.}{Figs.}
+\Crefname{claim}{Claim}{Claim}
+% \newcommand{\crefmiddleconjunction}{,}
+% \renewcommand{\creflastconjunction}{, and }
+
+\usepackage{algorithm, algpseudocode}
+
+\usepackage{xcolor}
+\definecolor[named]{ACMBlue}{cmyk}{1,0.1,0,0.1}
+\definecolor[named]{ACMYellow}{cmyk}{0,0.16,1,0}
+\definecolor[named]{ACMOrange}{cmyk}{0,0.42,1,0.01}
+\definecolor[named]{ACMRed}{cmyk}{0,0.90,0.86,0}
+\definecolor[named]{ACMLightBlue}{cmyk}{0.49,0.01,0,0}
+\definecolor[named]{ACMGreen}{cmyk}{0.20,0,1,0.19}
+\definecolor[named]{ACMPurple}{cmyk}{0.55,1,0,0.15}
+\definecolor[named]{ACMDarkBlue}{cmyk}{1,0.58,0,0.21}
+\hypersetup{colorlinks,
+    linkcolor=ACMPurple,
+    citecolor=ACMPurple,
+    urlcolor=ACMDarkBlue,
+    filecolor=ACMDarkBlue}
+\usepackage{hyperref}
+
+\usepackage{rotating}
+
+\usepackage{diagbox}
+
+\MakeRobust{\ref}% avoid expanding it when in a textual label
+
+\makeatletter
+\newcommand{\labeltext}[2]{%
+    \@bsphack
+    \csname phantomsection\endcsname % in case hyperref is used
+    \def\@currentlabel{#1}{\label{#2}}%
+    \@esphack
+}
+\makeatother
+
+% \usepackage[xcolor, notion]{knowledge}
+\usepackage[xcolor, notion, paper]{knowledge}
+\knowledgeconfigureenvironment{theorem,lemma,proof}{}
+
+\usepackage{tikz}
+\usetikzlibrary{calc, trees, bending, backgrounds, shapes, shapes.geometric, fit, arrows, arrows.meta, positioning, graphs, quotes}
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{bg,main}  % set the order of the layers (main is the standard layer)
+
+
+\usepackage{ebproof}
+
+\usepackage{stackengine}
+
+\makeatletter
+\let\orgdescriptionlabel\descriptionlabel
+\renewcommand*{\descriptionlabel}[1]{%
+    \let\orglabel\label
+    \let\label\@gobble
+    \phantomsection
+    \edef\@currentlabel{#1}%
+    %\edef\@currentlabelname{#1}%
+    \let\label\orglabel
+    \orgdescriptionlabel{#1}%
+}
+\makeatother
+
+\usepackage{centernot}
+
+\usepackage{etoolbox}
+\makeatletter
+\let\original@footnote\footnote
+\newcommand{\align@footnote}[1]{%
+    \ifmeasuring@
+        \chardef\@tempfn=\value{footnote}%
+        \footnotemark
+        \setcounter{footnote}{\@tempfn}%
+    \else
+        \iffirstchoice@
+        \original@footnote{#1}%
+        \fi
+    \fi}
+\pretocmd{\start@align}{\let\footnote\align@footnote}{}{}
+\makeatother
+
+% \usepackage{complexity}
+\usepackage{makecell}

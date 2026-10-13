@@ -1,0 +1,77 @@
+\section{Introduction}\label{section: introduction}
+
+The \emph{star height} of a regular expression is the maximal nesting depth of Kleene stars in it~\cite{egganTransitionGraphsStarheight1963}.
+When complement is admitted as an operator, one speaks of \emph{generalized} star height.
+Languages of generalized star height $0$ are exactly the star-free languages~\cite{schutzenbergerFiniteMonoidsHaving1965}.
+It is a long-standing open problem whether some regular language has generalized star height at least two~\cite{pinResultsGeneralizedStarheight1992}.
+Recently, OpenAI announced a proof that every regular language has generalized star height at most three~\cite{openaiGeneralizedStarHeight2026}.
+
+The same question can be asked for \emph{terms} of Kleene algebra with complement, that is, for expressions over variables.
+Here the variables are interpreted as binary relations, and two terms are compared by their values under all valuations in a class of models.
+This viewpoint goes back to Tarski's calculus of relations~\cite{tarskiCalculusRelations1941} and its extension with transitive closure~\cite{ngRelationAlgebrasTransitive1984}.
+We work with $\RSUB$~\cite{nakamuraFiniteRelationalSemantics2025}.
+In $\RSUB$, the universe is a finite linear order, each variable denotes a set of forward pairs, and complement is taken relative to the set of all forward pairs.
+$\RSUB$ captures the equational theory of Kleene algebra with complement with respect to languages~\cite{nakamuraFiniteRelationalSemantics2025}.
+
+In this paper we ask \emph{how simple the structures can be} if generalized star height one and two are still to be separated.
+We measure structural simplicity by pathwidth.
+To a valuation we associate its Gaifman graph, in which we also include the successor relation of the underlying linear order.
+The successor relation is star-free definable from the order, so this is a natural choice.
+Let $\Cls{k}$ be the class of $\RSUB$ valuations whose graph has pathwidth at most $k$.
+\begin{itemize}
+  \item On $\Cls{1}$, every input pair is a loop or a successor pair, since any other pair closes a cycle with the successor path.
+        So a valuation in $\Cls{1}$ is essentially a word whose letters record which variables hold on each successor pair.
+        The separation of heights one and two on $\Cls{1}$ is therefore closely related to the classical open problem (\Cref{remark: pathwidth one words}).
+  \item Our main result shows that one more unit of pathwidth suffices for a separation.
+\end{itemize}
+
+\begin{theorem}[Main theorem]\label{theorem: main}
+  There is a term $\Psit$ over three variables with star height two such that no term of star height at most one is equivalent to $\Psit$ on $\Cls{2}$.
+  In other words, the generalized star height of $\Psit$ relative to $\Cls{2}$ is exactly two.
+\end{theorem}
+
+The term $\Psit$ is defined in \eqref{equation: Psi}.
+It is fixed in advance, and only the counter-models depend on the competing term.
+The counter-models have a very simple shape (\Cref{figure: module,figure: cells}).
+Their graphs consist of a single path, together with a few vertices that are joined to some later vertices of their own segment of the path.
+So each segment forms a fan, and the whole graph is a chain of fans.
+Such graphs are outerplanar and have pathwidth exactly two.
+The bound two is tight for this witness.
+On $\Cls{1}$, the term $\Psit$ is equivalent to a term of star height one (\Cref{proposition: pathwidth one}).
+
+\subparagraph*{Idea of the proof.}
+The term $\Psit$ has the form $\Ht^*$.
+Here $\Ht$ is a star-free combination of a relation $\Kt$ and its complement $\Nt$ inside a fixed relation $\vb$, and $\Kt$ contains the star $(\vr \compo \vr)^*$.
+The counter-models are sequences of \emph{cells}.
+Each cell contains a \emph{module}, that is, an interval $[u, v]$ with $(u, v) \in \vb$.
+The inner star decides whether $(u, v)$ belongs to $\Kt$ by reading the parity of the length of an $\vr$-chain.
+The outer star composes the cells, and the cells act as the identity or as a swap on two ports.
+So $\Psit$ computes the parity of the number of cells whose module lies in~$\Kt$.
+
+For a competing term $E$ of star height one, let $q$ bound the composition depth of the bodies of its stars.
+We construct two modules $\M^{+}_q$ and $\M^{-}_q$ on the same set of vertices (\Cref{proposition: local pair}).
+They differ in a single input pair, and $(u, v) \in \Kt$ holds in $\M^{+}_q$ but not in $\M^{-}_q$.
+Still, no star of depth at most $q$ can tell them apart.
+To construct them, we encode prefixes of a module by first-order types and suffixes by a finite automaton.
+The first-order types form an aperiodic monoid, while the automaton may count modulo a number.
+An idempotent in the minimal ideal of the product monoid lets us rewind both components at the same time (\Cref{section: local}).
+A replacement lemma then shows that every star in $E$ is blind to the modules strictly between its endpoints (\Cref{section: replacement}).
+Hence $E$ translates into first-order logic with modular predicates over the sequence of cell bits.
+That logic cannot express parity, so $E$ differs from $\Psit$ (\Cref{section: lower bound}).
+
+\subparagraph*{Related work.}
+For regular languages, the generalized star-height problem is discussed in~\cite{pinResultsGeneralizedStarheight1992}.
+Inside generalized star height zero, the dot-depth hierarchy is infinite~\cite{brzozowskiDotdepthHierarchyStarfree1978,thomasConcatenationGameDotdepth1987}.
+% TODO: cite the companion result on the star-height hierarchy of terms w.r.t. languages / RSUB, if appropriate.
+Terms of Kleene algebra with complement can be read as formulas of transitive closure logic with three variables.
+For transitive closure logic on finite structures, Gr\"adel and McColm proved hierarchy theorems for the nesting of transitive closure and negation~\cite{gradelHierarchiesTransitiveClosure1996}.
+On ordered finite structures, every formula of transitive closure logic is equivalent to one with a single transitive closure, at the price of higher arity~\cite{immermanLanguagesThatCapture1987}.
+So the bounded arity of terms is essential here.
+Expressive-power results for relational calculi via Ehrenfeucht--Fra\"iss\'e games include~\cite{nakamuraExpressivePowerSuccinctness2022}.
+Our use of an idempotent from the minimal ideal of a finite monoid is standard in the algebraic theory of regular languages~\cite{pinVarietiesFormalLanguages1986}.
+
+\subparagraph*{Organization.}
+\Cref{section: preliminaries} fixes notation.
+\Cref{section: overview} defines $\Psit$ and outlines the proof of \Cref{theorem: main}.
+\Cref{section: modules,section: local,section: cells,section: replacement,section: lower bound} contain the proof.
+\Cref{section: pathwidth one} treats pathwidth one, and \Cref{section: conclusion} concludes.

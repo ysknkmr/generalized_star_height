@@ -1,0 +1,59 @@
+\documentclass[a4paper,USenglish,cleveref,autoref,thm-restate]{lipics-v2021}
+% Add the option "anonymous" for a double-blind submission.
+
+\pdfoutput=1
+\hideLIPIcs
+
+\bibliographystyle{plainurl}
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing,positioning,fit,backgrounds}
+
+\input{macros}
+\crefname{claim}{Claim}{Claims}
+\Crefname{claim}{Claim}{Claims}
+
+\title{Generalized Star Height Two Is Needed on Valuations of Pathwidth Two}
+\titlerunning{Generalized Star Height Two on Pathwidth Two}
+
+\author{Yoshiki Nakamura}{Chiba University, Japan}{nakamura.yoshiki.ny@gmail.com}{https://orcid.org/0000-0003-4106-0408}{}
+\authorrunning{Y. Nakamura}
+\Copyright{Yoshiki Nakamura}
+
+\ccsdesc[500]{Theory of computation~Formal languages and automata theory}
+\ccsdesc[300]{Theory of computation~Finite Model Theory}
+\ccsdesc[300]{Theory of computation~Logic and verification}
+
+\keywords{Kleene algebra with complement, generalized star height, calculus of relations, pathwidth, Ehrenfeucht--Fra\"iss\'e games, finite monoids}
+
+\category{}
+\relatedversion{}
+% \funding{}  % TODO
+
+\nolinenumbers
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\input{sec/introduction}
+\input{sec/preliminaries}
+\input{sec/overview}
+\input{sec/modules}
+\input{sec/local}
+\input{sec/cells}
+\input{sec/replacement}
+\input{sec/lowerbound}
+\input{sec/pathwidth-one}
+\input{sec/conclusion}
+
+\bibliography{main}
+
+\end{document}

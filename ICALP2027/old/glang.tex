@@ -1,0 +1,176 @@
+
+\subsection{Proof of \Cref{lemma: glang val}}\label{section: lemma: glang val}
+(The following proof is almost the same as \cite[Prop.\ 8, 11]{nakamuraExistentialCalculiRelations2023} except that we consider $\GREL$ instead of $\REL$.
+Similar arguments can also be found, e.g., in \cite{andrekaEquationalTheoryUnionfree1995,brunetPetriAutomata2017,pousPositiveCalculusRelations2018}.)
+
+We use the two notations for \kl{graphs}, \kl{series-composition} ($\compo$) and \kl{parallel-composition} ($\cap$):
+\begin{align*}
+       G \compo H
+        & \quad\defeq\quad \begin{tikzpicture}[baseline = -.5ex]
+                        \graph[grow right = 1.cm, branch down = 2.5ex, nodes={mynode, font = \scriptsize}]{
+                        {s1/{}[draw, circle]}
+                        -!- {c/{}[draw, circle]}
+                        -!- {t1/{}[draw, circle]}
+                        };
+                        \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+                        \node[right = 4pt of t1](t1l){}; \path (t1) edge[earrow, ->] (t1l);
+                        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                        s1 ->["$G$"] c;
+                        c ->["$H$"] t1;
+                        };
+                 \end{tikzpicture},
+        & G \cap H
+        & \quad\defeq\quad \begin{tikzpicture}[baseline = -.5ex]
+                        \graph[grow right = 1.cm, branch down = 2.5ex, nodes={mynode, font = \scriptsize}]{
+                        {s1/{}[draw, circle]}
+                        -!- {t1/{}[draw, circle]}
+                        };
+                        \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+                        \node[right = 4pt of t1](t1l){}; \path (t1) edge[earrow, ->] (t1l);
+                        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                        s1 ->["$G$", bend left = 25] t1;
+                        s1 ->["$H$", bend right = 25] t1;
+                        };
+                 \end{tikzpicture}.
+\end{align*}
+
+\begin{proposition}\label{lemma: glang val op}
+       Let $\val \in \GREL$ and $\graph[1], \graph[2]$ be \kl{graphs}.
+       \begin{align*}
+              \label{lemma: glang val cap} \hat{\val}(\graph[1] \cap \graph[2])     & = \hat{\val}(\graph[1]) \cap \hat{\val}(\graph[2]) \tag{\Cref{lemma: glang val op}$\cap$}     \\
+              \label{lemma: glang val compo} \hat{\val}(\graph[1] \compo \graph[2]) & = \hat{\val}(\graph[1]) \rcompo \hat{\val}(\graph[2]) \tag{\Cref{lemma: glang val op}$\compo$}
+       \end{align*}
+\end{proposition}
+\begin{proof}
+       (\ref{lemma: glang val cap}):
+       It suffices to prove that for every $x, y$,
+       \[\exists f, f \colon (\graph[1] \cap \graph[2]) \homo \const{\graph}(\val, x, y) \;\Leftrightarrow\; \exists f_{\graph[1]}, f_{\graph[2]},\  f_{\graph[1]} \colon \graph[1] \homo \const{\graph}(\val, x, y) \land f_{\graph[2]} \colon \graph[2] \homo \const{\graph}(\val, x, y).\]
+       ($\Rightarrow$):
+       By letting $f_{\graph[1]} \defeq \set{\tuple{x', f(x')} \mid x' \in |\graph[1]|}$ and $f_{\graph[2]} \defeq \set{\tuple{x', f(x')} \mid x' \in |H|}$.
+       ($\Leftarrow$):
+       By letting $f \defeq f_{\graph[1]} \cup f_{\graph[2]}$.
+       Note that $f_{\graph[1]}(\src^{\graph[1]}) = x = f_{\graph[2]}(\src^{\graph[2]})$ and $f_{\graph[1]}(\tgt^{\graph[1]}) = y = f_{\graph[2]}(\tgt^{\graph[2]})$; so $f$ is indeed a map.
+
+       (\ref{lemma: glang val compo}):
+       It suffices to prove that for every $x, y$,
+       \[\exists f, f \colon (\graph[1] \compo \graph[2]) \homo \const{\graph}(\val, x, y) \;\Leftrightarrow\; \exists z, \exists f_{\graph[1]}, f_{\graph[2]},\  f_{\graph[1]} \colon \graph[1] \homo \const{\graph}(\val, x, z) \land f_{\graph[2]} \colon \graph[2] \homo \const{\graph}(\val, z, y).\]
+       ($\Rightarrow$):
+       By letting $z \defeq f(\tgt^{\graph[1]})$, $f_{\graph[1]} \defeq \set{\tuple{x', f(x')} \mid x' \in |\graph[1]|}$, and $f_{\graph[2]} \defeq \set{\tuple{x', f(x')} \mid x' \in |\graph[2]|}$.
+       ($\Leftarrow$):
+       By letting $f \defeq f_{\graph[1]} \cup f_{\graph[2]}$.
+       Note that $f_{\graph[1]}(\tgt^{\graph[1]}) = z = f_{\graph[2]}(\src^{\graph[2]})$; so $f$ is indeed a map.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{lemma: glang val}]
+       By easy induction on $\term$.
+
+       Case $\term = x$ where $x \in \tilde{\vsig} = \set{a, \com{a} \mid a \in \vsig} \cup \set{\com{\id}, \top}$:
+       For every $\tuple{x, y} \in \hat{\val}(\top)$, we have
+       \begin{align*}
+              \tuple{x, y} \in \hat{\val}(a) & \quad\Leftrightarrow\quad (\begin{tikzpicture}[baseline = -.5ex]
+                                                                     \graph[grow right = 1.2cm, branch down = 6ex, nodes={mynode}]{
+                                                                     {0/{}[draw, circle]}-!-{1/{}[draw, circle]}
+                                                                     };
+                                                                     \node[left = .5em of 0](l){};
+                                                                     \node[right = .5em of 1](r){};
+                                                                     \path (0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a1){$a$}(1);
+                                                                     \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                            0 -- a1 -> 1;
+                                                                            l -> 0; 1 -> r;
+                                                                     };
+                                                              \end{tikzpicture} \homo \const{\graph}(\val, x, y))                             \\
+                                             & \quad\Leftrightarrow\quad \tuple{x, y} \in \hat{\val}(\begin{tikzpicture}[baseline = -.5ex]
+                                                                                                 \graph[grow right = 1.2cm, branch down = 6ex, nodes={mynode}]{
+                                                                                                 {0/{}[draw, circle]}-!-{1/{}[draw, circle]}
+                                                                                                 };
+                                                                                                 \node[left = .5em of 0](l){};
+                                                                                                 \node[right = .5em of 1](r){};
+                                                                                                 \path (0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a1){$a$}(1);
+                                                                                                 \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                        0 -- a1 -> 1;
+                                                                                                        l -> 0; 1 -> r;
+                                                                                                 };
+                                                                                          \end{tikzpicture}) \tag{Def.\ of $\hat{\val}$} \\
+                                             & \quad\Leftrightarrow\quad \tuple{x, y} \in \hat{\val}(\glang(a)). \tag{Def.\ of $\glang$}
+       \end{align*}
+
+       Case $\term = \id$:
+       For every $\tuple{x, y} \in \hat{\val}(\top)$, we have
+       \begin{align*}
+              \tuple{x, y} \in \hat{\val}(\id) & \quad\Leftrightarrow\quad (\begin{tikzpicture}[baseline = -.5ex]
+                                                                        \graph[grow right = 1.2cm, branch down = 6ex, nodes={mynode}]{
+                                                                        {0/{}[draw, circle]}-!-{1/{}[draw, circle]}
+                                                                        };
+                                                                        \node[left = .5em of 0](l){};
+                                                                        \node[right = .5em of 1](r){};
+                                                                        \path (0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a1){$\id$}(1);
+                                                                        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                               0 -- a1 -> 1;
+                                                                               l -> 0; 1 -> r;
+                                                                        };
+                                                                 \end{tikzpicture} \homo \const{\graph}(\val, x, y))                             \\
+                                                & \quad\Leftrightarrow\quad \tuple{x, y} \in \hat{\val}(\begin{tikzpicture}[baseline = -.5ex]
+                                                                                                    \graph[grow right = 1.2cm, branch down = 6ex, nodes={mynode}]{
+                                                                                                    {0/{}[draw, circle]}-!-{1/{}[draw, circle]}
+                                                                                                    };
+                                                                                                    \node[left = .5em of 0](l){};
+                                                                                                    \node[right = .5em of 1](r){};
+                                                                                                    \path (0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a1){$\id$}(1);
+                                                                                                    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                           0 -- a1 -> 1;
+                                                                                                           l -> 0; 1 -> r;
+                                                                                                    };
+                                                                                             \end{tikzpicture}) \tag{Def.\ of $\hat{\val}$} \\
+                                                & \quad\Leftrightarrow\quad \tuple{x, y} \in \hat{\val}(\begin{tikzpicture}[baseline = -.5ex]
+                                                                                                    \graph[grow right = 1.2cm, branch down = 6ex, nodes={mynode}]{
+                                                                                                    {0/{}[draw, circle]}
+                                                                                                    };
+                                                                                                    \node[left = .5em of 0](l){};
+                                                                                                    \node[right = .5em of 0](r){};
+                                                                                                    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                           l -> 0; 0 -> r;
+                                                                                                    };
+                                                                                             \end{tikzpicture}) \tag{$\id^{\const{\graph}(\val, x, y)}$ is the identity relation}                                 \\
+                                                & \quad\Leftrightarrow\quad \tuple{x, y} \in \hat{\val}(\glang(\id)). \tag{Def.\ of $\glang$}
+       \end{align*}
+
+       Case $\term = \emp$:
+       For every $\tuple{x, y} \in \hat{\val}(\top)$, we have
+       \begin{align*}
+              \tuple{x, y} \in \hat{\val}(\emp) & \Leftrightarrow \const{false}  \Leftrightarrow \tuple{x, y} \in \hat{\val}(\emptyset) \Leftrightarrow \tuple{x, y} \in \hat{\val}(\glang(\emp)). \tag{Def.\ of $\hat{\val}$ and $\glang$}
+       \end{align*}
+
+       Case $\term = \term[2] \compo \term[3]$:
+       \begin{align*}
+              \hat{\val}(\term[2] \compo \term[3]) & \quad=\quad \hat{\val}(\term[2]) \rcompo \hat{\val}(\term[3])  \tag{Def.\ of $\hat{\val}$}                                                                                                                     \\
+                                                  & \quad=\quad \hat{\val}(\glang(\term[2])) \rcompo \hat{\val}(\glang(\term[3]))          \tag{IH}                                                                                                                \\
+                                                  & \quad=\quad \bigcup_{\graph[1] \in \glang(\term[2])} \bigcup_{\graph[2] \in \glang(\term[3])} \hat{\val}(\graph[1]) \rcompo \hat{\val}(\graph[2])                 \tag{$\rcompo$ is distributive w.r.t.\ $\cup$} \\
+                                                  & \quad=\quad \bigcup_{\graph[1] \in \glang(\term[2])} \bigcup_{\graph[2] \in \glang(\term[3])} \hat{\val}(\graph[1] \compo \graph[2]) \tag{\Cref{lemma: glang val compo}}                                      \\
+                                                  & \quad=\quad \hat{\val}(\glang(\term[2] \compo \term[3])). \tag{Def.\ of $\glang$}
+       \end{align*}
+
+       Case $\term = \term[2] \cap \term[3]$:
+       \begin{align*}
+              \hat{\val}(\term[2] \cap \term[3]) & \quad=\quad \hat{\val}(\term[2]) \cap \hat{\val}(\term[3])                     \tag{Def.\ of $\hat{\val}$}                                                                                                  \\
+                                                 & \quad=\quad \hat{\val}(\glang(\term[2])) \cap \hat{\val}(\glang(\term[3]))            \tag{IH}                                                                                                              \\
+                                                 & \quad=\quad  \bigcup_{\graph[1] \in \glang(\term[2])} \bigcup_{\graph[2] \in \glang(\term[3])} (\hat{\val}(\graph[1]) \cap \hat{\val}(\graph[2]))                 \tag{$\cap$ is distributive w.r.t.\ $\cup$} \\
+                                                 & \quad=\quad  \bigcup_{\graph[1] \in \glang(\term[2])} \bigcup_{\graph[2] \in \glang(\term[3])} \hat{\val}(\graph[1] \cap \graph[2]) \tag{\Cref{lemma: glang val cap}}                                       \\
+                                                 & \quad=\quad \hat{\val}(\glang(\term[2] \cap \term[3])). \tag{Def.\ of $\glang$}
+       \end{align*}
+
+       Case $\term = \term[2] \union \term[3]$:
+       \begin{align*}
+              \hat{\val}(\term[2] \union \term[3]) & \quad=\quad \hat{\val}(\term[2]) \cup \hat{\val}(\term[3])                     \tag{Def.\ of $\hat{\val}$} \\
+                                                 & \quad=\quad \hat{\val}(\glang(\term[2])) \cup \hat{\val}(\glang(\term[3]))            \tag{IH}             \\
+                                                 & \quad=\quad \hat{\val}(\glang(\term[2]) \cup \glang(\term[3])) = \hat{\val}(\glang(\term[2] \union \term[3])). \tag{Def.\ of $\glang$}
+       \end{align*}
+
+       Case $\term = \term[2]^*$:
+       \begin{align*}
+              \hat{\val}(\term[2]^{*}) & \quad=\quad \bigcup_{n \ge 0} \hat{\val}(\underbrace{\term[2]\compo \dots \compo \term[2]}_{n \mbox{ times}}) = \bigcup_{n \ge 0} \underbrace{\hat{\val}(\term[2]) \compo \dots \compo \hat{\val}(\term[2])}_{n \mbox{ times}}  \tag{Def.\ of $\hat{\val}$}                                                                    \\
+                                       & \quad=\quad \bigcup_{n \ge 0} \underbrace{\hat{\val}(\glang(\term[2])) \compo \dots \compo \hat{\val}(\glang(\term[2]))}_{n \mbox{ times}} \tag{IH}                                                                  \\
+                                       & \quad=\quad \bigcup_{n \ge 0} \bigcup_{\graph_1, \dots, \graph_n \in  \glang(\term[2])} \hat{\val}(\graph_1) \rcompo \ldots \rcompo \hat{\val}(\graph_n)                         \tag{$\rcompo$ is distributive w.r.t.\ $\cup$} \\
+                                       & \quad=\quad \bigcup_{n \ge 0} \bigcup_{\graph_1, \dots, \graph_n \in  \glang(\term[2])} \hat{\val}(\graph_1 \compo \ldots \compo \graph_n)  \tag{\Cref{lemma: glang val compo}}                                             \\
+                                       & \quad=\quad \bigcup_{n \ge 0} \hat{\val}(\glang(\term[2]^n) = \hat{\val}(\glang(\term[2]^*)). \tag{Def.\ of $\glang$}
+       \end{align*}
+\end{proof}

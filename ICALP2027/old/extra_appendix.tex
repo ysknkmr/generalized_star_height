@@ -1,0 +1,127 @@
+
+\newpage
+\ 
+\newpage
+
+(Extra Appendices)
+\input{rsub}
+\input{letter_to_letter}
+
+
+\input{undecidability}
+
+
+\section{Explicit Proof of \Cref{theorem: graph characterization}}\label{section: theorem: graph characterization}
+Let $\val \in \GREL$.
+For a \kl{graph} $\graph[2]$ and a \kl{graph language} $\glang$, we write
+\begin{align*}
+    \hat{\val}(\graph[2]) & \quad\defeq\quad \set{\tuple{x, y} \mid \graph[2] \homo \const{\graph}(\val, x, y)}, & \hat{\val}(\glang) & \quad\defeq\quad \bigcup_{\graph[2] \in \glang} \hat{\val}(\graph[2]).
+\end{align*}
+\begin{lemma}\label{lemma: glang val}
+    Let $\val \in \GREL$.
+    For all $\KAtermclass_{\set{\com{x}, \com{\id}, \top, \cap}}$ \kl{terms} $\term$,
+    we have $\hat{\val}(\term) = \hat{\val}(\glang(\term))$.
+\end{lemma}
+\begin{proof}[Proof (cf.\ {\cite[Prop.\  11]{nakamuraExistentialCalculiRelations2023}})]
+    By easy induction on $\term$.
+    See \Cref{section: lemma: glang val} for details.
+\end{proof}
+
+\begin{lemma}\label{lemma: QS}
+    Let $\algclass \subseteq \GREL$, $\val \in \algclass$, and $\graph[2]$ be a \kl{graph}.
+    Then $\hat{\val}(\FillS_{\algclass}(\graph[2])^{\FillQ}) = \hat{\val}(\graph[2])$.
+\end{lemma}
+\begin{proof}
+    ($\subseteq$):
+    Because, for any $\graph[3] \in \FillS_{\algclass}(\graph[2])$, 
+    we have $\graph[3] \homo \graph[3]^{\FillQ}$ by $\graph[2] \homo \graph[3]$ and $\graph[3] \homo \graph[3]^{\FillQ}$.
+    % Hence $\hat{\val}(\FillS_{\algclass}(\graph[2])^{\FillQ}) \subseteq \hat{\val}(\graph[2])$.
+    ($\supseteq$):
+    Let $h \colon \graph[2] \homo \const{\graph}(\val, x, y)$.
+    Then $\FillS(h) \homo \const{\graph}(\val, x, y)$.
+    Because $\id^{\const{\graph}(\val, x, y)}$ is the identity relation, $\FillS(h)^{\FillQ} \homo \const{\graph}(\val, x, y)$.
+    Hence $\hat{\val}(\FillS_{\algclass}(\graph[2])^{\FillQ}) \supseteq \hat{\val}(\graph[2])$.
+\end{proof}
+
+
+% \begin{proposition}\label{proposition: glang decomposition}
+%     For all $\KAtermclass_{\set{\com{x}, \com{\id}, \cap}}$ terms $\term[1], \term[2]$, we have
+%     \[\RSUB \models \term[1] \le \term[2] \quad\Leftrightarrow\quad \forall \graph \in \glang(\term[1]),\  \RSUB \models \graph[1] \le \term[2].\]
+% \end{proposition}
+% \begin{proof}
+%     For all $\val \in \VAL_{\RSUB}$, we have
+%     \begin{align*}
+%         \hat{\val}(\term[1]) \subseteq \hat{\val}(\term[2]) & \quad\Leftrightarrow\quad \hat{\val}(\glang(\term[1])) \subseteq \hat{\val}(\term[2])             \tag{\Cref{proposition: glang val}} \\
+%                                                             & \quad\Leftrightarrow\quad \forall \graph \in \glang(\term[1]),\  \hat{\val}(\graph) \subseteq \hat{\val}(\term[2]).
+%     \end{align*}
+%     Hence, this completes the proof.
+% \end{proof}
+
+\begin{proposition}\label{proposition: QS and ORD}
+    Let $h \colon \graph[2] \homo \const{\graph}(\val, x, y)$.
+    Then the \kl{graph} $\FillS(h)^{\FillQ}$ is \kl{isomorphic} to the \kl{induced subgraph} of $\const{\graph}(\val, x, y)$ on the range of $h$.
+\end{proposition}
+\begin{proof}
+    Easy, by construction.
+    Note that since $\id^{\const{\graph}(\val, x, y)}$ is the identity relation, $\id^{\FillS(h)}$ is an equivalence relation (see, e.g., \Cref{example: edge-saturation}).
+\end{proof}
+
+
+\begin{proof}[Proof of \Cref{theorem: graph characterization} (cf.\ {\cite[Thm.\ 18]{nakamuraExistentialCalculiRelations2023}})]
+    We have:
+    \begin{align*}
+         & \algclass \models \term[1] \le \term[2] \ \Leftrightarrow\   \forall \val \in \algclass, \hat{\val}(\term[1]) \subseteq \hat{\val}(\term[2])                                                                                          \\
+         & \Leftrightarrow \forall \val \in \algclass, \hat{\val}(\FillS_{\algclass}(\glang(\term[1]))^{\FillQ}) \subseteq \hat{\val}(\glang(\term[2])) \tag{\Cref{lemma: glang val,lemma: QS}}                                                                                                                                                      \\
+         & \Leftrightarrow \forall \graph \in \FillS_{\algclass}(\glang(\term[1]))^{\FillQ}, \forall \graph[3] \in \allgraph_{\algclass},\  (\graph \homo \graph[3]) \mbox{ implies } (\exists \graph[2] \in \glang(\term[2]), \ \graph[2] \homo \graph[3])                                                \tag{Def.\ of $\hat{\val}$}         \\
+         & \Leftrightarrow \forall \graph \in \FillS_{\algclass}(\glang(\term[1]))^{\FillQ}, \exists \graph[2] \in \glang(\term[2]), \ \graph[2] \homo \graph[1]. \tag{$\heartsuit$}
+    \end{align*}
+    Here, for ($\heartsuit$),
+    ($\Leftarrow$):
+    Let $\graph[2] \in \glang(\term[2])$ be s.t.\  $\graph[2] \homo \graph[1]$.
+    Then for all $\graph[3]$ s.t.\ $\graph[1] \homo \graph[3]$,
+    we have $\graph[2] \homo \graph[3]$ by transitivity of $\homo$.
+    ($\Rightarrow$):
+    By \Cref{proposition: QS and ORD} and that $\allgraph_{\algclass}$ is \kl{induced subgraph-closed},
+    we have $\FillS_{\algclass}(\glang(\term[1]))^{\FillQ} \subseteq \allgraph_{\algclass}$.
+    Thus by letting $\graph[3] = \graph$, this completes the proof.
+\end{proof}
+
+\input{glang}
+
+
+
+
+
+% \section{Proof of \Cref{lemma: deduction theorem}}\label{section: lemma: deduction theorem}
+
+
+% \begin{lemma}\label{lemma: restriction}
+%        Let $\val \in \RSUB$ and $\tuple{x, y} \in \hat{\val}(\top)$.
+%        Let $\val' \in \RSUB$ be the \kl{valuation} s.t.\ $\const{\graph}(\val', x, y)$ is the \kl{induced subgraph} of $\const{\graph}(\val, x, y)$ on the set $\set{z \mid \set{\tuple{x, z}, \tuple{z, y}} \subseteq \hat{\val}(\top)}$.
+%        Then for all \kl{terms} $\term$, we have $\hat{\val}'(\term) = \hat{\val}(\term) \cap \hat{\val}'(\top)$.
+% \end{lemma}
+% \begin{proof}
+%        By easy induction on $\term$.
+% \end{proof}
+% \begin{lemma}\label{lemma: top top}
+%        Let $n \in \nat$ and let $\val$ be a \kl{valuation} of $\RSUB_{n}$.
+%        Then we have $\hat{\val}(\term[3]) = \emptyset \Leftrightarrow \tuple{0, n} \not\in \hat{\val}(\top \term[3] \top)$
+% \end{lemma}
+% \begin{proof}
+%        $\Rightarrow$:
+%        Clear.
+%        $\Leftarrow$:
+%        Let $\tuple{i, j} \in \hat{\val}(\term[3])$.
+%        By $\tuple{0, i}, \tuple{j, n} \in \hat{\val}(\top)$, we have $\tuple{0, n} \in \hat{\val}(\top \term[3] \top)$.
+% \end{proof}
+
+% \begin{proof}[Proof of \Cref{lemma: deduction theorem}]
+%        We have
+%        \begin{align*}
+%                & \RSUB_{\Gamma \cup \set{\term[3] = \emp}} \not\models \term[1] \le \term[2]                                                                                                                                    \\
+%                & \Leftrightarrow \exists n \in \nat, \val \in \RSUB_{n} \cap \RSUB_{\Gamma},\  \hat{\val}(\term[3]) = \emptyset \land \tuple{0, n} \in \hat{\val}(\term[1]) \setminus \hat{\val}(\term[2]) \tag{\Cref{lemma: restriction}} \\
+%                & \Leftrightarrow \exists n \in \nat, \val \in \RSUB_{n} \cap \RSUB_{\Gamma},\  \tuple{0, n} \in \hat{\val}(\term[1]) \setminus \hat{\val}(\term[2] \cup \top \term[3] \top) \tag{\Cref{lemma: top top}}                    \\
+%                & \Leftrightarrow \RSUB_{\Gamma} \not\models \term[1] \le \term[2] \cup \top \term[3] \top \tag*{(\Cref{lemma: restriction}) \qedhere}
+%        \end{align*}
+% \end{proof}
+

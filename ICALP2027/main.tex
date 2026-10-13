@@ -1,0 +1,74 @@
+\documentclass[a4paper,USenglish,cleveref,autoref,thm-restate]{lipics-v2021}
+% Add the option "anonymous" for a double-blind submission.
+
+\usepackage{ifthen}
+\newboolean{final}
+\setboolean{final}{false} % true: camera-ready (no line numbers, no knowledge colors)
+
+\pdfoutput=1
+\hideLIPIcs
+
+\bibliographystyle{plainurl}
+
+\input{header/packages}
+\input{header/palette}
+\input{header/kl-config}
+\input{header/macros}
+\input{kl/kl-abbreviations}
+\input{kl/kl-paper}
+
+\title{The Star-Height Hierarchy of Kleene Algebra with Complement Is Infinite}
+\titlerunning{The Star-Height Hierarchy of KA with Complement Is Infinite}
+
+\author{Yoshiki Nakamura}{Chiba University, Japan}{nakamura.yoshiki.ny@gmail.com}{https://orcid.org/0000-0003-4106-0408}{}
+\authorrunning{Y. Nakamura}
+\Copyright{Yoshiki Nakamura}
+
+\ccsdesc[500]{Theory of computation~Formal languages and automata theory}
+\ccsdesc[500]{Theory of computation~Equational logic and rewriting}
+\ccsdesc[300]{Theory of computation~Logic and verification}
+
+\keywords{Kleene algebra, complement, star height, relational semantics, Presburger arithmetic}
+
+\category{}
+
+\funding{This work was supported by JSPS KAKENHI Grant Numbers JP21K13828 and JP25K14985.}
+
+\ifthenelse{\boolean{final}}{\nolinenumbers}{}
+
+\EventEditors{}
+\EventNoEds{0}
+\EventLongTitle{54th International Colloquium on Automata, Languages, and Programming (ICALP 2027)}
+\EventShortTitle{ICALP 2027}
+\EventAcronym{ICALP}
+\EventYear{2027}
+\EventDate{}
+\EventLocation{}
+\EventLogo{}
+\SeriesVolume{}
+\ArticleNo{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\input{sec/introduction}
+\input{sec/preliminaries}
+\input{sec/strategy}
+\input{sec/witness}
+\input{sec/upper-bound}
+\input{sec/conclusion}
+
+\bibliography{main}
+
+\appendix
+\input{sec/appendix-witness}
+\input{sec/appendix-upper-bound}
+\input{sec/appendix-closure}
+\input{sec/appendix-rel}
+
+\end{document}

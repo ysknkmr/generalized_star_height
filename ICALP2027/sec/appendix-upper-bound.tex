@@ -1,0 +1,60 @@
+\section{Omitted proofs for the period bound}\label{section: appendix: upper bound}
+
+\begin{proof}[Proof of the bounds on $\dg{\term}$ and $\ib{\term}$]
+    By induction on $\term$, with $h \defeq \sh(\term)$.
+    For variables and constants, $\ib{\term} = 0 < 1 = \dg{\term} = \tsize{\term}$.
+    Complement changes nothing.
+    For $\term = \term[1] \union \term[2]$ or $\term[1] \compo \term[2]$:
+    $\dg{\term} = \dg{\term[1]} + \dg{\term[2]} \le (\tsize{\term[1]} + \tsize{\term[2]}) (m+1)^{h} = \tsize{\term} (m+1)^{h}$,
+    and $\ib{\term} = \max(\ib{\term[1]}, \ib{\term[2]})$ is $0$ if $h = 0$ and at most $\max(\tsize{\term[1]}, \tsize{\term[2]}) (m+1)^{h-1} \le \tsize{\term} (m+1)^{h-1}$ otherwise (summands of \kl{star height} $0$ contribute $0$).
+    For $\term = \term[1]^{*}$: $\dg{\term} = (m+1) \dg{\term[1]} \le \tsize{\term[1]} (m+1)^{h}$ and $\ib{\term} = \dg{\term[1]} \le \tsize{\term[1]} (m+1)^{h - 1}$, as $\sh(\term[1]) = h - 1$.
+    Finally, $\ib{\term} \le \dg{\term}$ is preserved by each rule.
+\end{proof}
+
+Throughout the rest of this section, $S_{kl} \subseteq \nat$ ($k, l \in \range{1, m}$) are $P$-periodic from $T$, and $B \defeq T + 2P$.
+Walks, \kl{weights}, and strongly connected components refer to the graph with an edge $k \to l$ iff $S_{kl} \neq \emptyset$.
+An element $s \in S_{kl}$ is \kl{small} if $s \le B$.
+If $s \in S_{kl}$ is not small, let $s' \in \range{T, T + P - 1}$ with $s' \equiv s \pmod P$; by periodicity, $s'$ and $s' + P$ are small elements of $S_{kl}$, and $s = s' + k ((s' + P) - s')$ for some $k \in \nat$.
+\begin{equation}
+    \text{Every } s \in S_{kl} \text{ is an integer combination of small elements of } S_{kl} \text{ with coefficient sum } 1. \label{equation: small elements}
+\end{equation}
+
+\lemmaSmallCycle*
+\begin{proof}
+    Every closed walk decomposes, as a multiset of edges with their chosen elements, into simple cycles, so its \kl{weight} is a sum of \kl{weights} of simple cycles.
+    A simple cycle inside $C$ has length at most $m$.
+    If a chosen element $s$ is not small, write $s = s' + k (s'' - s')$ with small $s', s''$ in the same edge set as in~\eqref{equation: small elements}.
+    Then the \kl{weight} of the cycle equals $\gamma' + k (\gamma'' - \gamma')$, where $\gamma'$ and $\gamma''$ are the \kl{weights} of the same cycle with $s$ replaced by $s'$ and $s''$, respectively.
+    Repeating this for every edge of the cycle shows the first claim.
+    For the second claim, if all closed walks of length at most $m$ with small elements had \kl{weight} $0$, then so would every element of $\cyc{C}$; and such a closed walk has \kl{weight} at most $m B$.
+\end{proof}
+
+\lemmaWalkPeriods*
+\begin{proof}
+    \emph{Decomposition along components.}
+    For a component $C$ and $e, f \in C$, let $W_C(e, f)$ be the set of \kl{weights} of walks from $e$ to $f$ inside $C$ (including the empty walk if $e = f$).
+    Every walk from $i$ to $j$ visits a sequence $C_1, \dots, C_s$ of components along a path of the acyclic component graph ($s \le m$), entering $C_r$ at $e_r$ and leaving it at $f_r$.
+    So the set of \kl{weights} of walks from $i$ to $j$ is the finite union, over such data, of the sums
+    \[W_{C_1}(e_1, f_1) + S_{f_1 e_2} + W_{C_2}(e_2, f_2) + \dots + S_{f_{s-1} e_s} + W_{C_s}(e_s, f_s).\]
+    The edge sets are $\Pi$-periodic from $T$.
+    We show below that each $W_C(e, f)$ is $\Pi$-periodic from $c'_m B^2$.
+    Then, by \Cref{fact: periods}(\ref{fact: periods: sum}) applied to the at most $2m - 1$ summands, each sum, and hence the union, is $\Pi$-periodic from $2m (c'_m B^{2} + \Pi)$.
+
+    \emph{Closed walks at $e$.}
+    Fix $C$ and $e, f \in C$.
+    Let $G_e \subseteq \nat$ be the set of \kl{weights} of closed walks at $e$ inside $C$, including $0$; it is a submonoid of $\nat$, and $G_e \subseteq \cyc{C} \cup \set{0}$.
+    Fix a walk from $f$ to $e$ inside $C$ with small elements, of \kl{weight} $\rho$, and a walk from $e$ to $f$ inside $C$ with small elements, of \kl{weight} $w_0$; then $\rho, w_0 \le m B$.
+    Since $w + \rho \in G_e$ for every $w \in W_C(e, f)$, and $w_0 + G_e \subseteq W_C(e, f)$, we have
+    \begin{equation}
+        w_0 + G_e \subseteq W_C(e, f) \subseteq -\rho + G_e. \label{equation: W sandwich}
+    \end{equation}
+    If $\cyc{C} \subseteq \set{0}$, then $G_e = \set{0}$ and $W_C(e, f) = \set{w_0}$ is $\Pi$-periodic from $m B + 1$.
+    Otherwise, let $g \defeq \gcd(\cyc{C})$, which divides $w_C$ and hence $\Pi$.
+    For a closed walk inside $C$ at a vertex $v$, of \kl{weight} $\gamma$, we can go from $e$ to $v$ and back with small elements, with total \kl{weight} $\pi_v \le 2 m B$; both $\pi_v$ and $\pi_v + \gamma$ lie in $G_e$.
+    Let $A \subseteq G_e \setminus \set{0}$ be the finite set of the non-zero numbers $\pi_v$ and $\pi_v + \gamma$, where $\gamma$ ranges over \kl{weights} of closed walks inside $C$ at $v$ of length at most $m$ with small elements; all elements of $A$ are at most $3 m B$.
+    Then $\gcd(A)$ divides each such $\gamma = (\pi_v + \gamma) - \pi_v$, hence divides $g$ by \Cref{lemma: small cycle}; conversely $g$ divides every element of $G_e$.
+    So $\gcd(A) = g$.
+    By the classical bound on the Frobenius number of numerical semigroups (e.g., $(\min A/g - 1)(\max A/g - 1)$), the monoid generated by $A$, and hence $G_e$, contains every multiple of $g$ that is at least $(3 m B)^{2}$.
+    By~\eqref{equation: W sandwich}, all elements of $W_C(e, f)$ are congruent to $w_0$ modulo $g$, and $W_C(e, f)$ contains every $n \equiv w_0 \pmod g$ with $n \ge m B + (3 m B)^{2}$.
+    Hence $W_C(e, f)$ is $g$-periodic, and thus $\Pi$-periodic, from $c'_m B^{2}$.
+\end{proof}

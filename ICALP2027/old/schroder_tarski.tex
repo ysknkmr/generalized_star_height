@@ -1,0 +1,263 @@
+\newcommand{\CSIG}{A}
+\newcommand{\model}{\mathfrak{A}}
+\newcommand{\struc}{\model}
+\newcommand{\ppmodel}{\ddot{\model}}
+\newcommand{\jump}[1]{[[#1]]}
+\newcommand{\univ}[1]{|#1|}
+\newcommand{\CFG}{\mathfrak{C}}
+\section{From quantifier-free formulas to equations}\label{section: Schroder-Tarski}
+In this section, we show that there is a (polynomial-time) reduction from the \kl{quantifier-free theory} into the \kl{equational theory}, w.r.t.\ $\RSUB$.
+Slightly more generally, we show this characterization for \emph{\kl{submodel-closed}} classes.
+We say that a class $\algclass \subseteq \GREL$ is \intro*\kl{submodel-closed} if for all $\val \in \algclass$ (on a binary relation $U$ on a set $A$) and all non-empty subsets $B \subseteq A$, we have $(\val \restriction B) \in \algclass$.
+By definition, $\RSUB$ is a \kl{submodel-closed} class up to isomorphism.
+Also, $\REL$ and $\GREL$ are \kl{submodel-closed}.
+Additionally, for $\val \in \GREL$ (on a binary relation $U$ on a set $A$),
+we say that a vertex $x \in A$ is \intro*\kl{minimal} on $\val$ if $\tuple{x, y} \in \hat{\val}(\top)$ for all $y \in A$
+and that a vertex $x \in A$ is \intro*\kl{maximal} on $\val$ if $\tuple{y, x} \in \hat{\val}(\top)$ for all $y \in A$.
+In the following lemma, we have that, to check whether a given \kl{equation} is valid, it suffices to check for \kl{minimal} and \kl{maximal} pairs of vertices.
+\begin{lemma}\label{lemma: ORD lr}
+    Let $\algclass \subseteq \GREL$ be \kl{submodel-closed}.
+    For all \kl{terms} $\term[1], \term[2]$, we have:
+    $\algclass \models \term[1] \le \term[2] \  \Leftrightarrow \  \forall \val \in \algclass, \forall l, r \mbox{ s.t.\ $l$ is \kl{minimal} and $r$ is \kl{maximal} on $\val$},\ \tuple{l, r} \not\in \hat{\val}(\term[1]) \setminus \hat{\val}(\term[2])$.
+\end{lemma}
+\begin{proof}
+    ($\Rightarrow$):
+    Trivial.
+    ($\Leftarrow$):
+    We prove the contraposition.
+    Let $\val \in \algclass$ (on a binary relation $U$ on a set $A$), $l$, and $r$ be s.t.\ $\tuple{l, r} \in \hat{\val}(\term[1]) \setminus \hat{\val}(\term[2])$.
+    Let $B \defeq \set{z \in A \mid \tuple{l, z}, \tuple{z, r} \in U}$.
+    % Since $B$ is \kl{$\top$-closed} on $\val$,
+    By letting $\val' \defeq \val \restriction B$,
+    we have $\tuple{l, r} \in \hat{\val}'(\term[1]) \setminus \hat{\val}'(\term[2]) \mathrel{(=} (\hat{\val}(\term[1]) \cap B^2) \setminus (\hat{\val}(\term[2]) \cap B^2))$.
+    Hence, this completes the proof.
+\end{proof}
+
+Next, using \kl{minimal} vertex $l$ and \kl{maximal} vertex $r$, we consider replacing each \kl{inequation} $\term[3] \le \emp$ with $\top \term[3] \top \le \emp$,
+based on that $\val \models \term[3] \le \emp$ iff $\tuple{l, r} \not\in \hat{\val}(\top \term[3] \top)$.
+% \[\val \not\models \term[3] \le \emp$ iff $\hat{\val}(\term[3]) \neq \emptyset$ iff $\tuple{0, n} \in \hat{\val}(\top \term[3] \top)$ iff $\val, 0, n \not\models \top \term[3] \top \le \emp$.
+More generally, for a \kl{quantifier-free formula} $\fml$,
+let $\mathrm{Tr}(\fml)$ be the $\KA_{\set{-}}$ \kl{term} defined by:\footnote{$\mathrm{Tr}(\term[1] = \term[2])$ can be simplified for specific cases, e.g., $\mathrm{Tr}(\term[1] \le \term[2]) = \top (\term[1] \cap \term[2]^{-}) \top$ and $\mathrm{Tr}(\term[1] \le \emp) = \top \term[1] \top$.}
+\begin{align*}
+    \mathrm{Tr}(\term[1] = \term[2]) &\defeq \top ((\term[1] \cap \term[2]^{-}) \union (\term[1]^{-} \cap \term[2])) \top,&
+    \mathrm{Tr}(\fml[1] \land \fml[2]) &\defeq \mathrm{Tr}(\fml[1]) \union \mathrm{Tr}(\fml[2]),&
+    \mathrm{Tr}(\lnot \fml[1]) &\defeq \mathrm{Tr}(\fml[1])^{-}.
+\end{align*}
+(For the case of $\term[1] = \term[2]$, we use the fact $\GREL \models \term[1] = \term[2] \leftrightarrow (\term[1] \cap \term[2]^{-}) \union (\term[1]^{-} \cap \term[2]) \le \emp$.)
+% (We set $\val \models \term[1] = \term[2] \iff \tuple{l, r} \not\in \mathrm{Tr}(\term[1] = \term[2])$)
+We then have the following.
+\begin{lemma}\label{lemma: ORD lr top}
+    Let $\val \in \GREL$, $l$ be a \kl{minimal} vertex on $\val$, and $r$ be a \kl{maximal} vertex on $\val$.
+    For all \kl{quantifier-free formulas} $\fml$ (of $\KA_{\set{-}}$ \kl{terms}), we have:
+    \[\val \models \fml \quad\Leftrightarrow\quad \tuple{l, r} \not\in \hat{\val}(\mathrm{Tr}(\fml)).\]
+\end{lemma}
+\begin{proof}
+    By easy induction on $\fml$.
+    % We distinguish the following forms of $\fml$.
+    Case $(\term[1] = \term[2])$:
+    Let $\term[3] = (\term[1] \cap \term[2]^{-}) \union (\term[1]^{-} \cap \term[2])$.
+    Then
+    $\val \models \term[1] = \term[2]$ iff
+    $\hat{\val}(\term[3]) =  \emptyset$ iff
+    $\tuple{l, r} \not\in \hat{\val}(\top \term[3] \top)$ iff
+    $\tuple{l, r} \not\in \hat{\val}(\mathrm{Tr}(\term[1] = \term[2]))$.
+    Case $\fml[2] \land \fml[3]$:
+    By ($\tuple{l, r} \not\in \hat{\val}(\mathrm{Tr}(\fml[2]))$ and $\tuple{l, r} \not\in \hat{\val}(\mathrm{Tr}(\fml[3]))$) iff $\tuple{l, r} \not\in \hat{\val}(\mathrm{Tr}(\fml[2]) \union \mathrm{Tr}(\fml[3]))$.
+    Case $\lnot \fml[2]$:
+    By (not $\tuple{l, r} \not\in \hat{\val}(\mathrm{Tr}(\fml[2]))$) iff $\tuple{l, r} \not\in \hat{\val}(\mathrm{Tr}(\fml[2])^{-})$.
+\end{proof}
+
+% \begin{proposition}\label{proposition: ORD lr}
+%     Let $n \in \nat$, $\val \in \RSUB$, and $0 \le i \le j \le n$.
+%     Let $\term[1]$ and $\term[2]$ be \kl{terms}.
+%     Then,
+%     \begin{align*}
+%          & \val, i, j \models (\term[1] = \term[2]) \leftrightarrow ((\term[1]^{-} \cap \term[2]) \cup (\term[1] \cap \term[2]^{-}) \le \emp)                                                                                           \\
+%          & \val, i, j \models ((\term[1] \le \emp) \land (\term[2] \le \emp)) \leftrightarrow (\term[1] \cup \term[2] \le \emp)               & \val, i, j \models (\lnot (\term[1] \le \emp)) \leftrightarrow (\term[1]^{-} \le \emp).
+%     \end{align*}
+% \end{proposition}
+% \begin{proof}
+%     By definition.
+% \end{proof}
+
+\newcommand{\cl}{\mathrm{cl}}
+\begin{theorem}\label{theorem: quantifier-free formula to equation on RSUB}
+    Let $\algclass \subseteq \GREL$ be \kl{submodel-closed}.
+    For all \kl{quantifier-free formulas} $\fml$,\hspace{.5em} 
+    \[\algclass \models \fml \quad\Leftrightarrow\quad  \algclass \models \mathrm{Tr}(\fml) \le \emp.\]
+\end{theorem}
+\begin{proof}
+    By \Cref{lemma: ORD lr top,lemma: ORD lr}.
+\end{proof}
+By the reduction of \Cref{theorem: quantifier-free formula to equation on RSUB}, we have the following complexity results.
+\begin{corollary}\label{corollary: quantifier-free theory RSUB KA-}
+    The \kl{quantifier-free theory} w.r.t.\ $\RSUB$ for $\KA_{\set{-}}$ \kl{terms} is in $\Pi^{0}_{1}$.
+\end{corollary}
+\begin{proof}
+    By \Cref{theorem: quantifier-free formula to equation on RSUB} with \Cref{corollary: in Pi01}.
+    (The $\Pi^{0}_{1}$-hardness will be derived from \Cref{theorem: Pi01-complete}.)
+\end{proof}
+\begin{corollary}\label{corollary: equational theory REL/GREL KA}
+    The \kl{equational theory} w.r.t.\ $\REL$/$\GREL$ for $\KA_{\set{-}}$ \kl{terms} is $\Pi^{1}_{1}$-complete.
+\end{corollary}
+\begin{proof}
+    ($\Pi^{1}_{1}$-hard):
+    By \Cref{theorem: quantifier-free formula to equation on RSUB} with that the \kl{Horn theory} of $\KA$ w.r.t.\ $\REL$/$\GREL$ is $\Pi^{1}_{1}$-complete \cite{hardinComplexityHornTheory2003}.
+    (In $\Pi^{1}_{1}$):
+    By the same argument as \cite{hardinComplexityHornTheory2003}.
+\end{proof}
+
+\begin{remark}\label{remark: open}
+    In cotrast to \Cref{corollary: quantifier-free theory RSUB KA-},
+    the authors do not know the complexity of the \kl{quantifier-free theory} (resp.\ \kl{Horn theory}) w.r.t.\ $\LANG$ for $\KA$/$\KA_{\set{-}}$ \kl{terms},
+    cf.\ the \kl{Horn theory} is $\Pi^{1}_{1}$-complete for \emph{$*$-continuous $\KA$} \cite{kozenComplexityReasoningKleene2002} and for $\KA$ w.r.t.\ $\REL$/$\GREL$ \cite{hardinComplexityHornTheory2003}.
+    (E.g., in the proof of \cite{kozenComplexityReasoningKleene2002}, \emph{quotient models} of \kl{the standard language valuation} are used, but they are not in $\LANG$ in general.)
+    \lipicsEnd
+\end{remark}
+
+Also, as a special case of \Cref{theorem: quantifier-free formula to equation on RSUB}, we have the following Hoare hypothesis elimination.
+\begin{corollary}[Hoare hypothesis elimination]\label{corollary: ORD lr Hoare}
+    Let $\algclass \subseteq \GREL$ be \kl{submodel-closed}.
+    For all \kl{terms} $\term[1], \term[2], \term[3]$, we have:
+    \[\algclass \models \term[3] \le \emp \to \term[1] \le \term[2] \quad\Leftrightarrow\quad \algclass \models \term[1] \le \term[2] \union \top \term[3] \top.\]
+\end{corollary}
+\begin{proof}
+    By \Cref{theorem: quantifier-free formula to equation on RSUB} with easy \kl{inequations}, we have:
+    \begin{align*}
+        \algclass \models \term[3] \le \emp \to \term[1] \le \term[2]
+                                                                      & \quad\Leftrightarrow\quad \algclass \models \top (\term[1] \cap \term[2]^{-}) \top \le \top \term[3] \top \tag{By \Cref{theorem: quantifier-free formula to equation on RSUB}}                        \\
+                                                                      & \quad\Leftrightarrow\quad \algclass \models \term[1] \cap \term[2]^{-} \le \top \term[3] \top \tag{$\Rightarrow$:
+                By $\id \le \top$
+                $\Leftarrow$:
+                By $\top \top \le \top$}                                                                                                                                                 \\
+                                                                      & \quad\Leftrightarrow\quad \algclass \models \term[1] \le \term[2] \union \top \term[3] \top.  \tag*{\qedhere}
+    \end{align*}
+\end{proof}
+
+\begin{remark}\label{remark: fail for LANG}
+    \Cref{theorem: quantifier-free formula to equation on RSUB,corollary: ORD lr Hoare} fail w.r.t.\ $\LANG$; for \Cref{corollary: ORD lr Hoare}, for instance, we have:
+    \begin{align*}
+        \LANG &\models x x \le \emp \to x \le \emp, & \LANG \not\models x \le \top x x \top.
+    \end{align*}
+    Hence, to use Hoare hypothesis elimination, it is essential to use $\RSUB$ instead of $\LANG$.
+    \lipicsEnd
+\end{remark}
+
+\begin{remark}\label{remark: Schroder-Tarski}
+    When $\algclass = \REL$, we have $\algclass \models \fml \leftrightarrow \mathrm{Tr}(\fml) \le \emp$ (cf.\ \Cref{theorem: quantifier-free formula to equation on RSUB}) and $\algclass \models (\term[3] \le \emp \to \term[1] \le \term[2]) \leftrightarrow (\term[1] \le \term[2] \union \top \term[3] \top)$ (cf.\ \Cref{corollary: ORD lr Hoare})
+    by the Schr{\"o}der-Tarski translation \cite[XXXII.]{tarskiCalculusRelations1941}\cite[p.\ 390, 391]{givantCalculusRelations2017}.
+    However, they fail in general when $\algclass$ is $\RSUB$ or $\GREL$.
+    For instance, when $\algclass = \RSUB$, $\term[1] = \top$, $\term[2] = \emp$, and $\term[3] = x$,
+    the second above is equivalent to ``$\RSUB \not\models (\lnot x \le \emp) \leftrightarrow \top \le \top x \top$'',
+    but this fails;
+    when $\val \in \RSUB_{1}$ satisfies $\val(x) = \set{\tuple{0, 1}}$,
+    we have $\hat{\val}(\top) = \set{\tuple{0, 0}, \tuple{0, 1}, \tuple{1, 1}}$ but $\hat{\val}(\top x \top) = \set{\tuple{0, 1}}$.
+    This is why we go via ``$\tuple{l, r} \not\in \hat{\val}(\bl)$''.
+    \lipicsEnd
+\end{remark}
+
+\begin{remark}
+We say that a class $\algclass \subseteq \GREL$ is \intro*\kl{$\top$-submodel-closed} if, for all $\val \in \algclass$ (on a binary relation $U$ on a set $A$) and all \kl{$\top$-closed} non-empty subsets $B \subseteq A$, we have $(\val \restriction B) \in \algclass$.
+By definition, if $\algclass$ is \kl{submodel-closed}, thne $\algclass$ is \kl{$\top$-submodel-closed}.
+\Cref{lemma: ORD lr}, \Cref{theorem: quantifier-free formula to equation on RSUB}, and \Cref{corollary: ORD lr Hoare} can be straight-forwardly generalized for \kl{$\top$-submodel-closed} classes.
+\lipicsEnd
+\end{remark}
+
+\subsection{Undecidability via Hoare hypothesis elimination}\label{section: undecidability}
+Using Hoare hypothesis elimination w.r.t.\ $\RSUB$ (\Cref{corollary: ORD lr Hoare}) (see also \Cref{remark: fail for LANG}), we show the undecidability of the \kl{equational theory} w.r.t.\ $\LANG$.
+The proof can be obtained by the same argument as \cite[Lem.\ 47]{nakamuraExistentialCalculiRelations2023} by replacing $\REL$ with $\RSUB$.
+
+A \intro*\kl{context-free grammar} (\kl{CFG}) $\CFG$ over a finite set $\CSIG$ is a tuple $\tuple{X, \mathcal{R}, s}$, where
+\begin{itemize}
+    \item $X$ is a finite set of \intro*\kl{non-terminal labels} s.t.\ $\CSIG \cap X = \emptyset$,
+    \item $\mathcal{R}$ is a finite set of \intro*\kl{rewriting rules} $x \leftarrow \word[1]$ of $x \in X$ and $\word[1] \in (\CSIG \cup X)^*$,
+    \item $s \in X$ is the \intro*\kl{start label}.
+\end{itemize}
+The relation $x \vdash_{\CFG} \word[1]$, where $x \in X$ and $\word[1] \in \CSIG^*$, is defined as the minimal relation closed under the following rule:
+for all $n \in \nat$, $x, x_1, \dots, x_n \in X$ and $\word[1]_0, \dots, \word[1]_n, \word[2]_1, \dots, \word[2]_n \in \CSIG^*$, if $x \leftarrow \word[1]_0 x_1 \word[1]_1 \dots x_n \word[1]_n \in \mathcal{R}$, then $\begin{prooftree}
+        \hypo{x_1 \vdash_{\CFG} \word[2]_1}
+        \hypo{\dots}
+        \hypo{x_n \vdash_{\CFG} \word[2]_n}
+        \infer3{x \vdash_{\CFG} \word[1]_0 \word[2]_1 \word[1]_1 \dots \word[2]_n \word[1]_n}
+    \end{prooftree}$.
+The \emph{language} $\ljump{\CFG}$ is defined by $\ljump{\CFG} \defeq \set{w \in \CSIG^* \mid s \vdash_{\CFG} w}$.
+% We write $\ljump{\CFG}$ for the \emph{language} of $\CFG$.
+It is well-known that the \intro*\kl{universality problem} for \kl{CFGs}---given a \kl{CFG} $\CFG$, does $\ljump{\CFG} = \CSIG^*$ hold?---is $\Pi_{1}^{0}$-complete.
+We can naturally encode this problem by the \kl{quantifier-free theory} w.r.t.\ $\RSUB$ as follows.
+% For instance, if a given \kl{CFG} $\CFG$ over the alphabet $\set{a, b}$ consist of the two rules $s \leftarrow a s b$ and $s \leftarrow \id$
+% where $s$ is the initial non-terminal label, then
+% the \kl{language} of $\CFG$ is universal iff $\RSUB \models (a s b \le s \land \id \le s) \to (a \union b)^* \le s$.
+% More generally, we have the following.
+\begin{lemma}\label{lemma: CFG and LANG}
+    Let $\CFG = \tuple{X, \mathcal{R}, s}$ be a \kl{CFG} over a finite set $\CSIG = \set{a_1, \dots, a_n}$.
+    Then,
+    \[\ljump{\CFG} = \CSIG^* \quad\Leftrightarrow\quad \RSUB \models (\bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x) \to ((\sum_{i = 1}^{n} a_i)^* \le s).\]
+\end{lemma}
+\begin{proof}
+    By \cite[Lem.\ 47]{nakamuraExistentialCalculiRelations2023} with replacing $\REL$ with $\RSUB$, because the \kl{valuations} used in the proof are of the form of $\RSUB$ and the operators $\top$ and $\bl^{-}$ do not occur in the \kl{formula}.
+    \ifiscameraready
+    (See a full version \cite{nakamuraFiniteRelationalSemantics2024} for an explicit proof.)
+    \else
+    (See \Cref{section: proofs in undecidability} for an explicit proof.)
+    \fi
+    % (This lemma can also be shown by considering the least $s$ satisfying $\bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x$.)
+\end{proof}
+\begin{theorem}\label{theorem: Pi01-complete}
+    The \kl{equational theory w.r.t.\ languages} is $\Pi^{0}_{1}$-complete for $\KAtermclass_{\set{\com{x}, \cap}}$.
+\end{theorem}
+\begin{proof}
+    (in $\Pi^{0}_{1}$):
+    By \Cref{corollary: in Pi01}.
+    ($\Pi^{0}_{1}$-hard):
+    Let $\CFG = \tuple{X, \set{x_i \leftarrow \word_i \mid i \in \range{1, m}}, s}$ be a \kl{CFG} over a finite set $\CSIG = \set{a_1, \dots, a_n}$.
+    Based on $(\bigwedge_{i = 1}^{m} w_i \le x_i) \leftrightarrow (\sum_{i = 1}^{m} w_i \cap \com{x}_i \le \emp)$,
+    by applying the Hoare hypothesis elimination (\Cref{corollary: ORD lr Hoare}) to \Cref{lemma: CFG and LANG},
+    we have:
+    $\ljump{\CFG} = \CSIG^*$ iff $\RSUB \models (\sum_{i = 1}^{n} a_i)^* \le s \union \top (\sum_{i = 1}^{m} w_i \cap \com{x}_i) \top$.
+    Thus, we can give a reduction from the \kl{universality problem} of \kl{CFGs}.
+    % By \Cref{lemma: CFG and LANG} with \Cref{theorem: LANG and ORD,theorem: quantifier-free formula to equation on RSUB}, 
+    % we can reduce the universality problem of \kl{CFGs} into the \kl{equational theory w.r.t.\ languages}.
+\end{proof}
+Moreover, by the following fact, we can eliminate \kl{Kleene-star} from \Cref{lemma: CFG and LANG}.
+\begin{proposition}\label{proposition: star to top}
+    $\RSUB \models \com{\id} = x \top \to x^* = \top$.
+\end{proposition}
+\begin{proof}
+    Let $n \in \nat$ and $\val \in \RSUB_{n}$.
+    Let $i \in \range{1, n}$ be arbitrary.
+    By $\tuple{i-1, i-1} \not\in \hat{\val}(\com{\id}) = \hat{\val}(x \top)$, we have $\tuple{i-1, i-1} \not\in \hat{\val}(x)$.
+    By $\tuple{i-1, i} \in \hat{\val}(\com{\id}) = \hat{\val}(x \top)$, we have $\tuple{i-1, i} \in \hat{\val}(x)$ (by $\tuple{i-1, i-1} \not\in \hat{\val}(x)$).
+    Thus, we have $\hat{\val}(x^*) = \set{\tuple{i, j} \mid 0 \le i \le j \le n} = \hat{\val}(\top)$.
+\end{proof}
+\begin{lemma}\label{lemma: CFG and LANG star-free}
+    Let $\CFG = \tuple{X, \mathcal{R}, s}$ be a \kl{CFG} over a finite set $\CSIG = \set{a_1, \dots, a_n}$.
+    Then,
+    \[\ljump{\CFG} = \CSIG^* \quad\Leftrightarrow\quad \RSUB \models  (\com{\id} = (\sum_{i = 1}^{n} a_i) \top \land \bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x) \to (\top \le s).\]
+\end{lemma}
+\begin{proof}[Proof Sketch]
+    By the same argument as \Cref{lemma: CFG and LANG} with replacing $(\sum_{i = 1}^{n} a_i)^*$ with $\top$ using \Cref{proposition: star to top}
+    \ifiscameraready
+    (see \cite{nakamuraFiniteRelationalSemantics2024}, for a detail).
+    \else
+    (see \Cref{section: lemma: CFG and LANG star-free}, for a detail).
+    \fi
+\end{proof}
+Hence, the undecidability above still holds even without \kl{Kleene-star}.
+\begin{theorem}\label{theorem: Pi01-complete star-free restated}
+    The \kl{equational theory w.r.t.\ languages} is $\Pi^{0}_{1}$-complete for $\KAtermclass_{\set{-}}$ without \kl{Kleene-star}.
+\end{theorem}
+\begin{proof}
+    By the same way as \Cref{theorem: Pi01-complete} using \Cref{lemma: CFG and LANG star-free} instead of with \Cref{lemma: CFG and LANG}.
+\end{proof}
+
+\begin{remark}\label{remark: Trakhtenbrot}
+    \Cref{theorem: Pi01-complete star-free restated} is close to Trakhtenbrot's theorem \cite{trakhtenbrotImpossibilityAlgorithmDecision1950} in first-order logic.
+    By a similar \kl{Kleene-star} elimination via an encoding of connectivity in finite models \cite[p.\ 30]{ebbinghausFiniteModelTheory1995},
+    we can also give a reduction from the universality problem of \kl{CFGs} into the theory of the finite validity problem of first-order logic (resp.\ the calculus of relations).
+    \ifiscameraready
+    (See \cite{nakamuraFiniteRelationalSemantics2024}, for a detail.)
+    \else
+    (See \Cref{section: remark: Trakhtenbrot}, for a detail.)
+    \fi
+    \lipicsEnd
+\end{remark}

@@ -1,0 +1,42 @@
+\section{Pathwidth one}\label{section: pathwidth one}
+
+\begin{lemma}\label{lemma: pathwidth one pairs}
+  Let $\A$ be a valuation with $\pw(\A) \le 1$.
+  Then every input pair $(x, y)$ satisfies $x = y$ or $y = \succrel(x)$.
+\end{lemma}
+\begin{proof}
+  Suppose $x < y$ and $y \ne \succrel(x)$.
+  Then the successor path from $x$ to $y$ together with the edge $\set{x, y}$ is a cycle in $\Gaif(\A)$.
+  So $\Gaif(\A)$ is not a forest and has pathwidth at least two.
+\end{proof}
+
+\begin{proposition}\label{proposition: pathwidth one}
+  Let $\Kt' \defeq \vb \inter ((\id \inter \vc) \compo \Dt)$ and $\Nt' \defeq \vb \setminus \Kt'$.
+  Let $\Psit'$ be $\Psit$ with $\Kt, \Nt$ replaced by $\Kt', \Nt'$.
+  Then $\sh(\Psit') = 1$, and $\Psit'$ is equivalent to $\Psit$ on $\Cls{1}$.
+  In particular, $\gsh{\Cls{1}}(\Psit) \le 1$.
+\end{proposition}
+\begin{proof}
+  It suffices to show $\Kt = \Kt'$ on every valuation $\A$ of pathwidth at most one.
+  Both relations are contained in $\vb$ and are empty on the diagonal, since $(\cdots) \compo \Dt$ never holds at $(x, x)$.
+  Let $\vb(x, y)$ with $x < y$.
+  By \Cref{lemma: pathwidth one pairs}, $y = \succrel(x)$.
+  So the only $z$ with $x \le z < y$ is $z = x$.
+  Since $(\vr \compo \vr)^{*}(x, x)$ always holds, both $\Kt(x, y)$ and $\Kt'(x, y)$ are equivalent to $\vc(x, x)$.
+\end{proof}
+
+For strict valuations, $\Kt'$ is empty and $\Psit$ is equivalent on $\Cls{1}$ to $\bigl((\St^{2} \compo \vb \compo \St) \union (\St \compo \vb \compo \St^{2})\bigr)^{*}$.
+Together with \Cref{theorem: lower bound}, the least pathwidth at which $\Psit$ needs star height two is exactly two.
+
+\begin{remark}[Pathwidth one and words]\label{remark: pathwidth one words}
+  By \Cref{lemma: pathwidth one pairs}, a valuation $\A \in \Cls{1}$ on $x_0 < \dots < x_n$ is given by two pieces of data.
+  The first is the word $a_1 \cdots a_n$ over the alphabet $2^{\set{\vr, \vc, \vb}}$, where $a_k$ is the set of variables containing $(x_{k-1}, x_k)$.
+  The second is the set of variables containing the diagonal.
+  For each choice of the second datum, the following translations preserve the star height.
+  A term then defines a regular language over $2^{\set{\vr, \vc, \vb}}$.
+  Conversely, a regular expression with complement over this alphabet translates back into a term.
+  For this, each letter $a$ becomes $\St \inter \bigcap_{o \in a} o \inter \bigcap_{o \notin a} \com{o}$, and the diagonal datum is tested by star-free terms such as $(\id \inter o) \compo \topr$.
+  So the question whether heights one and two separate on $\Cls{1}$ is closely related to the generalized star-height problem for regular languages~\cite{pinResultsGeneralizedStarheight1992}.
+  We do not work out the details of this correspondence here.
+  % TODO: check whether to state the exact equivalence.
+\end{remark}

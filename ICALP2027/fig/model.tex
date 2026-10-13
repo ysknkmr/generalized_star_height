@@ -1,0 +1,44 @@
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[
+            pt/.style={circle, fill=black, inner sep=1.1pt},
+            earrow/.style={-{Latex[length=1.6mm, width=1.3mm]}},
+            >={Latex[length=1.6mm]},
+        ]
+        \def\dx{1.25}
+        \def\dy{.62}
+        % points
+        \foreach \t in {0,...,8} {
+                \foreach \i in {1,2,3} {
+                        \node[pt] (p\t-\i) at (\t*\dx, -\i*\dy) {};
+                    }
+                \node[font=\scriptsize] at (\t*\dx, -3.75*\dy) {$\t$};
+            }
+        \node[font=\scriptsize, anchor=east] at (-.35, -3.75*\dy) {time};
+        \foreach \i in {1,2,3} {
+                \node[font=\scriptsize, anchor=east] at (-.35, -\i*\dy) {phase $\i$};
+            }
+        % z edges
+        \foreach \t [evaluate=\t as \s using int(\t+1)] in {0,...,7} {
+                \foreach \i in {1,2,3} {
+                        \draw[earrow, cBlue] (p\t-\i) -- (p\s-\i);
+                    }
+            }
+        % c edges (only between time 1 and 2, for readability)
+        \foreach \i in {1,2,3} {
+                \foreach \j in {1,2,3} {
+                        \draw[earrow, cGrey, thin] (p1-\i) -- (p2-\j);
+                    }
+            }
+        % x edge in phase 1 and y edge in phase 2
+        \draw[earrow, cRed, thick] (p0-1) to[bend left=22] node[above, font=\scriptsize] {$x$: $+(a + p i)$} (p7-1);
+        \draw[earrow, cGreen!70!black, thick] (p3-3) to[bend right=22] node[below, font=\scriptsize] {$y$: $+(p i - 2)$} (p8-3);
+        \node[font=\scriptsize, cBlue] at (5.5*\dx, -1.5*\dy) {$z$};
+        \node[font=\scriptsize, cGrey!70!black] at (1.5*\dx, -.35*\dy) {$c$};
+    \end{tikzpicture}
+    \caption{The \kl{chain model} $\Mod{a}$ for $m = 3$ (schematic; edge lengths are not to scale).
+        Points are ordered lexicographically by \kl{time} and \kl{phase}.
+        $z$ relates points of the same \kl{phase} with non-negative time difference (only steps of length $1$ are drawn), and $c$ moves one time step between arbitrary \kl{phases} (shown only between times $1$ and $2$).
+        $x$ and $y$ jump within the \kl{phase} $i$ by $a + p i$ and $p i - 2$ time steps, respectively.}
+    \label{figure: model}
+\end{figure}

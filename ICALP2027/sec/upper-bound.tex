@@ -1,0 +1,125 @@
+\section{Periods of terms of bounded star height}\label{section: upper bound}
+
+In this section we prove \Cref{proposition: periods}.
+\AP Let $\intro*\dom_{ij} \defeq \nat$ if $i \le j$ and $\dom_{ij} \defeq \pnat$ if $j < i$; these are the possible time differences from \kl{phase} $i$ to \kl{phase} $j$.
+
+\subparagraph*{Parametric Presburger arithmetic.}
+\AP Following~\cite{bogartParametricPresburgerArithmetic2017}, a \intro{parametric Presburger family} is a family $(S_a)_{a \in \nat}$ of sets $S_a \subseteq \inte^{k}$ defined by a first-order formula over $(\inte, +, \le)$ in which a variable may be multiplied by a polynomial in the parameter $a$ (but two variables may not be multiplied, and $a$ is not quantified).
+\AP A function $g \colon \nat \to \inte$ is a \intro{quasi-polynomial} if there are $M \in \pnat$ and $g_0, \dots, g_{M-1} \in \rat[a]$ with $g(a) = g_{r}(a)$ for all large $a \equiv r \pmod M$.
+\begin{theorem}[{\cite[Thm.~1.15, Cor.~1.16]{bogartParametricPresburgerArithmetic2017}}]\label{theorem: BGW}
+    If $(S_a)_a$ is a \kl{parametric Presburger family} with $S_a \subseteq \nat$, then $\set{a \mid S_a \neq \emptyset}$ is \kl{ultimately periodic}, and $a \mapsto \min S_a$ agrees with a \kl{quasi-polynomial} whenever $S_a \neq \emptyset$.
+\end{theorem}
+
+\subparagraph*{The inductive claim.}
+\AP We define $\intro*\dg{\term} \in \pnat$ and $\intro*\ib{\term} \in \nat$ by induction on $\term$ as in \Cref{table: invariants}; by induction, $\ib{\term} \le \tsize{\term} (m+1)^{\sh(\term) - 1}$ if $\sh(\term) \ge 1$ and $\ib{\term} = 0$ otherwise.
+\input{fig/invariants}
+\Cref{proposition: periods} follows from the following stronger claim (with $\beta \ge \ib{\term}$).
+\begin{claim}\label{claim: tame}
+    For every \kl{term} $\term$:
+    \begin{enumerate}
+        \item\label{claim: tame: presburger} each $(\dset{\term}{i}{j}(a))_{a}$ is a \kl{parametric Presburger family}; and
+        \item\label{claim: tame: period} there are $M \in \pnat$, $C \in \nat$, and, for each residue $r$ modulo $M$, a polynomial $P_r \in \rat[a]$ of degree at most $\dg{\term}$ whose irreducible factors have degree at most $\ib{\term}$, such that for all large $a \equiv r \pmod M$, every $\dset{\term}{i}{j}(a)$ is $P_r(a)$-periodic from $C a^{\dg{\term}}$.
+    \end{enumerate}
+\end{claim}
+Item~\ref{claim: tame: presburger} and the polynomial bound on the \kl{preperiod} are only needed to keep the induction going.
+
+\subsection{Proof of the claim}\label{section: upper bound proof}
+We proceed by induction on $\term$.
+Refining residue classes is harmless: if $\term$ satisfies \cref{claim: tame: period} with modulus $M$, it does so with any multiple of $M$.
+So, when combining finitely many \kl{terms}, we may assume that they share the modulus, and we fix one residue class $r$.
+\AP For a \kl{term} $\term[1]$, we write $\intro*\per{\term[1]}$ for its period polynomial on this class, and $\intro*\thr{\term[1]}(a) \defeq C a^{\dg{\term[1]}}$ for its \kl{preperiod}.
+Since a polynomial of degree at most $d$ is $O(a^{d})$, we freely absorb sums and products of such bounds into $C a^{d}$.
+
+\subparagraph*{Variables and constants.}
+Each \kl{difference set} is $\emptyset$, $\set{0}$, $\set{1}$, $\set{p i - 2}$, $\set{a + p i}$, or $\nat$ (for $z$).
+Each is clearly a \kl{parametric Presburger family} and is $1$-periodic from $a + p m + 1 = O(a)$.
+So we can take $\per{\term} = 1$, which is consistent with $\dg{\term} = 1$ and $\ib{\term} = 0$.
+
+\subparagraph*{Complement and union.}
+We have $\dset{\com{\term[1]}}{i}{j}(a) = \dom_{ij} \setminus \dset{\term[1]}{i}{j}(a)$, and $\dom_{ij}$ is $1$-periodic from $1$.
+Hence $\per{\term[1]}$ remains an \kl{period}, with \kl{preperiod} $\thr{\term[1]}(a) + 1$.
+For union, $\dset{\term[1] \union \term[2]}{i}{j}(a) = \dset{\term[1]}{i}{j}(a) \cup \dset{\term[2]}{i}{j}(a)$ is $\per{\term[1]}(a)\per{\term[2]}(a)$-periodic from $\max(\thr{\term[1]}(a), \thr{\term[2]}(a))$.
+Definability is preserved in both cases.
+
+\subparagraph*{Composition.}
+By~\eqref{equation: shift}, the intermediate point of a composition can be in any \kl{phase} $k$:
+\[\dset{\term[1] \compo \term[2]}{i}{j}(a) = \bigcup_{k = 1}^{m} \left(\dset{\term[1]}{i}{k}(a) + \dset{\term[2]}{k}{j}(a)\right).\]
+(The order constraints on the intermediate point are already encoded in the \kl{difference sets}.)
+This is again a \kl{parametric Presburger family}.
+Let $P \defeq \per{\term[1]} \per{\term[2]}$.
+All sets on the right-hand side are $P(a)$-periodic, so by \Cref{fact: periods}(\ref{fact: periods: sum}) the union is $P(a)$-periodic from $\thr{\term[1]}(a) + \thr{\term[2]}(a) + P(a) = O(a^{\dg{\term[1]} + \dg{\term[2]}})$.
+We stress that a \emph{single} period polynomial is used for all pairs of \kl{phases}; therefore the union over the intermediate \kl{phases} does not increase the degree of the period polynomial further.
+
+\subparagraph*{Kleene star.}
+This is the only case where new irreducible factors appear.
+Let $F$ satisfy \Cref{claim: tame}, with $d \defeq \dg{F}$, $b \defeq \ib{F} \le d$, period $\per{F}$ and \kl{preperiod} $\thr{F}$ on our residue class.
+\AP The \intro{phase graph} of $F$ at $a$ has vertex set $\range{1, m}$, an edge $k \to l$ iff $S_{kl}(a) \defeq \dset{F}{k}{l}(a) \neq \emptyset$, and edge weight sets $S_{kl}(a)$.
+\AP A walk $k_0 \to k_1 \to \dots \to k_{\ell}$ has \intro{weight} $s_1 + \dots + s_{\ell}$ for any choice of $s_{e} \in S_{k_{e-1} k_{e}}(a)$.
+Since $F^{*}$ is the reflexive transitive closure, \eqref{equation: shift} gives
+\begin{equation}
+    \dset{F^{*}}{i}{j}(a) = \set{\text{\kl{weights} of walks from } i \text{ to } j \text{ in the \kl{phase graph} of } F \text{ at } a}. \label{equation: star walks}
+\end{equation}
+\AP For a strongly connected component $C$ of the \kl{phase graph}, let $\intro*\cyc{C}(a) \subseteq \nat$ be the set of \kl{weights} of closed walks of positive length inside $C$.
+\AP We call an element of an edge set \intro{small} if it is at most $B \defeq \thr{F} + 2 \per{F}$.
+\begin{restatable}{lemma}{lemmaSmallCycle}\label{lemma: small cycle}
+    Let $S_{kl} \subseteq \nat$ be $P$-periodic from $T$, and let $B \defeq T + 2P$.
+    For every strongly connected component $C$, every element of $\cyc{C}$ is an integer linear combination of \kl{weights} of closed walks inside $C$ of length at most $m$ all of whose chosen elements are at most $B$.
+    In particular, if $\cyc{C} \not\subseteq \set{0}$, then $C$ has a closed walk of length at most $m$ whose \kl{weight} lies in $\range{1, m B}$.
+\end{restatable}
+
+\proofstep{Step 1: cycle weights.}
+For each strongly connected component $C$, the family of \kl{weights} of closed walks of length between $1$ and $m$ inside $C$ is a finite union of sums of the families $S_{kl}$, hence a \kl{parametric Presburger family}.
+By \Cref{theorem: BGW}, after refining the modulus, on our residue class (for large $a$) the \kl{phase graph} does not depend on $a$, the condition $\cyc{C}(a) \not\subseteq \set{0}$ does not depend on $a$ (by \Cref{lemma: small cycle}), and
+\[\intro*\cyw{C}(a) \defeq \min \set{w \ge 1 \mid w \text{ is the \kl{weight} of a closed walk inside } C \text{ of length at most } m}\]
+is a polynomial in $a$ for each $C$ with $\cyc{C}(a) \not\subseteq \set{0}$.
+By \Cref{lemma: small cycle}, $\cyw{C}(a) \le m B(a) = O(a^{d})$, hence $\deg \cyw{C} \le d$.
+We let
+\[\per{F^{*}} \defeq \per{F} \cdot \prod_{C \,:\, \cyc{C} \not\subseteq \set{0}} \cyw{C}.\]
+There are at most $m$ components, so $\deg \per{F^{*}} \le (m + 1) d$, and every irreducible factor of $\per{F^{*}}$ divides $\per{F}$ or some $\cyw{C}$, so it has degree at most $d$.
+
+\proofstep{Step 2: periodicity of walk weights.}
+\begin{restatable}{lemma}{lemmaWalkPeriods}\label{lemma: walk periods}
+    Let $S_{kl} \subseteq \nat$ ($k, l \in \range{1, m}$) be $P$-periodic from $T$, and let $B \defeq T + 2P$.
+    For each strongly connected component $C$ with $\cyc{C} \not\subseteq \set{0}$, let $w_C \in \cyc{C} \setminus \set{0}$, and let $\Pi \defeq P \prod_C w_C$.
+    Then for all $i, j$, the set of \kl{weights} of walks from $i$ to $j$ is $\Pi$-periodic from $c_m (B^{2} + \Pi)$, where $c_m$ depends only on $m$.
+\end{restatable}
+The idea of the proof (\Cref{section: appendix: upper bound}) is as follows.
+A walk passes through a sequence of strongly connected components, so its \kl{weight} set is a finite union of sums of edge sets and of the sets of \kl{weights} of walks from $e$ to $f$ inside a component $C$.
+The closed walks at $e$ inside $C$ form a submonoid of $\nat$ whose gcd $g_C$ divides $w_C$.
+By \Cref{lemma: small cycle}, this monoid contains a set of elements of size $O(m B)$ with gcd $g_C$, so a Frobenius-type bound shows that it contains all multiples of $g_C$ from $O(B^2)$ on.
+Hence the walks from $e$ to $f$ inside $C$ realize, from $O(B^2)$ on, exactly one residue class modulo $g_C$.
+Finally, \Cref{fact: periods}(\ref{fact: periods: sum}) combines the at most $2m$ summands.
+
+Applied with $P = \per{F}(a)$, $T = \thr{F}(a)$, and $w_C = \cyw{C}(a)$, \Cref{lemma: walk periods} shows that $\dset{F^{*}}{i}{j}(a)$ is $\per{F^{*}}(a)$-periodic from $O(a^{2d} + a^{(m+1) d}) = O(a^{(m+1) d})$.
+
+\proofstep{Step 3: definability.}
+It remains to show that $(\dset{F^{*}}{i}{j}(a))_{a}$ is a \kl{parametric Presburger family}.
+Kleene star is not available in parametric Presburger arithmetic, and quasi-polynomiality of optima alone does not imply this closure property.
+By~\eqref{equation: star walks}, it follows from the next lemma, whose hypotheses are exactly provided by \Cref{claim: tame} for $F$.
+\begin{restatable}[Closure lemma]{lemma}{lemmaClosure}\label{lemma: closure}
+    Let $(S_{kl}(a))_{a}$ for $k, l \in \range{1, m}$ be \kl{parametric Presburger families} of subsets of $\nat$.
+    Assume there are $M \in \pnat$ and, for each residue $r$ modulo $M$, polynomials $P_r, T_r \in \rat[a]$ such that for all sufficiently large $a \equiv r \pmod M$, every $S_{kl}(a)$ is $P_r(a)$-periodic from $T_r(a)$.
+    Then for all $i, j$, the family of the sets of \kl{weights} of walks from $i$ to $j$ (with edge weight sets $S_{kl}(a)$) is a \kl{parametric Presburger family}.
+\end{restatable}
+We sketch the proof; the details are in \Cref{section: appendix: closure}.
+\begin{itemize}
+    \item \emph{Bounded sets have a simplex normal form.}
+          Let $(X_a)_a$ be a \kl{parametric Presburger family} with $X_a \subseteq \range{0, C a^{D}}$.
+          Using the normalization to polynomially bounded quantifiers~\cite[Thm.~3.7]{bogartParametricPresburgerArithmetic2017} and writing every variable in base $a$ (cf.~\cite[Sect.~4.3]{bogartParametricPresburgerArithmetic2017}),
+          the set of pairs $(a, \text{digits of } n)$ with $n \in X_a$ becomes definable in ordinary Presburger arithmetic, hence semilinear~\cite{ginsburgSemigroupsPresburgerFormulas1966}.
+          Since digits are smaller than $a$, every period vector of this semilinear set increases the $a$-coordinate.
+          This yields that, for large $a$, $X_a$ is a finite union of sets of the form
+          \begin{equation}
+              A(a) + \set*{\textstyle\sum_{j} \lambda_j W_j(a) \mid \lambda \in \nat^{J},\ \sum_{j} \lambda_{j} = K(a)}, \label{equation: simplex}
+          \end{equation}
+          where $A, W_j \in \inte[a]$ and $K$ is an affine function of $a$.
+    \item \emph{Iterated sums stay Presburger.}
+          The sum of $k$ elements of the set~\eqref{equation: simplex} is exactly $k A(a) + \set{\sum_{j} \lambda_j W_j(a) \mid \sum_{j} \lambda_j = k K(a)}$, since a vector with coordinate sum $k K(a)$ splits into $k$ vectors with coordinate sum $K(a)$.
+          Here only products of a polynomial in $a$ and a variable occur.
+    \item \emph{Walks.}
+          Each edge set splits into a bounded part below $T_r(a)$ and a tail (one window of length $P_r(a)$, shifted by $P_r(a) \nat$).
+          The vectors counting how often each part of each edge is used along walks from $i$ to $j$ form the Parikh image of a regular language, which is semilinear~\cite{parikhContextFreeLanguages1966}.
+          Combining it with the previous item gives a parametric Presburger definition of the walk weights.
+\end{itemize}
+This completes the Kleene star case.
+The resulting bounds are $\dg{F^{*}} = (m+1) d$ and $\ib{F^{*}} = d$, as in \Cref{table: invariants}, which proves \Cref{claim: tame}. \qed

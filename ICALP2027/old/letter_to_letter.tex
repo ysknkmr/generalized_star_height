@@ -1,0 +1,51 @@
+% \section{Proof of \Cref{proposition: letter-to-letter valuations}}\label{section: proposition: letter-to-letter valuations}
+% (The following proof is almost the same as \cite[Lem.\ 23]{nakamuraWordstoLettersValuationsLanguage2023} except that we consider \kl{letters-to-letters valuations} instead of \kl{words-to-letters valuations}.)
+% \begin{proof}[Proof of \Cref{proposition: letter-to-letter valuations}]
+%        By easy induction on $\term$.
+
+%        Case $\term = x$:
+%        By the definition of $\val^{\tuple{a_0, \dots, a_{n-1}}}$,
+%        we have
+%        $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(x) \Leftrightarrow a_{i}\dots a_{j-1} \in \hat{\val}(x)$.
+
+%        Case $\term = \emp$:
+%        By $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\emp) \Leftrightarrow \const{False} \Leftrightarrow  a_{i} \dots a_{j-1} \in \hat{\val}(\emp)$.
+
+%        Case $\term = \id$:
+%        By $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\id) \Leftrightarrow i = j \Leftrightarrow  a_{i} \dots a_{j-1} \in \hat{\val}(\id)$.
+
+%        Case $\term = \term[2] \union \term[3]$:
+%        By IH, we have
+%        $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2] \union \term[3])$
+%        $\Leftrightarrow$ $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]) \lor \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[3])$
+%        $\Leftrightarrow$ $a_{i} \dots a_{j-1} \in \hat{\val}(\term[2]) \lor a_{i} \dots a_{j-1} \in \hat{\val}(\term[3])$
+%        $\Leftrightarrow$ $a_{i} \dots a_{j-1} \in \hat{\val}(\term[2] \union \term[3])$.
+
+%        Case $\term = \term[2]^{\compl}$:
+%        By IH, we have
+%        $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]^{\compl})$
+%        $\Leftrightarrow$ $\ell_{i} \dots \ell_{j-1} \not\in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2])$
+%        $\Leftrightarrow$ $a_{i} \dots a_{j-1} \not\in \hat{\val}(\term[2])$
+%        $\Leftrightarrow$ $a_{i} \dots a_{j-1} \in \hat{\val}(\term[2]^{\compl})$.
+
+%        Case $\term = \term[2] \compo \term[3]$:
+%        We have
+%        \begin{align*}
+%                & \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2] \compo \term[3])                                                                                                                                                        \\
+%                & \Leftrightarrow \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]) \compo \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[3]) \tag{By the definition of $\hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}$ and that $\ell_i \dots \ell_{j-1}$ is a subword of $\ell_{0} \dots \ell_{n-1}$}              \\
+%                & \Leftrightarrow \bigvee_{i \le k \le j} (\ell_{i} \dots \ell_{k-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]) \land \ell_{k} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[3])) \tag{By \kl{concatenation}}               \\
+%                & \Leftrightarrow \bigvee_{i \le k \le j} (a_{i} \dots a_{k-1} \in \hat{\val}(\term[2]) \land a_{k} \dots a_{j-1} \in \hat{\val}(\term[3])) \tag{IH}                                                                                                  \\
+%                & \Leftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2] \compo \term[3]). \tag{By \kl{concatenation}}
+%        \end{align*}
+%        (Note that the last equivalence holds thanks to that $a_{i}, \dots, a_{j-1}$ are \kl{letters} not \kl{words}, cf.\ \cite[Lem.\ 23]{nakamuraWordstoLettersValuationsLanguage2023}.)
+
+%        Case $\term = \term[2]^{\kstar}$:
+%        We have
+%        \begin{align*}
+%                & \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]^{\kstar})                                                                                                                                       \\
+%                & \Leftrightarrow \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2])^{\kstar}  \tag{By the definition of $\hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}$ and that $\ell_i \dots \ell_{j-1}$ is a \kl{subword} of $\ell_{0} \dots \ell_{n-1}$}                                      \\
+%                & \Leftrightarrow \exists m \in \nat, \bigvee_{i = k_0 \le k_1 \le \dots \le k_m = j} \bigwedge_{l = 1}^{m} (\ell_{k_{(l-1)}} \dots \ell_{k_{l}-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]))  \tag{By \kl{Kleene-star}} \\
+%                & \Leftrightarrow \exists m \in \nat, \bigvee_{i = k_0 \le k_1 \le \dots \le k_m = j} \bigwedge_{l = 1}^{m} (a_{k_{(l-1)}} \dots a_{k_{l}-1} \in \hat{\val}(\term[2])) \tag{IH}                                                 \\
+%                & \Leftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2]^{\kstar}).  \tag*{(By \kl{Kleene-star}) \qedhere}
+%        \end{align*}
+% \end{proof}

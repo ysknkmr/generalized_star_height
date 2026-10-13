@@ -1,0 +1,321 @@
+\section{Proof of \Cref{lemma: saturable path}}\label{section: lemma: saturable path}
+\begin{proof}
+($\Rightarrow$):
+By \Cref{proposition: witness}, let $\graph[2]' \in \FillS_{\RSUB}(\const{\graph}(\word))$ and let $U$ be an \kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]'}_{\tilde{\vsig}} = \emptyset$.
+We define the \kl{graph} $\graph[2]$ as follows:
+\begin{itemize}
+       \item $\domain{\graph[2]} = \domain{\graph[2]'}$,
+       \item $a^{\graph[2]} = a^{\graph[2]'}$ for $a \in \set{\top, \id, \com{\id}}$,
+       \item $a^{\graph[2]} = a^{\const{\graph}(\word)} \cup (a^{\graph[2]'} \cap \id^{\graph[2]'})$ for $a \in \tilde{\vsig}_{\id} \setminus \set{\top, \id, \com{\id}}$.
+\end{itemize}
+% Let $\graph_0 \in \allgraph_{\RSUB}$ and $h \colon \const{\graph}(\word) \homo \graph_0$ be s.t.\ $\graph[2]' = \FillS(h)$.
+We then have that the pair $P \defeq \tuple{\graph[2], U}$ is a \kl{saturable path} for $\word \in \const{L}_{\graph[3]}$, as follows:
+\begin{itemize}
+       \item \ref{definition: saturable path Ext}:
+              By that $\graph[2]'$ is an \kl{edge-saturation} w.r.t.\ $\RSUB$.
+       \item \ref{definition: saturable path Con}:
+       Because $\graph[2]'$ is \kl{consistent} by $\graph[2]' \in \FillS_{\RSUB}(\const{\graph}(\word))$.
+\item \ref{definition: saturable path Wit}:
+              Because $U$ is an \kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]'}_{\tilde{\vsig}} = \emptyset$.
+       \item \ref{definition: saturable path Sat}:
+              Because $a^{\graph[2]'} \cup \com{a}^{\graph[2]'} = \top^{\graph[2]'}$ and $U$ is an \kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]'}_{\tilde{\vsig}} = \emptyset$.
+\end{itemize}
+
+% \ref{definition: saturable path Ext}:
+% By the construction of $\graph[2]$.
+% \ref{definition: saturable path Con}:
+% Because $\graph[2]' \in \FillS_{\RSUB}(\const{\graph}(\word))$ is an \kl{edge extension} of $\graph[2]$, $(\graph[2]')$ is consistent.
+% Thus $\graph[2]$ is consistent.
+% \ref{definition: saturable path Wit}:
+% Because $\graph[2]' \in \FillS_{\RSUB}(\const{\graph}(\word))$ is an \kl{edge extension} of $\graph[2]$ and $U$ is an \kl{emptiness-witness} for $\graph[3] \centernot\homo (\graph[2]')$,
+% we have that $U$ is an \kl{emptiness-witness} for $\graph[3] \centernot\homo \graph[2]$ (\Cref{proposition: witness monotone}).
+% \ref{definition: saturable path Sat}:
+% Because $U$ is an \kl{emptiness-witness} for $\graph[3]_{\tilde{\vsig}} \centernot\homo (\graph[2]')$ and $x^{\graph[2]'} \cup \com{x}^{\graph[2]'} = \top^{\graph[2]'}$ for each $x \in \vsig$.
+($\Leftarrow$):
+Let $P = \tuple{\graph[2], U}$ be a \kl{saturable path} for $\word \in \const{L}_{\graph[3]}$.
+By \ref{definition: saturable path Ext}, $\id^{\graph[2]}$ is an equivalence relation.
+We define the \kl{graph} $\graph[2]'$ as follows:
+\begin{itemize}
+       \item $\univ{\graph[2]'} = \univ{\graph[2]}$,
+       \item $a^{\graph[2]'} = a^{\graph[2]}$ for $a \in \set{\top, \id, \com{\id}}$,
+       \item for $a \in \vsig$ and $\tuple{x, y} \in \top^{\graph[2]}$,
+       \begin{itemize}
+              \item if $\tuple{\quo{x}_{\id^{\graph[2]}}, \quo{y}_{\id^{\graph[2]}}} \in a^{\graph[2]^{\FillQ}}$, then $\tuple{x, y} \in a^{\graph[2]'} \setminus \com{a}^{\graph[2]'}$,
+              \item else if $\tuple{\quo{x}_{\id^{\graph[2]}}, \quo{y}_{\id^{\graph[2]}}} \in \com{a}^{\graph[2]^{\FillQ}}$, then $\tuple{x, y} \in \com{a}^{\graph[2]'} \setminus a^{\graph[2]'}$,
+              \item else if $U_{y} \subseteq \delta_{a}^{\graph[3]}(U_{x})$, then $\tuple{x, y} \in a^{\graph[2]'} \setminus \com{a}^{\graph[2]'}$,
+              \item else $\tuple{x, y} \in \com{a}^{\graph[2]'} \setminus a^{\graph[2]'}$.
+       \end{itemize}
+\end{itemize}
+By the construction of $\graph[2]'$, we have the following:
+\begin{itemize}
+       \item $\graph[2]'$ is an \kl{edge-extension} of $\graph[2]$:
+       By \ref{definition: saturable path Con}, if $\tuple{\quo{x}_{\id^{\graph[2]}}, \quo{y}_{\id^{\graph[2]}}} \in \com{a}^{\graph[2]^{\FillQ}}$, then $\tuple{\quo{x}_{\id^{\graph[2]}}, \quo{y}_{\id^{\graph[2]}}} \not\in a^{\graph[2]^{\FillQ}}$.
+       \item $\graph[2]'$ is \kl{consistent}:
+       If $\quo{x}_{\id^{\graph[2]}} = \quo{y}_{\id^{\graph[2]}}$ then $U_{x} = U_{y}$, because $U_{x} \subseteq \delta_{\id}^{\graph[3]}(U_{x}) \subseteq U_{y} \subseteq \delta_{\id}^{\graph[3]}(U_{y}) \subseteq U_{x}$ by \ref{definition: saturable path Wit}; thus, if $\quo{x}_{\id^{\graph[2]}} = \quo{x'}_{\id^{\graph[2]}}$ and $\quo{y}_{\id^{\graph[2]}} = \quo{y'}_{\id^{\graph[2]}}$, then $\tuple{x, y} \in a^{\graph[2]'}$ iff $\tuple{x', y'} \in a^{\graph[2]'}$.
+
+       \item for $a \in \vsig$, $\com{a}^{\graph[2]'} = \top^{\graph[2]'} \setminus a^{\graph[2]'}$:
+       Because $a^{\graph[2]'} \cup \com{a}^{\graph[2]'} = \top^{\graph[2]'}$ and $\graph[2]'$ is \kl{consistent}.
+       
+%     \item for $a \in \vsig$, $a^{\graph[2]'} \supseteq \id^{\graph[2]'}$ or $\com{a}^{\graph[2]'} \supseteq \id^{\graph[2]'}$:
+%     By \ref{definition: saturable path Ext}.
+\end{itemize}
+From them and \ref{definition: saturable path Ext}, we have $\graph[2]' \in \FillS_{\RSUB}(\const{\graph}(\word))$.
+Also, $U$ is an \kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]'}_{\tilde{\vsig}} = \emptyset$ as follows.
+For edges already in $\graph[2]$, it is shown by \ref{definition: saturable path Wit}.
+For extended edges from $\graph[2]$, it is shown by the construction of $\graph[2]'$ (for the last case of the four cases above, by $U_{y} \not\subseteq \delta_{a}^{\graph[3]}(U_{x})$ and \ref{definition: saturable path Sat}, we have $U_{y} \subseteq \delta_{\com{a}}^{\graph[3]}(U_{x})$).
+Hence, this completes the proof.
+% Hence, this completes the proof.
+% Then, we have:
+% \begin{itemize}
+%     \item $x^{\graph[2]'} \cup \com{x}^{\graph[2]'} = \top^{\graph[2]'}$, because the third or fourth condition above always holds by \Cref{definition: saturable path Sat};
+%     \item $x^{(\graph[2]')^{\FillQ}} \cap \com{x}^{(\graph[2]')^{\FillQ}} = \emptyset$, by the construction of $\graph[2]'$ (for each $\tuple{i, i'}, \tuple{j, j'} \in \id^{\graph[2]'}$,
+%           we have
+%           that $\tuple{[i]_{\id^{\graph[2]}}, [j]_{\id^{\graph[2]}}} \in x^{\graph[2]^{\FillQ}}$ iff $\tuple{[i']_{\id^{\graph[2]}}, [j']_{\id^{\graph[2]}}} \in x^{\graph[2]^{\FillQ}}$
+%           and have that $U_{j} \in \delta_{x}^{\automaton}(U_{i})$ iff $U_{j'} \in \delta_{x}^{\automaton}(U_{i'})$ (because $U_{i} = U_{i'}$ and $U_{i'} = U_{j'}$).
+%           Thus, $\tuple{i, j} \in x^{\graph[2]'}$ iff $\tuple{i', j'} \in x^{\graph[2]'}$);
+%     \item $\forall x \in \vsig,\  x^{\graph[2]'} \supseteq \id^{\graph[2]'} \lor \com{x}^{\graph[2]'} \supseteq \id^{\graph[2]'}$, by \ref{definition: saturable path Ext}.
+% \end{itemize}$(\graph[2]')^{\FillQ}$ is \kl{isomorphic} to $\mathrm{G}(\val, 0, n)$ for some $n \in \nat$ and $\val \in \RSUB_{n}$:
+\end{proof}
+
+
+\section{Proof of \Cref{lemma: sound and completeness}}\label{section: lemma: sound and completeness}
+
+\begin{proof}
+       ($\subseteq$):
+       Let $\word = a_1 \dots a_{n} \in \const{L}_{\graph[3]}$.
+       Let $P = \tuple{\graph[2], U}$ be a \kl{saturable path} for $\word \in \const{L}_{\graph[3]}$.
+       Let $\Aset \defeq \set{a \in \tilde{\vsig}_{\id} \mid a^{\graph[2]} \supseteq \id^{\graph[2]}}$ (note that $X \in \mathcal{X}$).
+       For each $i$, let $\mathcal{U}_i \defeq \bigcup_{j; \tuple{j, i} \in \com{\id}^{\graph[2]}} U_{j}^2$.
+       Then we have:
+       \begin{itemize}
+              \item $\fml^{\graph[3]}(\mathcal{U}_i, U_i)$: By \ref{definition: saturable path Sat} and \Cref{proposition: saturable}.
+              \item $\forall a \in \Aset, \delta_{a}^{\graph[3]}(U_i) \subseteq U_i$:
+                    By $a^{\graph[2]} \supseteq \id^{\graph[2]} \supseteq \Delta_{\domain{\graph[2]}}$ and \ref{definition: saturable path Wit}.
+       \end{itemize}
+       Thus $\tuple{\mathcal{U}_i, U_i} \in \domain{\graph[3]^{\FillS_{\Aset}}}$.
+       We consider the following run of the \kl{NFA} $\graph[3]^{\FillS_{\Aset}}$ on $\word$:
+       \[\begin{tikzpicture}[remember picture, baseline = -.7ex]
+              \graph[grow right = 2.cm, branch down = 3.5ex, nodes={}]{
+              {lx/{\scriptsize $\blacktriangleright$}}-!-
+              {0x/{\scriptsize $\tuple{\mathcal{U}_0, U_0}$}}-!-
+              {1x/{\scriptsize $\tuple{\mathcal{U}_1, U_1}$}}-!-
+              {2x/{\scriptsize $\tuple{\mathcal{U}_2, U_2}$}}-!-
+              {3x/{}[inner sep = 0, outer sep = 0]}-!-
+              {4x/{\scriptsize $\tuple{\mathcal{U}_{n}, U_{n}}$}}-!-
+              {rx/{\scriptsize $\blacktriangleleft$}}
+              };
+              \node[left = .5em of lx](l){};
+              \node[right = .5em of rx](r){};
+              \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                  {lx} ->["$\id$"] {0x} ->["$a_1$"] {1x} ->["$a_2$"] {2x} --["\;$\dots$\;", pos = .8] {3x.center} ->["$a_{n}$"] {4x} ->["$\id$"] {rx};
+                  l -> lx; rx -> r;
+              }; 
+          \end{tikzpicture}.\]
+       This is indeed a run of the \kl{NFA} $\graph[3]^{\FillS_{\Aset}}$ as follows:
+       \begin{itemize}
+              \item $\tuple{\blacktriangleright, \tuple{\mathcal{U}_0, U_0}} \in \id^{\graph[3]^{\FillS_{\Aset}}}$:
+                    By $\src^{\graph[3]} \in U_0$ \ref{definition: saturable path Wit} and $\mathcal{U}_0 = \emptyset$.
+              \item $\tuple{\tuple{\mathcal{U}_n, U_n}, \blacktriangleleft} \in \id^{\graph[3]^{\FillS_{\Aset}}}$:
+                    By $\tgt^{\graph[3]} \not\in U_{n}$ \ref{definition: saturable path Wit}.
+              \item $\forall i \in \range{1, n}, \tuple{\tuple{\mathcal{U}_{i-1}, U_{i-1}}, \tuple{\mathcal{U}_{i}, U_{i}}} \in a_{i}^{\graph[3]^{\FillS_{\Aset}}}$:
+                    We distinguish the following cases:
+                    \begin{itemize}
+                           \item Case $\tuple{i-1, i} \in \id^{\graph[2]}$:
+                                   \begin{itemize}
+                                          \item  $\mathcal{U}_{i} = \mathcal{U}_{i-1}$:
+                                          By $\tuple{j, i} \in \com{\id}^{\graph[2]}$ iff $\tuple{j, i-1} \in \com{\id}^{\graph[2]}$, for all $j$.
+                                          \item $U_{i} = U_{i-1}$:
+                                          By \ref{definition: saturable path Wit}, we have $U_{i-1} \subseteq \delta_{\id}^{\graph[3]}(U_{i-1}) \subseteq U_{i} \subseteq \delta_{\id}^{\graph[3]}(U_{i}) \subseteq U_{i-1}$.
+                                          \item $a_{i} \in \Aset$ ($a_{i}^{\graph[2]} \supseteq \id^{\graph[2]}$):
+                                          By $a_{i}^{\graph[2]} \cap \id^{\graph[2]} \neq \emptyset$ and \ref{definition: saturable path Ext},
+                                          we have $a_{i}^{\graph[2]} = a_{i}^{\const{\graph}(\word)} \cup \id^{\graph[2]}$ (if not, this contradicts to \ref{definition: saturable path Con}).
+                                   \end{itemize}
+                                 Thus by $\fml[2]_{a_{i}, \id}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})$, we have $\tuple{\tuple{\mathcal{U}_{i-1}, U_{i-1}}, \tuple{\mathcal{U}_{i}, U_{i}}} \in a_{i}^{\graph[3]^{\FillS_{\Aset}}}$.
+                           \item Case $\tuple{i-1, i} \in \com{\id}^{\graph[2]}$:
+                           \begin{itemize}
+                                   \item $\mathcal{U}_{i} = \mathcal{U}_{i-1} \cup U_{i-1}^2$:
+                                   By $\tuple{j, i} \in \com{\id}^{\graph[2]}$ iff $j < i$ iff $\tuple{j, i-1} \in \com{\id}^{\graph[2]} \lor \tuple{j, i-1} \in \id^{\graph[2]}$, for all $j$.
+                                   (Intuitively, $\mathcal{U}_{i-1}$ corresponds to the case $\tuple{j, i-1} \in \com{\id}^{\graph[2]}$ and $U_{i-1}^2$ corresponds to the case $\tuple{j, i-1} \in \id^{\graph[2]}$.)
+                                   \item $\delta_{a_{i}}^{\graph[3]}(U_{i-1}) \subseteq U_{i}$:
+                                   By \ref{definition: saturable path Wit}.
+                                   \item $\delta_{\top}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}_{i}}) \subseteq U_{i}$:
+                                   We have
+                                   $\delta_{\top}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}_{i}})
+                                   = \delta_{\top}^{\graph[3]}(\bigcup_{j; \tuple{j, i} \in \com{\id}^{\graph[2]}} U_{j})
+                                   = \bigcup_{j < i} \delta_{\top}^{\graph[3]}(U_{j}) \subseteq U_{i}$ by \ref{definition: saturable path Wit}.
+                                   \item $\delta_{\com{\id}}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}_{i}}) \subseteq U_{i}$:
+                                   We have
+                                   $\delta_{\com{\id}}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}_{i}})
+                                   = \delta_{\com{\id}}^{\graph[3]}(\bigcup_{j; \tuple{j, i} \in \com{\id}^{\graph[2]}} U_{j})
+                                   = \bigcup_{j < i} \delta_{\com{\id}}^{\graph[3]}(U_{j}) \subseteq U_{i}$ by \ref{definition: saturable path Wit}.
+                           \end{itemize}
+                                 Thus by $\fml[2]_{a_{i}, \com{\id}}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})$, we have $\tuple{\tuple{\mathcal{U}_{i-1}, U_{i-1}}, \tuple{\mathcal{U}_{i}, U_{i}}} \in a_{i}^{\graph[3]^{\FillS_{\Aset}}}$.
+                    \end{itemize}
+       \end{itemize}
+       Hence, $\word \in \ljump{\graph[3]^{\FillS_{\Aset}}}$.
+
+       ($\supseteq$):
+       Let $X \subseteq \mathcal{X}$ and $\word = a_1 \dots a_n \in \ljump{\graph[3]^{\FillS_{X}}}_{\tilde{\vsig}}$.
+       Let the run of $\graph[3]^{\FillS_{X}}$ on $\word$ be as follows:
+       \[\begin{tikzpicture}[remember picture, baseline = -.7ex]
+              \graph[grow right = 2.cm, branch down = 3.5ex, nodes={}]{
+              {lx/{\scriptsize $\blacktriangleright$}}-!-
+              {0x/{\scriptsize $\tuple{\mathcal{U}_0, U_0}$}}-!-
+              {1x/{\scriptsize $\tuple{\mathcal{U}_1, U_1}$}}-!-
+              {2x/{\scriptsize $\tuple{\mathcal{U}_2, U_2}$}}-!-
+              {3x/{}[inner sep = 0, outer sep = 0]}-!-
+              {4x/{\scriptsize $\tuple{\mathcal{U}_{n}, U_{n}}$}}-!-
+              {rx/{\scriptsize $\blacktriangleleft$}}
+              };
+              \node[left = .5em of lx](l){};
+              \node[right = .5em of rx](r){};
+              \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                  {lx} ->["$\id$"] {0x} ->["$a_1$"] {1x} ->["$a_2$"] {2x} --["\;$\dots$\;", pos = .8] {3x.center} ->["$a_{n}$"] {4x} ->["$\id$"] {rx};
+                  l -> lx; rx -> r;
+              }; 
+          \end{tikzpicture}.\]
+       Let $\graph[2]$ be the \kl{edge-extension} of $\const{\graph}(\word)$ defined as follows:
+       \begin{itemize}
+              \item $\top^{\graph[2]} = \set{\tuple{x, y} \in \range{0, n}^2 \mid \forall i \in \range{y + 1, x},\  \lnot \fml[2]_{a_{i}, \com{\id}}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})}$,
+              \item $\id^{\graph[2]} = \top^{\graph[2]} \cap \set{\tuple{x, y} \mid \tuple{y, x} \in \top^{\graph[2]}}$ and $\com{\id}^{\graph[2]} = \top^{\graph[2]} \setminus \id^{\graph[2]}$,
+              \item $\forall a \in \vsig \cap \Aset$, $\tuple{a^{\graph[2]}, \com{a}^{\graph[2]}} = \tuple{a^{\const{\graph}(\word)} \cup \id^{\graph[2]}, \com{a}^{\const{\graph}(\word)}}$.
+       \end{itemize}
+       Note that by definition of $\top^{\graph[2]}$, we have
+       \begin{itemize}
+         \item $\top^{\graph[2]} \supseteq \set{\tuple{x, y} \mid x \le y}$,
+         \item $\top^{\graph[2]}$ is transitive (by case analysis).
+       \end{itemize}
+       Hence, $\top^{\graph[2]}$ is a total preorder and each equivalence class w.r.t.\ $\id^{\graph[2]}$ is an interval $\range{l, r}$.
+
+       Let $P \defeq \tuple{\graph[2], U}$ where $U$ is defined as $i \mapsto U_i$ for $i \in \range{0, n}$.
+       The following depicts $P$.
+       \[\begin{tikzpicture}[remember picture, baseline = -.5ex]
+              \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{
+              {0x/{}[mynode]}-!-
+              {1x/{}[mynode]}-!-
+              {2x/{}[mynode]}-!-
+              {3x/{}[inner sep = 0, outer sep = 0]}-!-
+              {4x/{}[mynode, xshift = -4em]}-!-
+              {5x/{}[mynode]}-!-
+              {6x/{}[inner sep = 0, outer sep = 0]}-!-
+              {7x/{}[mynode]}
+              };
+              \node[left = .5em of 0x](l){};
+              \node[right = .5em of 7x](r){};
+              \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                  {0x, 1x, 2x, 4x, 5x, 7x} ->["$X$", out=60, in=120, looseness=18] {0x, 1x, 2x, 4x, 5x, 7x};
+                  {0x} ->["$a_1$"] {1x};
+              {1x} ->["$a_2$"] {2x};
+              {2x} ->["\;$\dots$\;"] {4x};
+              {4x} ->["$a_{i}$"] {5x};
+              {4x} ->[bend left = 25] {5x};
+              {5x} --["\;$\dots$\;"] {6x.center};
+              {6x.center} ->["$a_{n}$"] {7x};
+              l -> 0x; 7x -> r;
+              }; 
+              \path (4x) edge[opacity = 0, bend left = 25] node(4x-5x){} (5x);
+              \node[above right = .5em and 0.em of 4x-5x, fill = white, inner sep = 0](4x-5x-p){\scriptsize $\begin{cases} \id & (\mbox{if $\lnot \fml[2]_{a_{i}, \com{\id}}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})$})\\
+                     \com{\id} & (\mbox{otherwise})
+              \end{cases}$};
+              \draw[color = gray] (4x-5x) -- (4x-5x-p.west);
+              \node[below = .5ex of 0x]{\scriptsize $U_{0}$};
+              \node[below = .5ex of 1x]{\scriptsize $U_{1}$};
+              \node[below = .5ex of 2x]{\scriptsize $U_{2}$};
+              \node[below = .5ex of 4x]{\scriptsize $U_{i-1}$};
+              \node[below = .5ex of 5x]{\scriptsize $U_{i}$};
+              \node[below = .5ex of 7x]{\scriptsize $U_{n}$};
+          \end{tikzpicture}.\]
+       Then $P$ is a \kl{saturable path} for $\word \in \const{L}_{\graph[3]}$ as follows:
+       \begin{itemize}
+              \item \ref{definition: saturable path Ext}:
+                    By the definition of $\graph[2]$.
+
+              \item \ref{definition: saturable path Con}:
+                    Assume that $a^{\graph[2]^{\FillQ}} \cap \com{a}^{\graph[2]^{\FillQ}} \neq \emptyset$.
+                    Let $x, x', y, y'$ be s.t.\
+                    $\quo{x}_{\id^{\graph[2]}} = \quo{x'}_{\id^{\graph[2]}}$,
+                    $\quo{y}_{\id^{\graph[2]}} = \quo{y'}_{\id^{\graph[2]}}$,
+                    $\tuple{x, y} \in a^{\graph[2]}$, and $\tuple{x', y'} \in \com{a}^{\graph[2]}$.
+                    WLOG, we can assume that $a \in \Aset$ and $\com{a} \not\in \Aset$.
+                    Then, we have the following:
+                    \begin{itemize}
+                     \item $\tuple{x', y'} \in \com{a}^{\const{\graph}(\word)}$ (so, $x' = y' - 1$ and $a_{y'} = \com{a}$): By $\com{a}^{\graph[2]} = \com{a}^{\const{\graph}(\word)}$ (since $\com{a} \not\in \Aset$).
+
+                     \item $\tuple{x, y} \in a^{\const{\graph}(\word)}$ (so, $x = y - 1$ and $a_{y} = a$):
+                     If not, then by $a^{\graph[2]} = a^{\const{\graph}(\word)} \cup \id^{\graph[2]}$, we have $\quo{x}_{\id^{\graph[2]}} = \quo{y}_{\id^{\graph[2]}}$.
+                     Thus, $\tuple{y', y' - 1} \in \id^{\graph[2]} (\subseteq \top^{\graph[2]})$.
+                     By the definition of $\top^{\graph[2]}$, we have $\lnot \fml[2]_{a_{y'}, \com{\id}}^{\Aset}(\mathcal{U}_{y'-1}, U_{y'-1}, \mathcal{U}_{y'}, U_{y'})$.
+                     By the definition of $a^{\graph[3]^{\FillS_{X}}}$, we have $\fml[2]_{a_{y'}, \id}^{\Aset}(\mathcal{U}_{y'-1}, U_{y'-1}, \mathcal{U}_{y'}, U_{y'})$,
+                     so $\com{a} \in \Aset$.
+                     This contradicts $\com{a} \not\in \Aset$.
+                  
+                     \item $(\range{x, x'} \cup \range{x', x}) \cap (\range{y, y'} \cup \range{y', y}) = \emptyset$ (so, $x = x'$ and $y = y'$):
+                     If not, then because the interval between $x$ and $x'$ and that between $y$ and $y'$ have an intersection,
+                     we have $\quo{x}_{\id^{\graph[2]}} = \quo{y}_{\id^{\graph[2]}}$.
+                     Then, in the same manner as above, we have $\com{a} \in X$.
+                     This contradicts $\com{a} \not\in \Aset$.
+                    \end{itemize}
+                     Thus, we reach a contradiction, because $a = a_{y} = a_{y'} = \com{a}$ (by $y = y'$).
+                     Hence, $a^{\graph[2]^{\FillQ}} \cap \com{a}^{\graph[2]^{\FillQ}} = \emptyset$.
+
+              \item \ref{definition: saturable path Sat}:
+                     By the form of $\graph[3]^{\FillS_{\Aset}}$,
+                     we have $\mathcal{U}_{x} = \begin{cases}
+                                   \mathcal{U}_{x-1}                & (\tuple{x-1, x} \in \id^{\graph[2]})       \\
+                                   \mathcal{U}_{x-1} \cup U_{x-1}^2 & (\tuple{x-1, x} \in \com{\id}^{\graph[2]})
+                            \end{cases}$.
+                     Thus, $\mathcal{U}_y = \bigcup_{x; \tuple{x, y} \in \com{\id}^{\graph[2]}} U_{x}^2$ ($\bigstar$).
+                     By \Cref{proposition: saturable}, this completes the proof.
+ 
+              \item \ref{definition: saturable path Wit}:
+                    For $\src^{\graph[3]} \in U_0$ and $\tgt^{\graph[3]} \not\in U_n$, they are shown by the form of $\graph[3]^{\FillS_{\Aset}}$.
+                    For $\forall a \in \tilde{\vsig}_{\id}, \forall \tuple{x, y} \in a^{\graph[2]}, \delta_{a}^{\graph[3]}(U_{x}) \subseteq U_{y}$,
+                    we distinguish the following cases:
+                    \begin{itemize}
+                     \item Case $a = \id$:
+                     Then we have 
+                     \begin{itemize}
+                            \item $U_{x} = U_{y}$:
+                            By $\tuple{x, y} \in \id^{\graph[2]}$ and the form of $\graph[3]^{\FillS_{\Aset}}$, we have the following: $\forall z \in \range{y + 1, x},\ \fml[2]_{a_{z}, \id}^{\Aset}(\mathcal{U}_{z-1}, U_{z-1}, \mathcal{U}_{z}, U_{z})$.
+                            Thus, $U_{y} = U_{y + 1} = \dots = U_{x}$.
+                            \item $\delta_{\id}^{\graph[3]}(U_{x}) \subseteq U_{x}$:
+                            By $\tuple{\mathcal{U}_{x}, U_{x}} \in \domain{\graph[3]^{\FillS_{\Aset}}}$.
+                     \end{itemize}
+                     Hence, $\delta_{\id}^{\graph[3]}(U_{x}) \subseteq U_{y}$.
+
+               \item Case $a = \com{\id}$:
+                     Let $z \in \range{x + 1, y}$ be such that
+                     $\fml[2]_{a_{z}, \com{\id}}^{\Aset}(\mathcal{U}_{z - 1}, U_{z - 1}, \mathcal{U}_{z} , U_{z})$ and
+                     $\forall z' \in \range{z+1, y}, \lnot \fml[2]_{a_{z'}, \com{\id}}^{\Aset}(\mathcal{U}_{z' - 1}, U_{z' - 1}, \mathcal{U}_{z'} , U_{z'})$.
+                     Then we have
+                     \begin{align*}
+                            \delta_{\com{\id}}^{\graph[3]}(U_{x}) &\subseteq \delta_{\com{\id}}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}_{z}}) \tag{by ($\bigstar$) and $\tuple{x, z} \in \com{\id}^{\graph[2]}$ (by $\tuple{z -1, z} \in \com{\id}^{\graph[2]}$)}\\
+                            &\subseteq U_{z} \tag{by $\fml[2]_{a_{z}, \com{\id}}^{\Aset}(\mathcal{U}_{z - 1}, U_{z - 1}, \mathcal{U}_{z} , U_{z})$}\\
+                            &\subseteq U_{z+1} = \dots = U_{y}. \tag{by the form of $\graph[3]^{\FillS_{\Aset}}$, $\fml[2]_{a_{z'}, \id}^{\Aset}(\mathcal{U}_{z' - 1}, U_{z' - 1}, \mathcal{U}_{z'} , U_{z'})$}
+                     \end{align*}
+
+               \item Case $a = \top$: We distinguish the following two sub-cases:
+                     \begin{itemize}
+                     \item Case $\tuple{x, y} \in \com{\id}^{\graph[2]}$:
+                     By the similar argument as Case $a = \com{\id}$.
+                     \item Case $\tuple{x, y} \in \id^{\graph[2]}$:
+                     By the similar argument as Case $a = \id$, we have $U_{x} = U_{y}$ and $\delta_{\top}^{\graph[3]}(U_{x}) \subseteq U_{x}$, and thus $\delta_{\top}^{\graph[3]}(U_{x}) \subseteq U_{y}$.
+                     \end{itemize}
+
+              \item Case $a \in \set{a, \com{a} \mid a \in \vsig}$: We distinguish the following sub-cases:
+                     \begin{itemize}
+                            \item Case $\tuple{x, y} \in \com{\id}^{\graph[2]}$:
+                            By $\tuple{x, y} \in a^{\graph[2]} \cap \com{\id}^{\graph[2]} = a^{\const{\graph}(\word)}$, we have $x = y - 1$ and $a_{y} = a$.
+                            Thus by $\fml[2]_{a_{y}, \com{\id}}^{\Aset}(\mathcal{U}_{y - 1}, U_{y - 1}, \mathcal{U}_{y} , U_{y})$, we have $\delta_{a}^{\graph[3]}(U_{x}) \subseteq U_{y}$.
+                            \item Case $a \not\in \Aset$:
+                            By $a^{\graph[2]} = a^{\const{\graph}(\word)}$, we have $x = y - 1$ and $a_{y} = a$.
+                            By the form of $\graph[3]^{\FillS_{\Aset}}$ with $\lnot \fml[2]_{a_{y}, \id}^{\Aset}(\mathcal{U}_{y - 1}, U_{y - 1}, \mathcal{U}_{y} , U_{y})$ (since $a_{y} \not\in \Aset$),
+                            we have $\fml[2]_{a_{y}, \com{\id}}^{\Aset}(\mathcal{U}_{y - 1}, U_{y - 1}, \mathcal{U}_{y} , U_{y})$.
+                            Hence, $\delta_{a}^{\graph[3]}(U_{x}) \subseteq U_{y}$.
+                            \item Case $\tuple{x, y} \in \id^{\graph[2]}$ and $a \in \Aset$:
+                            By the similar argument as Case $a = \id$, we have $U_{x} = U_{y}$ (by $\tuple{x, y} \in \id^{\graph[2]}$) and $\delta_{a}^{\graph[3]}(U_{x}) \subseteq U_{x}$ (by $a \in \Aset$).
+                            Thus, $\delta_{a}^{\graph[3]}(U_{x}) \subseteq U_{y}$. \qedhere
+                     \end{itemize}
+                     \end{itemize}
+       \end{itemize}
+\end{proof}

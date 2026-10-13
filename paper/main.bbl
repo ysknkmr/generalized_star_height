@@ -1,0 +1,105 @@
+\begin{thebibliography}{10}
+
+\bibitem{brzozowskiDotdepthHierarchyStarfree1978}
+Janusz~A. Brzozowski and Robert Knast.
+\newblock The dot-depth hierarchy of star-free languages is infinite.
+\newblock {\em Journal of Computer and System Sciences}, 16(1):37--55, 1978.
+
+\bibitem{buchiWeakSecondorderArithmetic1960}
+J.~Richard B{\"u}chi.
+\newblock Weak second-order arithmetic and finite automata.
+\newblock {\em Mathematical Logic Quarterly}, 6(1--6):66--92, 1960.
+\newblock \href {https://doi.org/10.1002/malq.19600060105} {\path{doi:10.1002/malq.19600060105}}.
+
+\bibitem{ebbinghausFiniteModelTheory1995}
+Heinz-Dieter Ebbinghaus and Jörg Flum.
+\newblock {\em Finite Model Theory}.
+\newblock Springer, 1995.
+\newblock \href {https://doi.org/10.1007/3-540-28788-4} {\path{doi:10.1007/3-540-28788-4}}.
+
+\bibitem{egganTransitionGraphsStarheight1963}
+Lawrence~C. Eggan.
+\newblock Transition graphs and the star-height of regular events.
+\newblock {\em Michigan Mathematical Journal}, 10(4):385--397, 1963.
+
+\bibitem{ehrenfeuchtApplicationGamesCompleteness1961}
+Andrzej Ehrenfeucht.
+\newblock An application of games to the completeness problem for formalized theories.
+\newblock {\em Fundamenta Mathematicae}, 49(2):129--141, 1961.
+\newblock \href {https://doi.org/10.4064/fm-49-2-129-141} {\path{doi:10.4064/fm-49-2-129-141}}.
+
+\bibitem{fraisseClassificationsSystemsRelations1954}
+Roland Fra{\"i}ss{\'e}.
+\newblock Sur les classifications des systems de relations.
+\newblock {\em Publ. Sci. Univ. Alger I.}, 1954.
+
+\bibitem{gradelHierarchiesTransitiveClosure1996}
+Erich Gr{\"a}del and Gregory~L. McColm.
+\newblock Hierarchies in transitive closure logic, stratified {Datalog} and infinitary logic.
+\newblock {\em Annals of Pure and Applied Logic}, 77(2):169--199, 1996.
+\newblock \href {https://doi.org/10.1016/0168-0072(95)00021-6} {\path{doi:10.1016/0168-0072(95)00021-6}}.
+
+\bibitem{immermanLanguagesThatCapture1987}
+Neil Immerman.
+\newblock Languages that capture complexity classes.
+\newblock {\em SIAM Journal on Computing}, 16(4):760--778, 1987.
+\newblock \href {https://doi.org/10.1137/0216051} {\path{doi:10.1137/0216051}}.
+
+\bibitem{nakamuraExpressivePowerSuccinctness2022}
+Yoshiki Nakamura.
+\newblock Expressive power and succinctness of the positive calculus of binary relations.
+\newblock {\em Journal of Logical and Algebraic Methods in Programming}, 127:100760, 2022.
+\newblock \href {https://doi.org/10.1016/j.jlamp.2022.100760} {\path{doi:10.1016/j.jlamp.2022.100760}}.
+
+\bibitem{nakamuraFiniteRelationalSemantics2025}
+Yoshiki Nakamura.
+\newblock Finite relational semantics for language {Kleene} algebra with complement.
+\newblock In {\em 33rd EACSL Annual Conference on Computer Science Logic (CSL 2025)}, volume 326 of {\em LIPIcs}. Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik, 2025.
+\newblock \href {https://doi.org/10.4230/LIPIcs.CSL.2025.37} {\path{doi:10.4230/LIPIcs.CSL.2025.37}}.
+
+\bibitem{ngRelationAlgebrasTransitive1984}
+Kan~Ching Ng.
+\newblock {\em Relation algebras with transitive closure}.
+\newblock PhD thesis, University of California, 1984.
+
+\bibitem{openaiGeneralizedStarHeight2026}
+{OpenAI}.
+\newblock Generalized star height at most three.
+\newblock OpenAI Math Release preprint, 2026.
+\newblock September 25, 2026.
+\newblock URL: \url{https://github.com/openai/math/blob/main/preprints/Generalized-Star-Height-at-Most-Three-September-25-2026/article.pdf}.
+
+\bibitem{pinVarietiesFormalLanguages1986}
+Jean-{\'E}ric Pin.
+\newblock {\em Varieties of Formal Languages}.
+\newblock North Oxford Academic, 1986.
+
+\bibitem{pinResultsGeneralizedStarheight1992}
+Jean-{\'E}ric Pin, Howard Straubing, and Denis Th{\'e}rien.
+\newblock Some results on the generalized star-height problem.
+\newblock {\em Information and Computation}, 101(2):219--250, 1992.
+
+\bibitem{robertsonGraphMinorsExcluding1983}
+Neil Robertson and Paul~D. Seymour.
+\newblock Graph minors. {I}. {Excluding} a forest.
+\newblock {\em Journal of Combinatorial Theory, Series B}, 35(1):39--61, 1983.
+\newblock \href {https://doi.org/10.1016/0095-8956(83)90079-5} {\path{doi:10.1016/0095-8956(83)90079-5}}.
+
+\bibitem{schutzenbergerFiniteMonoidsHaving1965}
+Marcel-Paul Sch{\"u}tzenberger.
+\newblock On finite monoids having only trivial subgroups.
+\newblock {\em Information and Control}, 8(2):190--194, 1965.
+
+\bibitem{tarskiCalculusRelations1941}
+Alfred Tarski.
+\newblock On the calculus of relations.
+\newblock {\em The Journal of Symbolic Logic}, 6(3):73--89, 1941.
+\newblock \href {https://doi.org/10.2307/2268577} {\path{doi:10.2307/2268577}}.
+
+\bibitem{thomasConcatenationGameDotdepth1987}
+Wolfgang Thomas.
+\newblock A concatenation game and the dot-depth hierarchy.
+\newblock In {\em Computation Theory and Logic}, number 270 in LNCS, pages 415--426. Springer, 1987.
+\newblock \href {https://doi.org/10.1007/3-540-18170-9_183} {\path{doi:10.1007/3-540-18170-9_183}}.
+
+\end{thebibliography}

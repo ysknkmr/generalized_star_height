@@ -1,0 +1,110 @@
+\section{Ruling out star height one}\label{section: lower bound}
+
+We prove \Cref{theorem: lower bound}.
+Let $E$ be a term with $\sh(E) \le 1$.
+Every star in $E$ has the form $F^{*}$ with $F$ star-free.
+Let $q$ be at least $\cd(F)$ for all subterms $F^{*}$ of $E$.
+Take the modules $\M^{\pm} = \M^{\pm}_q$ of \Cref{proposition: local pair} and the cell models $\C(w)$ of \Cref{definition: cells}.
+
+\subparagraph*{Coordinates.}
+Let $\mathbb{V}$ be the common vertex set of $\M^{+}$ and $\M^{-}$, and let $\Theta \defeq \mathbb{V} \uplus \set{\pi_0, \pi_1}$ be the set of \emph{tags}.
+For $w = w_1 \cdots w_n$, let $\hat w \defeq {\triangleright}\, w$ be the word over $\Lambda \defeq \set{{\triangleright}, 0, 1}$ with positions $0, \dots, n$.
+We call $\set{p^{0}_0, p^{0}_1}$ \emph{block $0$}.
+For $i \ge 1$, \emph{block $i$} is $\range{u_i, v_i} \cup \set{p^{i}_0, p^{i}_1}$.
+A vertex of $\C(w)$ in block $i$ gets the coordinates $(i, \vartheta)$.
+Here $\vartheta \in \mathbb{V}$ is its vertex in the module, or $\pi_j$ if it is the port $p^{i}_j$.
+Order $\Theta$ by the order of $\mathbb{V}$ followed by $\pi_0 < \pi_1$.
+Then the order of $\C(w)$ is the lexicographic order of coordinates.
+
+\begin{lemma}[Normalization]\label{lemma: normalization}
+  Let $F^{*}$ be a subterm of $E$, and let $x = (i, \vartheta)$ and $y = (j, \vartheta')$ be vertices of $\C(w)$ with $x \le y$.
+  Then the truth value of $F^{*}(x, y)$ in $\C(w)$ depends only on $\vartheta, \vartheta', \hat w_i, \hat w_j$ and $j - i$.
+\end{lemma}
+\begin{proof}
+  Let $w'$ arise from $w$ by setting $w_k \defeq 0$ for every $k$ with $\range{u_k, v_k} \subseteq \range{x, y}$.
+  We pass from $\C(w)$ to $\C(w')$ one module at a time.
+  Each step replaces a copy of $\M^{+}$ by a copy of $\M^{-}$ in an interval $\range{u_k, v_k} \subseteq \range{x, y}$.
+  The conditions of \Cref{lemma: replacement} hold.
+  (\ref{item: same outside}) holds since the modules differ only in a $\vc$-pair with an interior target.
+  (\ref{item: isolated}) holds since no input pair leaves a module.
+  (\ref{item: local equivalence}) holds by \Cref{proposition: local pair}.
+  Moreover, $x$ and $y$ are outer.
+  So $F^{*}(x, y)$ has the same value in $\C(w)$ and in $\C(w')$.
+  In $\C(w')$ all modules strictly between blocks $i$ and $j$ are copies of $\M^{-}$.
+  So by \Cref{lemma: locality}, the value is determined by $\vartheta, \vartheta'$, $w'_i, w'_j$ (when $i, j \ge 1$) and $j - i$.
+  These are in turn determined by $\vartheta, \vartheta', \hat w_i, \hat w_j$ and $j - i$.
+\end{proof}
+
+For a subterm $F^{*}$ of $E$, let $f_F(\vartheta, a, \vartheta', a', k) \in \set{0,1}$ be the value given by \Cref{lemma: normalization}, for $a, a' \in \Lambda$ and $k \ge 0$.
+
+\begin{lemma}[Periodicity]\label{lemma: periodicity}
+  There are $N_0 \in \nat$ and $d \ge 1$ such that $f_F(\vartheta, a, \vartheta', a', k) = f_F(\vartheta, a, \vartheta', a', k + d)$ for all subterms $F^{*}$ of $E$, all $\vartheta, a, \vartheta', a'$ and all $k \ge N_0$.
+\end{lemma}
+\begin{proof}
+  Since there are finitely many choices of $F, \vartheta, a, \vartheta', a'$, it suffices to show that each sequence $k \mapsto f_F(\vartheta, a, \vartheta', a', k)$ is ultimately periodic.
+  For $k \ge 1$, the normalized interval $\range{x, y}$ in the proof of \Cref{lemma: normalization} is an ordered sum $X \oplus B^{k-1} \oplus Y$.
+  Here $X$ is the rest of block $i$ from $x$, $B$ is a copy of $\M^{-}$ followed by two ports, and $Y$ is the part of block $j$ up to $y$.
+  No input pair connects different summands.
+  Write the vertices of $X$, $B$ and $Y$ as letters of a finite alphabet, using disjoint copies.
+  Then $X \oplus B^{k-1} \oplus Y$ is first-order interpretable in the word that lists its vertices.
+  Two positions lie in the same summand iff their distance equals the distance of their letters inside that summand, and this is first-order expressible with a bounded number of successor steps.
+  Since $F^{*}$ is definable in monadic second-order logic, the set of $k$ for which $F^{*}(\min, \max)$ holds is the preimage of a regular language under $k \mapsto \delta_X \delta_B^{k-1} \delta_Y$~\cite{buchiWeakSecondorderArithmetic1960}.
+  Hence it is ultimately periodic.
+\end{proof}
+
+\subparagraph*{Translation into first-order logic with modular predicates.}
+Let $\FO[<, \MOD{d}]$ be first-order logic over words in $\Lambda^{*}$.
+It has the order, a unary predicate $P_a$ for each $a \in \Lambda$, and unary predicates $\mathrm{mod}^{r}_{d}(i)$, meaning $i \equiv r \pmod d$, for $r \in \range{0, d-1}$.
+Expressions such as $j = i + k$ for a constant $k$, $j \ge i + N_0$, and $j - i \equiv r \pmod d$ are definable.
+The last one is $\bigvee_{r'} \mathrm{mod}^{r'}_d(i) \wedge \mathrm{mod}^{r' + r}_d(j)$.
+
+\begin{lemma}[Translation]\label{lemma: translation}
+  For every subterm $G$ of $E$ and all tags $\vartheta, \vartheta' \in \Theta$, there is an $\FO[<, \MOD{d}]$ formula $\varphi^{\vartheta, \vartheta'}_{G}(i, j)$ with the following property.
+  For all $w \in \set{0,1}^{+}$ and all vertices $(i, \vartheta) \le (j, \vartheta')$ of $\C(w)$, we have $G((i, \vartheta), (j, \vartheta'))$ in $\C(w)$ iff $\hat w \models \varphi^{\vartheta, \vartheta'}_{G}(i, j)$.
+\end{lemma}
+\begin{proof}
+  By induction on $G$.
+  Let $\mathrm{vert}_{\vartheta}(i)$ express that $(i, \vartheta)$ is a vertex, that is, $i > 0$ or $\vartheta \in \set{\pi_0, \pi_1}$.
+  Let $\mathrm{le}_{\vartheta,\vartheta'}(i, j)$ express $(i, \vartheta) \le (j, \vartheta')$.
+  \begin{itemize}
+    \item Variables $o \in \set{\vr, \vc, \vb}$: every input pair lies in one module, so we take $i = j \wedge \bigvee \set{P_a(i) \mid a \in \set{0,1},\ (\vartheta, \vartheta') \in o^{\M^{(a)}}}$.
+          The constants $\id$ and $\emp$ are similar.
+    \item $\com{G}$: take $\mathrm{le}_{\vartheta,\vartheta'}(i, j) \wedge \neg\varphi^{\vartheta, \vartheta'}_{G}$, and $G_1 \union G_2$: take the disjunction.
+    \item $G_1 \compo G_2$: take $\exists k \bigvee_{\vartheta''} (\mathrm{vert}_{\vartheta''}(k) \wedge \varphi^{\vartheta, \vartheta''}_{G_1}(i, k) \wedge \varphi^{\vartheta'', \vartheta'}_{G_2}(k, j))$.
+    \item $F^{*}$: by \Cref{lemma: normalization,lemma: periodicity}, take the disjunction over $a, a' \in \Lambda$ of $P_a(i) \wedge P_{a'}(j) \wedge \psi_{a, a'}(i, j)$.
+          Here $\psi_{a, a'}$ is the disjunction of the following formulas.
+          First, $j = i + k$ for each $k < N_0$ with $f_F(\vartheta, a, \vartheta', a', k) = 1$.
+          Second, $j \ge i + N_0 \wedge j - i \equiv r \pmod d$ for each $r$ such that $f_F(\vartheta, a, \vartheta', a', k) = 1$ for the $k \ge N_0$ with $k \equiv r$.
+          \qedhere
+  \end{itemize}
+\end{proof}
+
+\begin{lemma}[Parity is not definable]\label{lemma: parity undefinable}
+  No $\FO[<, \MOD{d}]$ sentence $\varphi$ satisfies, for all $w \in \set{0,1}^{+}$: ${\triangleright} w \models \varphi$ iff $w$ has an odd number of $1$s.
+\end{lemma}
+\begin{proof}
+  Restrict to $w = (1\, 0^{d-1})^{n}$, which has $n$ ones.
+  The word ${\triangleright} w$ has positions $0, \dots, nd$.
+  It is first-order interpretable in the linear order $\range{0, n}$ with $d$ copies.
+  Position $0$ is $(0, 0)$, and position $(k-1)d + r + 1$ is $(k, r)$ for $k \in \range{n}$ and $r \in \range{0, d-1}$.
+  The order is lexicographic.
+  $P_{\triangleright}$ holds iff $k = 0$, $P_1$ iff $k \ne 0$ and $r = 0$, and $P_0$ iff $k \ne 0$ and $r \ne 0$.
+  $\mathrm{mod}^{r'}_d$ holds at $(k, r)$ with $k \ne 0$ iff $r + 1 \equiv r' \pmod d$.
+  All of these are first-order definable in $(\range{0, n}, <)$.
+  Hence $\varphi$ would yield a first-order sentence $\varphi^{\flat}$ such that $(\range{0, n}, <) \models \varphi^{\flat}$ iff $n$ is odd.
+  But linear orders of size at least $2^{\ell}$ are indistinguishable by sentences of quantifier rank $\ell$~\cite{ebbinghausFiniteModelTheory1995}.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{theorem: lower bound}]
+  Assume that $E$ is equivalent to $\Psit$ on $\Cls{2}$.
+  Every $\C(w)$ lies in $\Cls{2}$ by \Cref{lemma: cells pathwidth}, and its relations are irreflexive.
+  By \Cref{lemma: parity}, $E((0, \pi_0), (n, \pi_1))$ holds in $\C(w)$ iff $w$ has an odd number of $1$s.
+  By \Cref{lemma: translation}, this property is defined by the sentence $\exists i\, \exists j\, (i \text{ is first} \wedge j \text{ is last} \wedge \varphi^{\pi_0, \pi_1}_{E}(i, j))$, contradicting \Cref{lemma: parity undefinable}.
+\end{proof}
+
+\begin{remark}\label{remark: more variables}
+  The proof does not use that $E$ is a term over $\vr, \vc, \vb$ only.
+  If $E$ contains further variables, we interpret them as empty in $\C(w)$.
+  This changes neither the graph nor any argument above.
+  So $\Psit$ is not equivalent on $\Cls{2}$ to any term of star height at most one, over any finite set of variables.
+\end{remark}

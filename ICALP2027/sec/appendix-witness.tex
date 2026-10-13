@@ -1,0 +1,41 @@
+\section{Omitted proofs for the preliminaries and the witness}\label{section: appendix: witness}
+
+\factPeriods*
+\begin{proof}
+    (\ref{fact: periods: min})
+    Pick $n \in \range{T, T + q - 1}$ with $q \mid n$. Then $n \in X$, so $n + P \in X \cap \range{T, T + q + P} \subseteq q \nat$, whence $q \mid P$.
+
+    (\ref{fact: periods: sum})
+    Let $n \ge T_X + T_Y + P$.
+    If $n = \alpha + \beta$ with $\alpha \in X$, $\beta \in Y$, then $\alpha \ge T_X$ or $\beta \ge T_Y$; say $\alpha \ge T_X$.
+    Then $\alpha + P \in X$, so $n + P \in X + Y$.
+    Conversely, if $n + P = \alpha + \beta$, then $\alpha \ge T_X + P$ or $\beta \ge T_Y + P$, since otherwise $\alpha + \beta \le T_X + T_Y + 2P - 2 < n + P$; say $\alpha \ge T_X + P$.
+    Then $\alpha - P \ge T_X$ and $\alpha - P \in X$, so $n \in X + Y$.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{lemma: locality}]
+    By induction on $\term$, we show the claim simultaneously for all $u \le v$.
+    The cases of variables, constants, union, and complement are immediate (in the \kl{forward semantics}, complement is taken relative to \kl{forward pairs}, and $(u, v)$ is one).
+    If $(u, v) \in \sem{\term[1] \compo \term[2]}{\val}$ via $w$, then $u \le w \le v$, and we apply the induction hypothesis to $(u, w)$ and $(w, v)$, whose intervals are contained in $\range{u, v}$.
+    The case of $\term^{*}$ is similar, since all points of a closure path from $u$ to $v$ lie in $\range{u, v}$.
+    The statement on isomorphism types follows in the same way.
+\end{proof}
+
+\lemmaLcm*
+\begin{proof}
+    Let $\Pi \defeq \prod_{i=1}^{m} (b + p i)$ and $\Lambda \defeq \lcm_{i} (b + p i)$. We compare $\ell$-adic valuations $v_{\ell}$ for each prime $\ell$.
+
+    \emph{Case $\ell = p$.} No factor is divisible by $p$, since $p \mid b + p i$ would imply $p \mid b$. As $p > m$, also $p \ndiv \Dm$.
+
+    \emph{Case $\ell > m$, $\ell \ne p$.} If $\ell$ divides $b + p i$ and $b + p i'$, then $\ell \mid p (i - i')$, so $\ell \mid i - i'$, whence $i = i'$ as $\abs{i - i'} < m < \ell$.
+    So at most one factor is divisible by $\ell$, and $v_{\ell}(\Pi) = v_{\ell}(\Lambda)$. Also $v_{\ell}(\Dm) = 0$.
+
+    \emph{Case $\ell \le m$.} Let $e \defeq \lfloor \log_{\ell} m \rfloor$, so that $v_{\ell}(\Hm) = e$, and $\ell^{e} \mid b$.
+    For $s \le e$, we have $\ell^{s} \mid b + p i$ iff $\ell^{s} \mid i$, which holds for exactly $\lfloor m / \ell^{s} \rfloor \ge 1$ indices $i$.
+    For $s > e$, at most one index $i$ satisfies $\ell^{s} \mid b + p i$, by the argument of the previous case with $\ell^{s} > m$.
+    Let $\sigma$ be the number of $s > e$ for which such an index exists; since the sets $\set{i \mid \ell^{s} \mid b + p i}$ decrease in $s$, $v_{\ell}(\Lambda) = \max_i v_{\ell}(b + p i) = e + \sigma$.
+    On the other hand, $v_{\ell}(\Pi) = \sum_{s \ge 1} \#\set{i \mid \ell^{s} \mid b + p i} = \sum_{s = 1}^{e} \lfloor m / \ell^{s} \rfloor + \sigma = v_{\ell}(m!) + \sigma$ by Legendre's formula.
+    Hence $v_{\ell}(\Pi) - v_{\ell}(\Lambda) = v_{\ell}(m!) - v_{\ell}(\Hm) = v_{\ell}(\Dm)$, and $v_{\ell}(\Lambda) \ge e = v_{\ell}(\Hm)$.
+
+    Together, $\Pi = \Dm \Lambda$, $\Hm \mid \Lambda$, and $p \ndiv \Lambda$.
+\end{proof}

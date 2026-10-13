@@ -1,0 +1,64 @@
+\section{Branches and modules}\label{section: modules}
+
+Fix an even number $m \ge 4$.
+A \emph{branch} is a chain $y_1 < \dots < y_\ell$ of length $\ell \in \set{m, m+1}$ with one \emph{selected} vertex $y_\sigma$.
+We use three types of branches:
+\begin{center}
+  \begin{tabular}{cccc}
+    type & length $\ell$ & selected index $\sigma$ & parity of $\sigma$ \\ \hline
+    $\bg$ (good)    & $m$   & $m$   & even \\
+    $\bs$ (shifted) & $m$   & $m-1$ & odd \\
+    $\bl$ (long)    & $m+1$ & $m+1$ & odd
+  \end{tabular}
+\end{center}
+The good type $\bg$ differs from $\bs$ only in the selected vertex, and from $\bl$ only in the length.
+Let $\Bad \defeq \set{\bs, \bl}$.
+
+\begin{definition}[Modules]\label{definition: module}
+  For a nonempty word $w = t_1 \cdots t_k$ over $\set{\bg, \bs, \bl}$, the \emph{module} $\M(w)$ is the following valuation.
+  Its vertices are $u$, then a branch of type $t_1$, \dots, then a branch of type $t_k$, and finally $v$, ordered from left to right.
+  We set
+  \begin{align*}
+    \vr &\defeq \set{(u, y) \mid y \text{ is the first vertex of a branch}}\\
+        &\phantom{{}\defeq{}} \union \set{(y, y') \mid y, y' \text{ are consecutive vertices of the same branch}},\\
+    \vc &\defeq \set{(u, y) \mid y \text{ is the selected vertex of a branch}},
+    \qquad
+    \vb \defeq \set{(u, v)}.
+  \end{align*}
+\end{definition}
+
+\begin{figure}[t]
+  \centering
+  \input{fig/module}
+  \caption{The module $\M(\bs\bg\bl)$ for $m = 4$; in the proof $m = 2^{q+3}$.
+    Thin gray lines: successor; black arrows: $\vr$; dashed arrows: $\vc$; the outermost arrow: $\vb$.
+    Filled vertices are reachable from $u$ by $(\vr \compo \vr)^{*}$.
+    Only the $\vc$-target in the good branch $\bg$ is filled, so $\Kt(u, v)$ holds.
+    The graph is a path together with a fan at $u$.}
+  \label{figure: module}
+\end{figure}
+
+\Cref{figure: module} shows an example.
+All pairs are strict, so $\M(w)$ is an $\RSUB$ valuation.
+There is no $\vr$-pair between different branches.
+
+\begin{lemma}[Signal]\label{lemma: signal}
+  $\Kt(u, v)$ holds in $\M(w)$ iff $w$ contains $\bg$.
+\end{lemma}
+\begin{proof}
+  The $\vr$-paths from $u$ enter one branch at its first vertex and then follow that branch.
+  So the $\vr$-path from $u$ to the $i$-th vertex of a branch has length exactly $i$, and $(\vr \compo \vr)^{*}(u, y_i)$ holds iff $i$ is even.
+  Hence $((\vr \compo \vr)^{*} \inter \vc)(u, y)$ holds iff $y$ is the selected vertex of a branch with even $\sigma$, that is, of a branch of type $\bg$.
+  Such a $y$ satisfies $y < v$, and $\vb(u, v)$ holds.
+\end{proof}
+
+\begin{lemma}[Shape]\label{lemma: module shape}
+  Let $u = z_0 < z_1 < \dots < z_L = v$ be the vertices of $\M(w)$.
+  Every edge of $\Gaif(\M(w))$ is of the form $\set{z_i, z_{i+1}}$ or $\set{u, z_i}$.
+  Hence $\{u, z_i, z_{i+1}\}$ for $i = 1, \dots, L-1$ is a path decomposition of width two.
+  It starts with a bag containing $u$ and ends with a bag containing $v$.
+\end{lemma}
+\begin{proof}
+  The $\vr$-pairs inside branches are successor pairs.
+  All other input pairs start at $u$.
+\end{proof}

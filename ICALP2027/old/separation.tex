@@ -1,0 +1,50 @@
+\section{Separation}\label{section: separation}
+
+We now compare the period $\qseq{h}(a)$ of the \kl{witness term} with the period polynomials of \kl{terms} of lower \kl{star height}.
+\begin{theorem}\label{theorem: main RSUB}
+    Let $h \in \nat$ and let $\term$ be a \kl{term} (over any variables) with $\sh(\term) \le h$.
+    Then $\RSUB \not\models \Qt{h} = \term$.
+\end{theorem}
+\begin{proof}
+    \emph{Choice of parameters.}
+    Let $\ell \defeq \tsize{\term}$.
+    We choose $m \ge 2$ such that $m^{h} > \ell (m+1)^{h-1}$ if $h \ge 1$ (possible as $m^h / (m+1)^{h-1} \ge m / 2^{h-1}$), and $m \defeq 2$ if $h = 0$, and we fix a prime $p > m$.
+    By \Cref{lemma: degree bound}, every irreducible factor of an \kl{eventual period polynomial} of $\term$ has degree less than $m^{h}$; for $h = 0$, these polynomials are constants.
+
+    \emph{Restricting the parameter.}
+    By \Cref{proposition: upper bound}, $\term$ is \kl[$(d, b)$-tame]{$(\dg{\term}, \ib{\term})$-tame}; let $M$ be the modulus of \cref{definition: tame: period}.
+    The progression $\mathcal{A}$ of \Cref{section: witness arithmetic} meets some residue class $r$ modulo $M$ in infinitely many elements.
+    Let $P \defeq P_{r}$ be the \kl{eventual period polynomial} of $\term$ on this class.
+
+    \emph{Deriving a contradiction.}
+    Suppose that $\RSUB \models \Qt{h} = \term$.
+    Since each $\Mod{a}$ is \kl{diagonal-uniform}, \Cref{corollary: transfer} yields $\sem{\Qt{h}}{\Mod{a}} = \sem{\term}{\Mod{a}}$ for every $a$.
+    By \Cref{corollary: witness periods}, $\dset{\term}{1}{1}(a) = \dset{\Qt{h}}{1}{1}(a) = \qseq{h}(a) \nat$.
+    For large $a \in \mathcal{A}$ with $a \equiv r \pmod M$, this set is $P(a)$-periodic from some $T(a)$, so $\qseq{h}(a) \mid P(a)$ by \Cref{fact: periods}(\ref{fact: periods: min}).
+
+    By \Cref{lemma: irreducible}, $\Nseq{h}$ is irreducible of degree $m^{h}$, which exceeds the degree of every irreducible factor of the non-zero polynomial $P$.
+    So $\Nseq{h}$ and $P$ are coprime in $\rat[a]$, and there are $U, V \in \rat[a]$ with $U \Nseq{h} + V P = 1$.
+    Take $K \in \pnat$ such that $K U, K V \in \inte[a]$.
+    For each $a$ as above, $\qseq{h}(a)$ divides $P(a)$, and also $\Nseq{h}(a) = \Dm^{\dseq{h}} \qseq{h}(a)$ by~\eqref{equation: q N}.
+    Therefore $\qseq{h}(a)$ divides $(K U)(a) \Nseq{h}(a) + (K V)(a) P(a) = K$.
+    This is impossible for large $a$, since $\qseq{h}(a) \ge a$.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{theorem: main}]
+    By \Cref{section: witness operator}, $\sh(\Qt{h}) = h + 1$.
+    By \Cref{theorem: main RSUB,theorem: LANG RSUB}, $\Qt{h}$ is not \kl{language-equivalent} to any \kl{term} of \kl{star height} at most $h$.
+    The relational part is \Cref{theorem: main REL} in \Cref{section: appendix: rel}.
+    In particular, the class of $\Qt{h}$ is in $\Hcl{h+1} \setminus \Hcl{h}$.
+\end{proof}
+
+\begin{remark}[Order of quantifiers]
+    The proof establishes: for every $h$ there is $\Qt{h}$ such that for every $\term$ with $\sh(\term) \le h$ there is a finite counter-model (an $\RSUB$ valuation, and also a finite relational model by \Cref{theorem: main REL}).
+    The witness $\Qt{h}$ is fixed, while the counter-model depends on $\term$: the number $m$ of \kl{phases} grows with $\tsize{\term}$, and $a$ is chosen afterwards.
+    The \kl{chain models} contain complete bipartite graphs $K_{m,m}$ between consecutive times, so their treewidth grows with $m$.
+\end{remark}
+
+\begin{remark}[The case $h = 0$]
+    For $h = 0$ a direct argument is also available:
+    with $m = 1$ and $x$ interpreted as steps of length $2$, every star-free \kl{term} has an \kl{eventually periodic} \kl{difference set} with \kl{eventual period} $1$, as \Cref{table: invariants} shows,
+    whereas $x^{*}$ defines the even numbers.
+\end{remark}

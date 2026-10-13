@@ -1,0 +1,48 @@
+\section{Introduction}\label{section: introduction}
+Kleene algebra (KA) \cite{kleeneRepresentationEventsNerve1956,conwayRegularAlgebraFinite1971,kozenCompletenessTheoremKleene1991} is an algebraic system for regular expressions consisting of identity ($\id$), empty ($\emp$), composition ($\compo$), union ($\union$), and iteration ($\bl^{\kstar}$).
+% After Kleene \cite{Kleene1956} posed a question on the axiomatizability of the equational theory of regular expressions, the study was deepened by Conway in the monograph \cite{Conway1971}.
+% In 1991, Kozen \cite{kozenCompletenessTheoremKleene1991} presented a finite (quasi-equational) axiomatization---KA usually means this axiomatization.
+As iteration frequently appears in computer science, KA has many applications, e.g., the semantics of programs \cite{prattDynamicAlgebrasNature1980}, relation algebra \cite{ngRelationAlgebrasTransitive1984}, graph query language \cite{cruzGraphicalQueryLanguage1987,hellingsRelationAlgebraSemijoin2021}, program verification \cite{kozenKleeneAlgebraTests1996,hoareConcurrentKleeneAlgebra2011,smolkaGuardedKleeneAlgebra2019}, and program logics \cite{kozenHoareLogicKleene2000,ohearnIncorrectnessLogic2019,zhangIncorrectnessLogicKleene2022}.
+In practice, we often consider extensions of KA.
+One direction of extensions is to extend \kl{equations} to formulas, e.g., Horn formulas ($\term[1]_1 = \term[2]_1 \to \dots \to \term[1]_n = \term[2]_n \to \term[1] = \term[2]$) for considering hypotheses \cite{cohenHypothesesKleeneAlgebra1994,kozenKleeneAlgebraEquations2014,doumaneKleeneAlgebraHypotheses2019,pousToolsCompletenessKleene2024}.
+% Horn formulas naturally arise when we need some hypotheses.
+Another direction is to extend \kl{terms} by adding some operators.
+For example, Kleene algebra with tests (KAT) applies to model Hoare logic \cite{kozenHoareLogicKleene2000} and KAT with top ($\top$) applies to model incorrectness logic \cite{ohearnIncorrectnessLogic2019,zhangIncorrectnessLogicKleene2022,pousCompletenessTheoremsKleene2022}.
+It is also natural to extend KA with language operators, e.g.,
+reverse \cite{bloomNotesEquationalTheories1995},
+residual \cite{buszkowskiComplexityEquationalTheory2006},
+intersection ($\cap$) \cite{andrekaEquationalTheoryKleene2011},
+top (universality) \cite{zhangIncorrectnessLogicKleene2022,pousCompletenessTheoremsKleene2022},
+variable complements ($\com{x}$) \cite{nakamuraWordstoLettersValuationsLanguage2023,nakamuraWordstoLettersValuationsLanguage2024},
+and combinations of some of them \cite{brunetReversibleKleeneLattices2017,brunetCompleteAxiomatisationFragment2020}.
+Note that, whereas the class of regular languages is closed under these operators, such extensions strictly enhance the expressive power of KA w.r.t.\ languages (here, meaning regular expressions where each letter maps to any language); see \cite{nakamuraWordstoLettersValuationsLanguage2023,nakamuraWordstoLettersValuationsLanguage2024} and \Cref{section: semantics} for complement.
+
+In this paper, we study KA w.r.t.\ languages  by extending the algebraic signature with the \emph{language complement} ($\bl^{-}$).
+Extending with complement and considering its fragments is a natural, comprehensive approach,
+e.g., in logic, formal language \cite{cohenDotdepthStarfreeEvents1971,pinDotDepthHierarchy452016}, and relation algebra \cite{tarskiCalculusRelations1941,ngRelationAlgebrasTransitive1984}
+(see also \cite{andrekaEquationalTheoryUnionfree1995,brunetPetriAutomataKleene2015,nakamuraPartialDerivativesGraphs2017,pousPositiveCalculusRelations2018,nakamuraExistentialCalculiRelations2023}).
+The language complement\footnote{KAT \cite{kozenKleeneAlgebraTests1996} is also an extension of KA with complement, but this complement is not the language complement.} in KA w.r.t.\ languages significantly enhances the expressive power.
+For instance, we can define $\top$ and $\cap$ using complement: $\top = \emp^{-}$ and $\term[1] \cap \term[2] = (\term[1]^{-} \union \term[2]^{-})^{-}$.
+Additionally, we can encode \kl{positive quantifier-free formulas} by \kl{equations} of KA \kl{terms} with complement (\Cref{remark: quantifier-free,section: LANG and ORD for positive quantifier-free formulas}).
+% (which is similar to the situation of relation algebra with transitive closure \cite{ngRelationAlgebrasTransitive1984} in relation algebra.)
+
+Our main contribution is to present \emph{a finite relational semantics} for KA with complement w.r.t.\ languages: \kl{relational subword models} $\RSUB$ (\Cref{section: relation}).
+As KA with complement has a high expressive power,
+our relational semantics can apply to a more broad class of extensions of KA (including KA with $\top$ and $\cap$) than known relational semantics, e.g.,\ $\REL$ (for KA) \cite[third page]{prattDynamicAlgebrasNature1980} and $\GREL$ (for KA with $\top$) \cite{zhangIncorrectnessLogicKleene2022,pousCompletenessTheoremsKleene2022} (see \Cref{remark: LANG and GREL}).
+A good point of $\RSUB$ is its form; each model is finite and totally ordered (with \kl{minimal} and \kl{maximal} vertices).
+For instance, the $\Pi^{0}_{1}$ upper bound result of the equational theory of KA with complement w.r.t.\ languages is immediate from the finiteness of $\RSUB$.
+% Also, we can give a (polynomial-time) reduction from the \kl{quantifier-free theory} w.r.t.\ $\RSUB$ into the \kl{equational theory} w.r.t.\ $\RSUB$ (\Cref{theorem: quantifier-free formula to equation on RSUB}) by using that each model of $\RSUB$ has minimal and maximal vertices.
+Another good point is that we can naturally consider lifting techniques known in $\REL$ to $\LANG$.
+For instance, by using the techniques in \cite{nakamuraExistentialCalculiRelations2023} w.r.t.\ $\REL$, we can show the following complexity results: the \kl{equational theory w.r.t.\ languages} is $\Pi^{0}_{1}$-complete for KA with intersection and variable complements (\Cref{theorem: Pi01-complete}) and for KA with complement and without Kleene-star (i.e., star-free regular expressions w.r.t.\ $\LANG$) (\Cref{theorem: Pi01-complete star-free restated}); and PSPACE-complete for KA with variable and constant complements (\Cref{theorem: PSPACE-complete}).
+% The syntax of (1) corresponds to star-free regular expressions; note that the language equivalence is decidable (by a standard automata construction) and TOWER-complete \cite{schmitzComplexityHierarchiesElementary2016}.
+% The $\Pi^{0}_{1}$ upper bound can be easily derived, thanks to the finiteness of $\RSUB$ (and its isomorphic language model $\SUBW$).
+The PSPACE decidability result above positively settles the open problem posed in \cite[Sect.\ 7]{nakamuraWordstoLettersValuationsLanguage2023}.
+
+This paper is structured as follows.
+In \Cref{section: preliminaries}, we give basic definitions, including \kl{language models} ($\LANG$) and \kl{generalized relational models} ($\GREL$).
+In \Cref{section: relation}, we introduce $\RSUB$ (a subclass of $\GREL$) and show that the \kl{equational theory} w.r.t.\ $\LANG$ coincides with that w.r.t.\ $\RSUB$.
+In \Cref{section: Schroder-Tarski}, by using $\RSUB$, we give a reduction from the \kl{quantifier-free theory} w.r.t.\ $\LANG$ into the \kl{equational theory} w.r.t.\ $\LANG$.
+Using this reduction, we show that the \kl{equational theory} w.r.t.\ $\LANG$ is $\Pi^{0}_{1}$-complete for KA with complement (moreover, for KA with intersection and variable complements and for KA with complement and without Kleene-star).
+In \Cref{section: graph}, by using $\RSUB$, we give a graph characterization for KA terms with variable and constant complements.
+In \Cref{section: decidability}, by using this characterization, we show that the \kl{equational theory} for KA terms with variable and constant complements is PSPACE-complete.
+In \Cref{section: conclusion}, we conclude this paper.

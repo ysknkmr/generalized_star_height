@@ -1,0 +1,47 @@
+\section{Proof strategy}\label{section: strategy}
+
+By \Cref{theorem: LANG RSUB} and \Cref{corollary: transfer}, to prove the language part of \Cref{theorem: main} it suffices to show the following:
+\emph{for every $h$ and every \kl{term} $\term$ with $\sh(\term) \le h$, there are $m$, $p$, and $a$ such that $\dset{\term}{1}{1}(a) \neq \dset{\Qt{h}}{1}{1}(a)$.}
+This follows from two propositions about the \kl{chain models} $\Mod{a}$.
+
+\subparagraph*{The witness terms.}
+\AP For a \kl{term} $Q$, we define the \kl{terms} $\intro*\Mt(Q)$, $\intro*\Jt(Q)$, and $\intro*\Phit(Q)$ by
+\begin{align*}
+    \Mt(Q) &\defeq (\Zthree) \inter \com{c \compo (z \inter \com{Q}) \compo c}, &
+    \Jt(Q) &\defeq \Mt(Q) \inter \com{\Mt(Q) \compo c \compo z}, \\
+    \Phit(Q) &\defeq (\Jt(Q) \compo y)^{*},
+\end{align*}
+\AP and let $\intro*\Qt{0} \defeq x^{*}$ and $\Qt{h+1} \defeq \Phit(\Qt{h})$.
+Then $\sh(\Qt{h}) = h + 1$, and $\Qt{h}$ is a fixed \kl{term} over $x, y, z, c$, independent of $m$, $p$, and $a$.
+Intuitively, if $Q$ expresses ``the time difference is a multiple of $q_i$'' in each \kl{phase} $i$, then $\Mt(Q)$ expresses ``the time difference is $2 + rL$ with $r \ge 1$'' for $L = \lcm_i q_i$, $\Jt(Q)$ keeps the first such jump, and $\Phit(Q)$ expresses ``the time difference is a multiple of $L + p i$''.
+All complements occur inside an intersection with $z$; this makes the same \kl{terms} work in finite cyclic models (\Cref{section: appendix: rel}).
+
+\subparagraph*{Two propositions.}
+\AP Let $\intro*\Hm \defeq \lcm(1, \dots, m)$ and $\mathcal{A} \defeq \set{a \in \pnat \mid a \equiv \Hm \pmod{p \Hm}}$.
+
+\begin{proposition}[Witness; \Cref{section: witness}]\label{proposition: witness}
+    For each $h \in \nat$ there is an irreducible polynomial $\Nseq{h} \in \inte[a]$ of degree $m^{h}$ such that, for every $a \in \mathcal{A}$,
+    \[\dset{\Qt{h}}{1}{1}(a) = \qseq{h}(a) \nat \quad\text{for some integer } \qseq{h}(a) \ge a \text{ dividing } \Nseq{h}(a).\]
+\end{proposition}
+
+\begin{proposition}[Periods; \Cref{section: upper bound}]\label{proposition: periods}
+    Let $\term$ be a \kl{term} with $\sh(\term) \le h$, and let $\beta \defeq \tsize{\term} (m + 1)^{h - 1}$ if $h \ge 1$ and $\beta \defeq 0$ if $h = 0$.
+    There are $M \in \pnat$ and $P_0, \dots, P_{M-1} \in \rat[a]$, all of whose irreducible factors have degree at most $\beta$, such that for each $r$ and all large $a \equiv r \pmod M$, the set $\dset{\term}{1}{1}(a)$ is \kl{ultimately periodic} with \kl{period} $P_r(a)$.
+\end{proposition}
+In other words, the periods of \kl{terms} of low \kl{star height} are given by a quasi-polynomial in $a$ whose constituents have only irreducible factors of low degree, whereas the witness needs an irreducible factor of degree $m^{h}$.
+
+\begin{proof}[Proof of \Cref{theorem: main} (language part)]
+    Let $\sh(\term) \le h$.
+    Choose $m \ge 2$ with $m^{h} > \beta$ (possible since $m^h / (m+1)^{h-1} \ge m / 2^{h-1}$) and a prime $p > m$.
+    Take $M$ and $P_r$ from \Cref{proposition: periods}, where $r$ is a residue with infinitely many $a \in \mathcal{A}$, $a \equiv r \pmod M$; write $P \defeq P_r$.
+    Suppose, for contradiction, that $\dset{\term}{1}{1}(a) = \dset{\Qt{h}}{1}{1}(a) = \qseq{h}(a) \nat$ for all these $a$.
+    A period of $\qseq{h}(a) \nat$ is a multiple of $\qseq{h}(a)$, so $\qseq{h}(a) \mid P(a)$.
+    Since $\Nseq{h}$ is irreducible of degree $m^h > \beta$, it is coprime to $P$ in $\rat[a]$.
+    Clearing denominators in a B\'ezout identity gives $U, V \in \inte[a]$ and $K \in \pnat$ with $U \Nseq{h} + V P = K$.
+    As $\qseq{h}(a)$ divides the integers $\Nseq{h}(a)$ and $P(a)$, it divides $K$; this is impossible for $a > K$, since $\qseq{h}(a) \ge a$.
+    So $\dset{\term}{1}{1}(a) \ne \dset{\Qt{h}}{1}{1}(a)$ for some $a$, and $\term$ is not \kl{language-equivalent} to $\Qt{h}$.
+    Finally, $\sh(\Qt{h}) = h + 1$, so the class of $\Qt{h}$ lies in $\Hcl{h+1} \setminus \Hcl{h}$.
+\end{proof}
+
+The relational part is proved in the same way with finite cyclic versions of $\Mod{a}$ (\Cref{section: appendix: rel}).
+Note the order of quantifiers: the witness $\Qt{h}$ is fixed, while $m$, $p$, and $a$ (hence the counter-model) depend on $\term$.

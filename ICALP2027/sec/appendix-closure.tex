@@ -1,0 +1,104 @@
+\section{Proof of the closure lemma}\label{section: appendix: closure}
+
+Throughout this section, ``for large $a$'' means ``for all sufficiently large $a$''.
+We first note that \kl{parametric Presburger families} can be glued along residue classes.
+\begin{lemma}\label{lemma: glue}
+    Let $(X_a)_{a}$ be a family of subsets of $\nat$ such that each single set $X_a$ is Presburger definable, and let $M \in \pnat$.
+    Suppose that for each residue $r$ modulo $M$ there is a \kl{parametric Presburger family} $(X^{r}_a)_a$ such that $X_a = X^{r}_{a}$ for large $a \equiv r \pmod M$.
+    Then $(X_a)_a$ is a \kl{parametric Presburger family}.
+\end{lemma}
+\begin{proof}
+    Let $a_0$ be a common bound beyond which the hypothesis holds, and let $\varphi_r$ and $\psi_{a'}$ define $X^{r}_a$ and $X_{a'}$ ($a' < a_0$), respectively.
+    Then $X_a$ is defined by
+    \[\textstyle\bigvee_{r} \left(\exists k\ (M k = a - r) \land a \ge a_0 \land \varphi_r\right) \lor \bigvee_{a' < a_0} \left(a = a' \land \psi_{a'}\right),\]
+    where $M k = a - r$, $a \ge a_0$, and $a = a'$ are atomic formulas of the required form.
+\end{proof}
+We will apply \Cref{lemma: glue} to sets of walk \kl{weights}.
+For fixed $a$, each $S_{kl}(a)$ is defined by an ordinary Presburger formula, hence is semilinear and thus \kl{ultimately periodic}.
+The construction in the proof of \Cref{lemma: closure} below, carried out for this fixed $a$ (where all parameters are constants, and bounded sets are finite), shows that the set of walk \kl{weights} is Presburger definable.
+It therefore suffices to fix a residue $r$ modulo $M$ and to find a parametric Presburger definition valid for large $a \equiv r \pmod M$.
+
+\subsection{A normal form for polynomially bounded families}
+\begin{lemma}[Simplex normal form]\label{lemma: simplex}
+    Let $(X_a)_a$ be a \kl{parametric Presburger family} with $X_a \subseteq \range{-C a^{D}, C a^{D}}$ for large $a$.
+    Then there are finitely many tuples $(A_\nu, (W_{\nu j})_{j \in J_\nu}, \beta_\nu, L_\nu)$ with $A_\nu, W_{\nu j} \in \inte[a]$, $\beta_\nu \in \inte$, and $L_\nu \in \pnat$, such that for large $a$
+    \[X_a = \bigcup_{\nu} X_\nu(a), \qquad X_\nu(a) \defeq A_\nu(a) + \set*{\textstyle\sum_{j \in J_\nu} \lambda_j W_{\nu j}(a) \mid \lambda \in \nat^{J_\nu},\ L_\nu \sum_{j} \lambda_j = a - \beta_\nu}.\]
+\end{lemma}
+\begin{proof}
+    Replacing $X_a$ by $X_a + C a^{D} \subseteq \range{0, 2 C a^{D}}$ (and $A_\nu$ by $A_\nu - C a^{D}$ at the end), we may assume $X_a \subseteq \range{0, C a^{D}}$.
+    \emph{Digits.}
+    For $a > C$, every $n \in \range{0, C a^{D}}$ has a unique expansion $n = \sum_{e = 0}^{D} n_e a^{e}$ with $0 \le n_e < a$ for $e < D$ and $0 \le n_D \le C$.
+    Let $\mathit{Dig} \subseteq \nat^{D + 2}$ be the set of tuples $(a, n_0, \dots, n_D)$ satisfying these bounds such that $\sum_{e} n_e a^{e} \in X_a$.
+    We claim that, for some $a_0$, the set $\mathit{Dig} \cap \set{a \ge a_0}$ is definable in ordinary Presburger arithmetic, where $a$ is treated as an ordinary variable.
+    By~\cite[Thm.~3.7]{bogartParametricPresburgerArithmetic2017}, $X_a$ is defined by a formula in which every quantified variable is bounded by $0 \le y \le g(a)$ for a polynomial $g$.
+    The free variable $n$ is bounded by $C a^{D}$ as well.
+    We expand every variable, free or bound, in base $a$ as above (the free variable into $n_0, \dots, n_D$), as in~\cite[Lemma~4.5]{bogartParametricPresburgerArithmetic2017}.
+    Every atomic formula becomes $\sum_{s} f_s a^{s} \le 0$, where each $f_s$ is an integer linear combination of digits.
+    As all digits are bounded by $a$, \cite[Lemma~4.6]{bogartParametricPresburgerArithmetic2017} rewrites it, for large $a$, by guessing the carry $h$ in $(h-1) a < f_0 \le h a$ among finitely many values,
+    into a Boolean combination of ordinary Presburger inequalities in $a$ and the digits and an inequality of the same kind with one power of $a$ less.
+    Since no variable is unbounded, iterating this eliminates all powers of $a$ that multiply variables.
+    The remaining inequalities without variables, of the form $g(a) \le 0$ with $g \in \inte[a]$, have a constant truth value for large $a$.
+    Quantifiers over digits are bounded by $0 \le b < a$, which is an ordinary Presburger condition.
+    This proves the claim.
+
+    \emph{Semilinear decomposition.}
+    By~\cite{ginsburgSemigroupsPresburgerFormulas1966}, $\mathit{Dig} \cap \set{a \ge a_0}$ is a finite union of linear sets $\set{\beta + \sum_{j} \lambda_j \gamma_j \mid \lambda \in \nat^{J}}$ with $\beta, \gamma_j \in \nat^{D + 2}$ and $\gamma_j \ne 0$.
+    Every $\gamma_j$ has a positive $a$-coordinate $(\gamma_j)_a$:
+    otherwise $\beta + \lambda \gamma_j$ would stay in $\mathit{Dig}$ for all $\lambda$ with a fixed $a$-coordinate and an unbounded digit, contradicting the bounds on digits.
+    Let $L$ be the lcm of all $(\gamma_j)_{a}$.
+    Writing $\lambda_j = (L / (\gamma_j)_a) \lambda'_j + \rho_j$ with $0 \le \rho_j < L / (\gamma_j)_a$, each linear set is the finite union over $\rho$ of the linear sets with base $\beta_\rho \defeq \beta + \sum_{j} \rho_j \gamma_j$ and generators $\gamma'_j \defeq (L / (\gamma_j)_{a}) \gamma_j$, each of which has $a$-coordinate exactly $L$.
+    Hence an element of such a set has $a$-coordinate $a$ iff $L \sum_j \lambda'_j = a - (\beta_\rho)_{a}$.
+
+    \emph{Back to integers.}
+    The map $(a, n_0, \dots, n_D) \mapsto \sum_e n_e a^{e}$ is linear in the digits for fixed $a$.
+    So, with $A(a) \defeq \sum_e (\beta_\rho)_{n_e} a^{e}$ and $W_j(a) \defeq \sum_e (\gamma'_j)_{n_e} a^{e}$, the image of the linear set at parameter $a$ is exactly the set $X_\nu(a)$ with $\beta_\nu = (\beta_{\rho})_a$ and $L_\nu = L$.
+\end{proof}
+
+\subsection{Iterated sums}
+For $X \subseteq \nat$ and $k \in \nat$, let $\intro*\kfold{k}{X} \defeq \set{x_1 + \dots + x_k \mid x_1, \dots, x_k \in X}$, where $\kfold{0}{X} = \set{0}$.
+\begin{lemma}\label{lemma: iterated sums}
+    Let $X_\nu(a)$ be as in \Cref{lemma: simplex}.
+    Then the relation $\set{(k, n) \mid n \in \kfold{k}{X_\nu(a)}}$ is a \kl{parametric Presburger family}.
+\end{lemma}
+\begin{proof}
+    We drop the index $\nu$.
+    If $a - \beta \notin L \nat$, then $X(a) = \emptyset$, and $\kfold{k}{X(a)}$ is $\set{0}$ for $k = 0$ and $\emptyset$ otherwise.
+    If $a - \beta = L K$ with $K \in \nat$, we claim
+    \[\kfold{k}{X(a)} = \set*{\textstyle k A(a) + \sum_{j} \mu_j W_j(a) \mid \mu \in \nat^{J},\ \sum_{j} \mu_j = k K}.\]
+    The inclusion $\subseteq$ holds by adding the coefficient vectors of the $k$ summands.
+    For $\supseteq$, a vector $\mu \in \nat^{J}$ with $\sum_j \mu_j = k K$ is the sum of $k$ vectors in $\nat^{J}$ with coordinate sum $K$ each (remove $K$ units greedily, $k$ times); this includes $k = 0$.
+    Both cases are expressed by
+    \begin{multline*}
+        (k = 0 \land n = 0) \lor {} \\
+        \exists K\, \exists \mu \left(L K = a - \beta \land n = k \cdot A(a) + \textstyle\sum_{j} \mu_j W_j(a) \land L \sum_j \mu_j = k \cdot a - \beta k\right),
+    \end{multline*}
+    in which only products of a variable with a polynomial in $a$ occur.
+\end{proof}
+
+\subsection{Walks}
+\lemmaClosure*
+\begin{proof}
+    By \Cref{lemma: glue}, we fix a residue $r$ modulo $M$ and consider large $a \equiv r \pmod M$; we write $P \defeq P_r$ and $T \defeq T_r$.
+    Each edge set decomposes as
+    \begin{gather*}
+        S_{kl}(a) = F_{kl}(a) \cup \left(R_{kl}(a) + P(a)\nat\right), \quad \text{where}\\
+        F_{kl}(a) \defeq S_{kl}(a) \cap \range{0, T(a) - 1}, \qquad R_{kl}(a) \defeq S_{kl}(a) \cap \range{T(a), T(a) + P(a) - 1},
+    \end{gather*}
+    because $S_{kl}(a)$ is $P(a)$-periodic from $T(a)$.
+    The families $F_{kl}$ and $R_{kl}$ are \kl{parametric Presburger families} (multiply $T$ and $P$ by a common denominator) and polynomially bounded.
+    By \Cref{lemma: simplex}, they are finite unions of sets $X_\tau(a)$, where $\tau$ ranges over a finite index set $\Gamma$.
+    We tag each $\tau \in \Gamma$ with its edge $(k, l)$ and with its kind, \emph{head} (from $F_{kl}$) or \emph{tail} (from $R_{kl}$).
+
+    Consider the finite automaton over the alphabet $\Gamma$ with states $\range{1, m}$ and a transition $k \xrightarrow{\tau} l$ for each $\tau$ tagged with $(k, l)$.
+    By Parikh's theorem~\cite{parikhContextFreeLanguages1966}, the set $\Pi_{ij} \subseteq \nat^{\Gamma}$ of letter-count vectors of the words leading from $i$ to $j$ is semilinear, hence definable by a Presburger formula (without the parameter).
+    We claim that $n$ is the \kl{weight} of a walk from $i$ to $j$ iff
+    there are $(k_\tau)_{\tau} \in \Pi_{ij}$, $n_\tau \in \kfold{k_\tau}{X_\tau(a)}$ for $\tau \in \Gamma$, and $y \in \nat$ such that
+    \[n = \textstyle\sum_{\tau} n_\tau + P(a) y, \qquad \text{and } y = 0 \text{ if } k_\tau = 0 \text{ for every tail letter } \tau.\]
+    ($\Rightarrow$) Each step of the walk uses an element of some $X_\tau(a)$ (head) or of some $X_\tau(a) + P(a) \nat$ (tail).
+    Collect the elements by letters, and let $y$ be the sum of the multiples of $P(a)$ used in tail steps.
+    ($\Leftarrow$) Take a word with letter counts $(k_\tau)_\tau$ from $i$ to $j$, and distribute the $k_\tau$ summands of $n_\tau$ to the occurrences of $\tau$.
+    If $y > 0$, some tail letter occurs, and we add $P(a) y$ to one of its occurrences; this stays in $R_{kl}(a) + P(a) \nat \subseteq S_{kl}(a)$.
+
+    By \Cref{lemma: iterated sums}, the right-hand side is a parametric Presburger formula (after multiplying $P$ by a common denominator).
+    This proves the claim and the lemma.
+\end{proof}

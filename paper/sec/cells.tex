@@ -1,0 +1,63 @@
+\section{Cells and parity}\label{section: cells}
+
+Fix $q$ and the modules $\M^{+} \defeq \M^{+}_q$, $\M^{-} \defeq \M^{-}_q$ of \Cref{proposition: local pair}.
+For a bit $\theta \in \set{0, 1}$, let $\M^{(1)} \defeq \M^{+}$ and $\M^{(0)} \defeq \M^{-}$.
+So the bit of a module is the truth value of $\Kt(u, v)$.
+
+\begin{definition}[Cell models]\label{definition: cells}
+  Let $w = w_1 \cdots w_n \in \set{0,1}^{+}$.
+  The valuation $\C(w)$ consists of the following vertices, ordered from left to right:
+  \[
+    p^{0}_{0} < p^{0}_{1} < \underbrace{u_1 < \cdots < v_1}_{\text{copy of } \M^{(w_1)}} < p^{1}_{0} < p^{1}_{1} < \underbrace{u_2 < \cdots < v_2}_{\text{copy of } \M^{(w_2)}} < \cdots < v_n < p^{n}_{0} < p^{n}_{1}.
+  \]
+  The relations $\vr, \vc, \vb$ are the union of the relations of the copies of the modules.
+  The vertices $p^{i}_{0}, p^{i}_{1}$ are called \emph{ports}.
+  Cell $i$ consists of the module $\range{u_i, v_i}$ together with its input ports $p^{i-1}_{0}, p^{i-1}_{1}$ and output ports $p^{i}_{0}, p^{i}_{1}$.
+\end{definition}
+
+No input pair leaves a module, and every input pair is strict.
+So $\C(w)$ is an $\RSUB$ valuation with irreflexive $\vr, \vc, \vb$.
+
+\begin{lemma}\label{lemma: cells pathwidth}
+  $\pw(\C(w)) = 2$.
+\end{lemma}
+\begin{proof}
+  We concatenate path decompositions.
+  For each $i$, take the bags $\set{p^{i-1}_0, p^{i-1}_1}$ and $\set{p^{i-1}_1, u_i}$.
+  Then take the bags of \Cref{lemma: module shape} for the $i$-th module, and finally the bag $\set{v_i, p^{i}_0}$.
+  At the end we add the bag $\set{p^{n}_0, p^{n}_1}$.
+  Every vertex occurs in an interval of bags, and every edge is covered, since the ports are joined only by successor pairs.
+  All bags have at most three elements.
+  The path from $u_1$ to $v_1$ together with the edge $\set{u_1, v_1}$ forms a cycle, so the pathwidth is at least two.
+\end{proof}
+
+\begin{figure}[t]
+  \centering
+  \input{fig/cells}
+  \caption{(a) The order of the vertices in cell $i$; the braces show the shifts by $\St$ and $\St^{2}$ used in $\Ht$.
+    (b) The edges of $\Ht$ in cell $i$, drawn on two tracks.
+    A module in $\Kt$ (bit $1$) swaps the ports, and a module in $\Nt$ (bit $0$) keeps them.
+    (c) The edges of $\Ht$ in $\C(101)$.
+    The highlighted $\Ht$-path from $p^{0}_{0}$ uses two swaps and ends in $p^{3}_{0}$.
+    In general, $\Psit(p^{0}_{0}, p^{n}_{1})$ holds iff the number of swaps is odd.}
+  \label{figure: cells}
+\end{figure}
+
+\begin{lemma}[Parity]\label{lemma: parity}
+  In $\C(w)$, the relation $\Ht$ is exactly
+  \[
+    \set{(p^{i-1}_{j}, p^{i}_{j \oplus w_i}) \mid i \in \range{n},\ j \in \set{0, 1}},
+  \]
+  where $\oplus$ is addition modulo two.
+  Consequently, $\Psit(p^{0}_{0}, p^{n}_{1})$ holds in $\C(w)$ iff the number of $1$s in $w$ is odd.
+\end{lemma}
+\begin{proof}
+  The relation $\vb$ consists of the pairs $(u_i, v_i)$.
+  By \Cref{lemma: locality}, $\Kt(u_i, v_i)$ is evaluated in the $i$-th module, so it holds iff $w_i = 1$.
+  Hence $\Kt = \set{(u_i, v_i) \mid w_i = 1}$ and $\Nt = \set{(u_i, v_i) \mid w_i = 0}$.
+  The only vertex $x$ with $\St^{2}(x, u_i)$ is $p^{i-1}_0$, and the only vertex with $\St(x, u_i)$ is $p^{i-1}_1$.
+  Similarly, the only $y$ with $\St(v_i, y)$ is $p^{i}_0$, and the only $y$ with $\St^{2}(v_i, y)$ is $p^{i}_1$.
+  Reading off \eqref{equation: Psi} gives the description of $\Ht$; see \Cref{figure: cells}(a,b).
+  Every $\Ht$-path from $p^{0}_{0}$ passes through one port of each layer $i$.
+  It changes the index exactly at the cells with $w_i = 1$.
+\end{proof}

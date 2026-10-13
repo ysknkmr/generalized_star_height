@@ -1,0 +1,328 @@
+
+\section{Preliminaries}\label{section: preliminaries}
+We write $\nat$ for the set of non-negative integers.
+For $l, r \in \nat$, we write $\range{l, r}$ for the set $\{i \in \nat \mid l \le i \le r\}$.
+% For $n \in \nat$, we write $[n]$ for $[1, n]$.
+For a set $X$, we write
+%$\card X$ for the cardinality of $X$ and
+$\wp(X)$ for the power set of $X$.
+
+For a set $X$ (of \intro*\kl{letters}), we write $X^{\kstar}$ for the set of \intro*\kl{words} over $X$.
+A \intro*\kl{language} over $X$ is a subset of $X^{\kstar}$.
+We use $\word[1], \word[2]$ to denote \kl{words} and use $\la[1], \la[2]$ to denote \kl{languages}, respectively.
+We write $\len{\word}$ for the \intro*\kl{length} of a \kl{word} $\word$.
+We write $\eps$ for the empty \kl{word}.
+We write $\word[1] \word[2]$ for the \kl[word]{concatenation} of \kl{words} $\word[1]$ and $\word[2]$.
+For \kl{languages} $\la[1], \la[2] \subseteq X^{\kstar}$, the \intro*\kl{concatenation} $\la[1] \compo \la[2]$ and the \intro*\kl{Kleene-star} $\la[1]^{\kstar}$ is defined by:
+\begin{align*}
+    \la[1] \compo \la[2] & \;\defeq\; \set{\word[1] \word[2] \mid \word[1] \in \la[1] \ \land \ \word[2] \in \la[2]},                         &
+    \la[1]^{\kstar}      & \;\defeq\; \bigcup_{n \ge 0} \set{\eps} \compo \underbrace{\la[1] \compo \dots \compo \la[1]}_{n \text{ times}}.
+\end{align*}
+
+\newcommand{\FillS}{\mathcal{S}}
+% \subsection{Graphs}\label{section: graph definition}
+A \intro*\kl{($2$-pointed) graph} $\graph$ over a set $A$ is a tuple $\tuple{\domain{\graph}, \set{a^{\graph}}_{a \in A}, \src^{\graph}, \tgt^{\graph}}$, where
+$\domain{\graph}$ is a non-empty set (of vertices),
+each $a^{\graph} \subseteq \domain{\graph}^{2}$ is a binary relation, and
+$\src^{\graph}, \tgt^{\graph} \in \domain{\graph}$ are vertices.
+Let $\graph[1], \graph[2]$ be \kl{graphs} over a set $A$.
+For a map $f \colon \domain{\graph[1]} \to \domain{\graph[2]}$,
+we say that $f$ is a \intro*\kl{graph homomorphism} from $\graph[1]$ to $\graph[2]$, written $f \colon \graph \homo \graph[2]$, if
+for all $x$, $y$, and $a$, $\tuple{x, y} \in a^{\graph[1]}$ implies $\tuple{f(x), f(y)} \in a^{\graph[2]}$,
+$f(\src^{\graph[1]}) = \src^{\graph[2]}$, and $f(\tgt^{\graph[1]}) = \tgt^{\graph[2]}$.
+We say that $f$ is a \intro*\kl{graph isomorphism} from $\graph[1]$ to $\graph[2]$ if
+$f$ is a bijective \kl{graph homomorphism} and for all $x$, $y$, and $a$, $\tuple{x, y} \in a^{\graph[1]}$ iff $\tuple{f(x), f(y)} \in a^{\graph[2]}$.
+We say that $\graph[2]$ is a (canonical) \intro*\kl{edge-extension} of $\graph[1]$ if 
+$\domain{\graph[2]} = \domain{\graph[1]}$ and the identity map is a \kl{graph homomorphism} from $\graph[1]$ to $\graph[2]$.
+For a set $\set{\src^{\graph[1]}, \tgt^{\graph[1]}} \subseteq X \subseteq \domain{\graph[1]}$,
+the \intro*\kl{induced subgraph} of $\graph[1]$ on $X$ is the \kl{graph} $\tuple{X, \set{a^{\graph[1]} \cap X^2}_{a \in A}, \src^{\graph[1]}, \tgt^{\graph[1]}}$.
+For an equivalence relation $E$ on $\domain{\graph[1]}$,
+the \intro*\kl{quotient graph} of $\graph[1]$ w.r.t.\ $E$ is the \kl{graph} $\graph[1]/E \defeq \tuple{\domain{\graph[1]}/E, \set{\tuple{X, Y} \mid \exists x \in X, y \in Y, \tuple{x, y} \in a^{\graph[1]}}_{a \in A}, \quo{\src^{\graph}}_{E}, \quo{\tgt^{\graph}}_{E}}$ where 
+$X/E$ denotes the set of equivalence classes of $X$ by $E$ and $\quo{x}_{E}$ denotes the equivalence class of $x$.
+Additionally, we use the following operation:
+\begin{definition}\label{definition: edge-saturation}
+    For a \kl{graph homomorphism} $h \colon \graph[1] \homo \graph[2]$ where $\graph[1]$, $\graph[2]$ are \kl{graphs} over a set $A$,
+    the \intro*\kl{edge-saturation} of $\graph[1]$ w.r.t.\ $h$ is the \kl{graph}
+    $\FillS(h) \defeq \tuple{\domain{\graph[1]}, \set{\set{\tuple{x, y} \in \domain{\graph[1]}^2 \mid \tuple{h(x), h(y)} \in a^{\graph[2]}}}_{a \in A}, \src^{\graph[1]}, \tgt^{\graph[1]}}$.
+\end{definition}
+
+\begin{example}\label{example: edge-saturation}
+    Let $h \colon \graph[1] \homo \graph[2]$ be the \kl{graph homomorphism} indicated by green colored arrows (graphs are depicted as unlabeled graphs for simplicity).
+    Then $\FillS(h)$ is the following \kl{graph} in the left-hand side,
+    which is an \kl{edge-extension} of $\graph[1]$ where the extended edges are derived from edges of $\graph[2]$:
+    \begin{gather*}
+        \FillS(h) =
+        \begin{tikzpicture}[remember picture, baseline = -2.5ex]
+            \graph[grow right = .8cm, branch down = 2.ex]{
+            {/,B0/{}[mynode, ]}
+            -!- {B1/{}[mynode, xshift = -.75em],/, B2/{}[mynode, xshift = .75em]}
+            -!- {/,B3/{}[mynode, ]}
+            };
+            \node[left = .5em of B0](l){};
+            \node[right = .5em of B3](r){};
+            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            l -> B0; B3 -> r;
+            B0 -> B2;
+            B0 <-> B1;
+            B0 -> B3;
+            B2 <-> B3;
+            B1 -> B2;
+            B1 -> B3;
+            {B0,B2,B3} ->[out=-120, in=-60, looseness=10,] {B0,B2,B3};
+            {B1} ->[out=120, in=60, looseness=10,] {B1};
+            };
+        \end{tikzpicture},
+        \hspace{2.em}
+        \graph[1] =
+        \begin{tikzpicture}[remember picture, baseline = -2.5ex]
+            \graph[grow right = .8cm, branch down = 2.ex, nodes={}]{
+            {/,A0/{}[mynode, ]}
+            -!- {A1/{}[mynode, xshift = -.75em],/, A2/{}[mynode, xshift = .75em]}
+            -!- {/,A3/{}[mynode, ]}
+            };
+            \node[left = .5em of A0](l){};
+            \node[right = .5em of A3](r){};
+            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                l -> A0; A3 -> r;
+                A0 -> A2;
+                % A0 -> A1;
+                A1 -> A3;
+            };
+        \end{tikzpicture} \hspace{1.em}
+        \graph[2] =
+        \begin{tikzpicture}[remember picture, baseline = -.5ex]
+            \graph[grow right = .8cm, branch down = 2.5ex, nodes={}]{
+            {0/{}[mynode, ]}
+            -!- {1/{}[mynode]}
+            % -!- {2/{}[mynode]}
+            -!- {3/{}[mynode, ]}
+            };
+            \node[left = .5em of 0](l){};
+            \node[right = .5em of 3](r){};                                                                                                                                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            l -> 0; 3 -> r;
+            0 -> 1;
+            1 -> 3;
+            % 1 ->[bend left = 20] 3;
+            % 0 ->[bend right = 35] 2;
+            0 ->[bend left = 30] 3;
+            {0,1,3} ->[out=-120, in=-60, looseness=10,] {0,1,3};
+            };
+        \end{tikzpicture}
+        \begin{tikzpicture}[remember picture, overlay]
+            \path (A0) edge [homoarrow,->, out =60, in = 150, looseness = .8] (0);
+            \path (A1) edge [homoarrow,->, bend left = 17] (0);
+            \path (A2) edge [homoarrow,->, out = 0, in = -150, bend right = 20] (3);
+            \path (A3) edge [homoarrow,->, out = -60, in = -150, bend right = 26] (3);
+            % \path (C0) edge [homoarrow,->] (0);
+            % \path (C1) edge [homoarrow,->] (1);
+            % \path (C3) edge [homoarrow,->] (3);
+        \end{tikzpicture}.
+    \end{gather*}
+    % \lipicsEnd
+\end{example}
+
+\subsection{Syntax: terms of KA with complement}\label{section: syntax}
+We consider \intro*\kl{terms} over the signature $\sig \defeq \set{\id_{(0)}, \emp_{(0)}, \compo_{(2)}, \union_{(2)}, \bl^{\kstar}_{(1)}, \bl^{\compl}_{(1)}}$.
+Let $\vsig$ be a countably infinite set of \intro*\kl{variables}.
+For a \kl{term} $\term$ over $\sig$, let $\com{\term}$ be $\term[2]$ if $\term = \term[2]^{-}$ for some $\term[2]$
+and be $\term^{-}$ otherwise.
+% \begin{cases}
+%         \term[2]  & \mbox{(if )} \\
+%         & \mbox{(otherwise)}
+%     \end{cases}$.
+We use the abbreviations: $\top \defeq \emp^{-}$ and $\term[1] \cap \term[2] \defeq (\term[1]^{-} \union \term[2]^{-})^{-}$.
+ 
+For $X \subseteq \set{\com{x}, \com{\id}, \top, \cap, -}$,
+let $\KAtermclass_{X}$ be the minimal set $A$ of \kl{terms} over $\sig$ satisfying:
+\begin{align*}
+    \begin{prooftree}
+        \hypo{y \in \vsig}
+        \infer1{y \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\mathstrut}
+        \infer1{\id \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\mathstrut}
+        \infer1{\emp \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\term[1] \in A}
+        \hypo{\term[2] \in A}
+        \infer2{\term[1] \compo \term[2] \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\term[1] \in A}
+        \hypo{\term[2] \in A}
+        \infer2{\term[1] \union \term[2] \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\term[1] \in A}
+        \infer1{\term[1]^{\kstar} \in A}
+    \end{prooftree} \\
+    \begin{prooftree}
+        \hypo{\com{x} \in X}
+        \hypo{y \in \vsig}
+        \infer2{\com{y} \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\com{\id} \in X}
+        \infer1{\com{\id} \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\top \in X}
+        \infer1{\top \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{\cap \in X}
+        \hypo{\term[1] \in A}
+        \hypo{\term[2] \in A}
+        \infer3{\term[1] \cap \term[2] \in A}
+    \end{prooftree}
+    \qquad
+    \begin{prooftree}
+        \hypo{- \in X}
+        \hypo{\term[1] \in A}
+        \infer2{\term[1]^{-} \in A}
+    \end{prooftree}.
+\end{align*}
+We often abbreviate $\term[1] \compo \term[2]$ to $\term[1] \term[2]$.
+We use parentheses in ambiguous situations (where $\union$ and $\compo$ are left-associative).
+We write $\sum_{i = 1}^{n} \term[1]_i$ for the \kl{term} $\emp \union \term[1]_1 \union \dots \union \term[1]_n$.
+% We let $\vsig^{\compl} \defeq \set{x^{\compl} \mid x \in \vsig}$.
+% $x^{\compl}$
+
+An \intro*\kl{equation} $\term[1] = \term[2]$ is a pair of \kl{terms}.
+An \intro*\kl{inequation} $\term[1] \le \term[2]$ abbreviates the \kl{equation} $\term[1] \union \term[2] = \term[2]$.
+The set of \intro*\kl{quantifier-free formulas} of $\KAtermclass_{X}$ is defined by the following grammar:
+\begin{align*}
+    \fml[1], \fml[2] &\quad::=\quad \term[1] = \term[2] \mid \fml[1] \land \fml[2] \mid \lnot \fml[1]. \tag{$\term[1], \term[2] \in \KAtermclass_{X}$}
+\end{align*}
+We use the following abbreviations, as usual: $\fml[1] \lor \fml[2] \defeq \lnot (\lnot \fml[1] \land \lnot \fml[2])$,
+$\fml[1] \to \fml[2] \defeq \lnot \fml[1] \lor \fml[2]$, $\fml[1] \leftrightarrow \fml[2] \defeq (\fml[1] \to \fml[2]) \land (\fml[2] \to \fml[1])$,
+$\mathsf{f} \defeq \lnot \fml[1] \land \fml[1]$, and $\mathsf{t} \defeq \lnot \mathsf{f}$.
+We use parentheses in ambiguous situations (where $\lor$ and $\land$ are left-associative).
+We write $\bigwedge_{i = 1}^{n} \fml_i$ for $\mathsf{t} \land \fml_1 \land \dots \land \fml_n$ and $\bigvee_{i = 1}^{n} \fml_i$ for $\mathsf{f} \lor \fml_1 \lor \dots \lor \fml_n$.
+
+We say that a \kl{quantifier-free formula} is \intro*\kl[positive quantifier-free formula]{positive} if the formula in the following set $A$:
+\begin{align*}
+    \fml[1], \fml[2] \in A &\quad::=\quad \term[1] = \term[2] \mid \fml[1] \land \fml[2] \mid \fml[1] \lor \fml[2] \tag{$\term[1], \term[2] \in \KAtermclass_{X}$}
+\end{align*}
+where $\fml[1] \lor \fml[2]$ expresses $\lnot (\lnot \fml[1] \land \lnot \fml[2])$ in the above.
+We say that a \kl{quantifier-free formula} is a \intro*\kl{Horn formula} if the formula is of the form $(\bigwedge_{i = 1}^{n} \fml[1]_i) \to \fml[2]$ where $n \ge 0$.
+
+\subsection{Semantics: language models}\label{section: semantics}
+An \intro*\kl{$\sig$-algebra} $\alg$ is a tuple $\tuple{\domain{\alg}, \set{f^{\alg}}_{f_{(k)} \in \sig}}$, where $\domain{\alg}$ is a non-empty set and $f^{\alg} \colon \domain{\alg}^{k} \to \domain{\alg}$ is a $k$-ary map for each $f_{(k)} \in \sig$.
+A \intro*\kl{valuation} $\val$ of an \kl{$\sig$-algebra} $\alg$ is a map $\val \colon \vsig \to \domain{\alg}$.
+For a \kl{valuation} $\val$, we write $\hat{\val} \colon \KAtermclass_{\set{-}} \to \domain{\alg}$ for the unique homomorphism extending $\val$.
+Moreover, for a \kl{quantifier-free formula} $\fml$, we define $\hat{\val}(\fml) \in \set{\const{true}, \const{false}}$ by:
+\begin{align*}
+    \hat{\val}(\term[1] = \term[2])  &\defiff (\hat{\val}(\term[1]) = \hat{\val}(\term[2])),&
+    \hat{\val}(\fml[1] \land \fml[2])  &\defiff (\hat{\val}(\fml[1])  \mbox{ and } \hat{\val}(\fml[2])), &
+    \hat{\val}(\lnot \fml[1])  &\defiff (\mbox{not } \hat{\val}(\fml[1])).
+\end{align*}
+For a \kl{quantifier-free formula} $\fml$ and a class of \kl{valuations} (of \kl{$\sig$-algebra}) $\algclass$,\footnote{This paper considers classes of \kl{valuations} rather than classes of \kl{$\sig$-algebras} (cf.\ \Cref{theorem: ord for the standard language valuation}).}
+we write
+\begin{align*}
+\algclass \models \fml & \  \defiff \  \hat{\val}(\fml) \mbox{ holds for all \kl{valuations} $\val \in \algclass$}.
+\end{align*}
+We abbreviate $\set{\val} \models \fml$ to $\val \models \fml$.
+The \intro*\kl{equational theory w.r.t.\ $\algclass$} is the set of all \kl{equations} $\term[1] = \term[2]$ such that $\algclass \models \term[1] = \term[2]$.
+The \intro*\kl{quantifier-free theory w.r.t.\ $\algclass$} is the set of all \kl{quantifier-free formulas} $\fml$ such that $\algclass \models \fml$.
+
+The \intro*\kl{language model} $\alg$ over a set $X$, written $\lang_{X}$, is the \kl{$\sig$-algebra} defined by $\domain{\alg} = \wp(X^{\kstar})$,
+$\id^{\alg} = \set{\eps}$,
+$\emp^{\alg} = \emptyset$, and
+for all $\la[1], \la[2] \subseteq X^{\kstar}$,
+\begin{align*}
+    \la[1] \compo^{\alg} \la[2] & = \la[1] \compo \la[2],         &
+    \la[1] \union^{\alg} \la[2] & = \la[1] \cup \la[2],         &
+    \la[1]^{\kstar^{\alg}}      & = \la[1]^{\kstar},              &
+    \la[1]^{\compl^{\alg}}      & = X^{\kstar} \setminus \la[1].
+\end{align*}
+We write $\LANG_{X}$ for the class of all \kl{valuations} of $\lang_{X}$ and write $\LANG$ for $\bigcup_{X} \LANG_{X}$.
+The \intro*\kl{equational theory (resp.\ quantifier-free theory) w.r.t.\ languages} expresses that w.r.t.\ $\LANG$.
+
+The \kl{language} $\ljump{\term} \subseteq \vsig^{\kstar}$ of a \kl{term} $\term$ is $\hat{\val}_{\mathrm{st}}(\term)$ where $\val_{\mathrm{st}}$ is \kl{the standard language valuation} on the \kl{language model} over the set $\vsig$, which is defined by $\val_{\mathrm{st}}(x) = \set{x}$ for $x \in \vsig$.
+Since $\val_{\mathrm{st}} \in \LANG$, we have
+\begin{align*}
+    \label{equation: LANG to lang} \LANG \models \term[1] = \term[2] \quad\Rightarrow\quad \ljump{\term[1]} = \ljump{\term[2]} \tag{$\dagger$}
+\end{align*}
+The converse direction fails; e.g., when $x \neq y$,
+we have $\ljump{y} \subseteq \ljump{\com{x}}$ and $\LANG \not\models y \le \com{x}$,
+because $\ljump{y} = \set{y} \subseteq \vsig^* \setminus \set{x} = \ljump{\com{x}}$ and $\hat{\val}(y) = \set{\eps} \not\subseteq \vsig^* \setminus \set{\eps} = \hat{\val}(\com{x})$ where $\val$ is a \kl{valuation} of $\lang_{X}$ s.t.\ $\val(x) = \val(y) = \set{\eps}$.
+See \cite{nakamuraWordstoLettersValuationsLanguage2023} for more counter-examples.
+\begin{remark}\label{remark: KA completeness}
+    For (non-extended) KA, the \kl{equational theory w.r.t.\ languages} coincides with the language equivalence \cite{kozenCompletenessTheoremKleene1991, andrekaEquationalTheoryKleene2011} (i.e., the converse direction of \Cref{equation: LANG to lang} also holds).
+    This is an easy consequence of the completeness theorem of KA \cite{kozenCompletenessTheoremKleene1991} (see also \cite[Appendix A]{nakamuraWordstoLettersValuationsLanguage2023} for a direct proof).
+    From this, KA with complement (even with variable complements) has a strictly more expressive power than KA.
+\end{remark}
+In the sequel, we consider the \kl{equational theory w.r.t.\ languages}.
+% $\LANG$ is more compatible with equational reasoning, in that valid \kl{equations} are preserved under substitution (by definition), while those under the language equivalence are not: $\ljump{\,\com{y}\,} = \vsig^* \setminus \set{y} \not\subseteq \set{x} = \ljump{\,\com{\com{x}}\,}$.
+
+\subsection{(Generalized) relational models}
+We write $\triangle_{A}$ for the identity relation on a set $A$: $\triangle_{A} \defeq \set{\tuple{x, x} \mid x \in A}$.
+For \kl{binary relations} $\rel[1], \rel[2]$ on a set $B$, the \intro*\kl{composition} $\rel[1] \rcompo \rel[2]$,
+%the \intro*\kl{$n$-th iteration} $\rel[1]^{n}$ (where $n \in \nat$),
+and the \intro*\kl{reflexive transitive closure} $\rel[1]^*$ are defined by:
+\begin{align*}
+    \rel[1] \rcompo \rel[2] & \defeq \set{\tuple{x, z} \mid \exists y, \tuple{x, y} \in \rel[1] \land \tuple{y, z} \in \rel[2]}, &
+    \rel[1]^* & \defeq \bigcup_{n \ge 0} \triangle_{B} \compo \underbrace{\rel[1] \compo \dots \compo \rel[1]}_{n \text{ times}}.
+\end{align*}
+
+Let $U$ be a \kl{binary relation} on a non-empty set $B$.
+A \intro*\kl{generalized relational model}\footnote{
+By definition, for each generalized relational model, $U$ is a preorder:
+(Reflexivity): By $\triangle_{B} = \id^{\alg} \in \domain{\alg} \subseteq \wp(U)$, we have $\triangle_{B} \subseteq U$;
+(Transitivity): By $\emptyset = \emp^{\alg} \in \domain{\alg}$, $U = \emptyset^{-^{\alg}} \in \domain{\alg}$,
+and $U \rcompo U = U \compo^{\alg} U \in \domain{\alg} \subseteq \wp(U)$, we have $U \rcompo U \subseteq U$.} $\alg$ on $U$ is an \kl{$\sig$-algebra} such that $\domain{\alg} \subseteq \wp(U)$,
+$\id^{\alg} = \triangle_{B}$,
+$\emp^{\alg} = \emptyset$, and
+for all $\rel[1], \rel[2] \subseteq U$,
+\begin{align*}
+    \rel[1] \compo^{\alg} \rel[2] & = \rel[1] \rcompo \rel[2], &
+    \rel[1] \union^{\alg} \rel[2]   & = \rel[1] \cup \rel[2],   &
+    \rel[1]^{\kstar^{\alg}}       & = \rel[1]^{\kstar},       &
+    \rel[1]^{\compl^{\alg}}       & = U \setminus \rel[1].
+\end{align*}
+We say that $\alg$ is a \intro*\kl{relational model} if $U = B^2$ and $\domain{\alg} = \wp(B^2)$.
+We write $\GREL$ (resp.\ $\REL$) for the class of all \kl{valuations} of \kl{generalized relational models} (resp.\ \kl{relational models}).\footnote{\kl{Generalized relational models} and \kl{relational models} are variants of proper relation algebras and full proper relation algebras (see, e.g., \cite{robinhirschRelationAlgebrasGames2002}), respectively, where $B$ is non-empty set and the converse operator is not introduced (due to this, $U$ is possibly not symmetric, cf.\ \cite[Lem.\ 3.4]{robinhirschRelationAlgebrasGames2002}) here.}
+% cf.\ \Cref{definition: relational bounded language model}.
+
+Let $\alg$ be a \kl{generalized relational model} on a binary relation $U$ on a set $A$.
+For a non-empty subset $B \subseteq A$,
+the (induced) \intro*\kl{submodel} $\alg \restriction B$ of $\alg$ w.r.t.\ $B$ is the \kl{generalized relational model} on the binary relation $U \cap B^2$ on the set $B$ with the universe $\set{ R \cap B^2 \mid R \in \domain{\alg}}$.
+We say that a non-empty subset $B \subseteq A$ is \intro*\kl{$\top$-closed} if
+for all $x, y, z \in A$, if $\tuple{x, z}, \tuple{z, y} \in U$ and $x, y \in B$, then $z \in B$.
+When $B$ is \kl{$\top$-closed}, it is easy to see that the map 
+\[\kappa_{B} \colon R \mapsto R \cap B^2\]
+forms an $\sig$-homomorphism from $\alg$ to $\alg \restriction B$ (the condition is used for preserving $\compo$ and $*$).
+Similarly, for a \kl{valuation} $\val$ of $\alg$, let $\val \restriction B$ be the \kl{valuation} of $\alg \restriction B$ given by the map $\kappa_{B}$.
+
+% For a \kl{generalized relational model} $\alg$ on a binary relation $U$ on a set $A$ and a subset $B \subseteq A$ s.t.\  $\set{z \in A \mid \exists x, y \in B,\  \tuple{x, z}, \tuple{z, y} \in U} \subseteq B$,
+% the map $\kappa_{B} \colon R \mapsto R \cap B^2$ forms an $\sig$-homomorphism from $\alg$ to
+% the \kl{generalized relational model} $\alg \restriction B$ on the binary relation $U \cap B^2$ on the set $B$ with the universe $\set{ R \cap B^2 \mid R \in \domain{\alg}}$.
+% the \intro*\kl{restriction} $\alg \restriction B$ is the \kl{generalized relational model} on the binary relation $U \cap B^2$ on the set $B$ 
+% with the universe $\set{ R \cap B^2 \mid R \in \domain{\alg}}$.
+
+% Additionally, for a \kl{valuation} $\val \in \GREL$ on a \kl{binary relation} $U$ on a set $A$ and a non-empty set $B \subseteq A$,
+% the \intro*\kl{restriction} of $\val$ w.r.t.\ $B$ is the \kl{valuation} $\val' \in \GREL$ on the \kl{binary relation} $U \cap B^2$ defined by $\val'(a) \defeq \val(a) \cap B^2$.
+
+% \begin{proposition}\label{proposition: restriction}
+%     Let $\val \in \GREL$ be on a \kl{binary relation} $U$ on a non-empty set $B$ and let $x, y \in B$.
+%     Let $\val'$ be the \kl{restriction} of $\val$ w.r.t.\ a subset $A \subseteq B$ such that for all $x, y \in A$, $A \subseteq \set{z \in B \mid \tuple{x, z}, \tuple{z, y} \in U}$.
+%     Then for all $\KA_{\set{-}}$ \kl{terms}, we have: $\hat{\val}'(\term) = \hat{\val}(\term) \cap A^2$.
+% \end{proposition}
+% \begin{proof}
+%     By easy induction on $\term$.
+%     Particularly, when $\term = \term[2] \compo \term[3]$, ....
+% \end{proof}

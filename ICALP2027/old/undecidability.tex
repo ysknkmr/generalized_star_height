@@ -1,0 +1,166 @@
+\section{Explicit proof of \Cref{lemma: CFG and LANG}}\label{section: proofs in undecidability}
+(The following proof is almost the same as \cite[Section VI]{nakamuraExistentialCalculiRelations2023} except that we consider $\RSUB$ instead of $\REL$.)
+
+For a \kl{CFG} $\CFG = \tuple{X, \mathcal{R}, s}$ and a \kl{word} $\word = a_1 \dots a_n$,
+let $\val_{\CFG, \word} \in \RSUB_{n}$ be the \kl{valuation} defined by:
+\begin{itemize}
+    \item $\val_{\CFG, \word}(x) = \set{\tuple{i-1, i} \mid i \in \range{1, n} \land x = a_i}$ for $x \in \CSIG$;
+    \item $\set{\val_{\CFG, \word}(x)}_{x \in X}$ are the minimal sets such that
+          for all $x \in X$, $\word[2] \in (X \cup \CSIG)^*$, and $i, j \in \range{0, n}$, if $x \leftarrow \word[2] \in \mathcal{R}$, then
+          $\begin{prooftree}
+                  \hypo{\tuple{i,j} \in \hat{\val}_{\CFG, \word}(\word[2])}
+                  \infer1{\tuple{i,j} \in \val_{\CFG, \word}(x)}
+              \end{prooftree}$.
+\end{itemize}
+For instance, if $A = \set{(,)}$,
+$\CFG = \tuple{\set{s}, \set{s \leftarrow (s) s,\  s \leftarrow \const{I}}, s}$ (i.e., $\ljump{\CFG}$ is the Dyck-1 language), and $w = (()())$, then $\val_{\CFG, \word}$ is of the following form:
+\[\val_{\CFG, \word} \quad=\quad \begin{tikzpicture}[baseline = -.5ex]
+        \graph[grow right = 1.2cm, branch down = 6ex, nodes={mysmallnode, font = \scriptsize}]{
+        {0/{$0$}[draw, circle]}
+        -!-{1/{$1$}[draw, circle]}
+        -!-{2/{$2$}[draw, circle]}
+        -!-{3/{$3$}[draw, circle]}
+        -!-{4/{$4$}[draw, circle]}
+        -!-{5/{$5$}[draw, circle]}
+        -!-{6/{$6$}[draw, circle]}
+        };
+        \path (0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a01){$($}(1);
+        \path (1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a12){$($}(2);
+        \path (2) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = .5pt, font = \scriptsize, opacity = 1](a23){$)$}(3);
+        \path (3) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = .5pt, font = \scriptsize, opacity = 1](a34){$($}(4);
+        \path (4) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = .5pt, font = \scriptsize, opacity = 1](a45){$)$}(5);
+        \path (5) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = .5pt, font = \scriptsize, opacity = 1](a56){$)$}(6);
+        \node(a00)[above = 1.5ex of 0,  inner sep = 1.5pt, font = \scriptsize,]{$s$};
+        \node(a11)[above = 1.5ex of 1,  inner sep = 1.5pt, font = \scriptsize,]{$s$};
+        \node(a22)[above = 1.5ex of 2,  inner sep = 1.5pt, font = \scriptsize,]{$s$};
+        \node(a33)[above = 1.5ex of 3,  inner sep = 1.5pt, font = \scriptsize,]{$s$};
+        \node(a44)[above = 1.5ex of 4,  inner sep = 1.5pt, font = \scriptsize,]{$s$};
+        \node(a55)[above = 1.5ex of 5,  inner sep = 1.5pt, font = \scriptsize,]{$s$};
+        \node(a66)[above = 1.5ex of 6,  inner sep = 1.5pt, font = \scriptsize,]{$s$};
+        % \path (1) edge [draw = white, opacity = 0, bend left = 45] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](I13){$\const{I}$}(3);
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        0 -- a01 -> 1;
+        1 -- a12 -> 2;
+        2 -- a23 -> 3;
+        3 -- a34 -> 4;
+        4 -- a45 -> 5;
+        5 -- a56 -> 6;
+        0 --[bend left = 15] a00 ->[bend left = 15] 0;
+        1 --[bend left = 15] a11 ->[bend left = 15] 1;
+        2 --[bend left = 15] a22 ->[bend left = 15] 2;
+        3 --[bend left = 15] a33 ->[bend left = 15] 3;
+        4 --[bend left = 15] a44 ->[bend left = 15] 4;
+        5 --[bend left = 15] a55 ->[bend left = 15] 5;
+        6 --[bend left = 15] a66 ->[bend left = 15] 6;
+        1 ->["$s$", font=\scriptsize, bend right = 20] 3;
+        3 ->["$s$", font=\scriptsize, bend right = 20] 5;
+        1 ->["$s$", font=\scriptsize, bend right = 20] 5;
+        0 ->["$s$", font=\scriptsize, bend right = 20] 6;
+        };
+    \end{tikzpicture}\]
+By construction, we have the following:
+\begin{lemma}[cf.\ {\cite[Lem.\ 47]{nakamuraExistentialCalculiRelations2023}}]\label{lemma: CFG}
+    Let $\CFG = \tuple{X, \mathcal{R}, s}$ be a \kl{CFG} over a finite set $\CSIG$.
+    Let $\algclass$ be such that $\set{\val_{\CFG, \word} \mid \word \in \CSIG^*} \subseteq \algclass \subseteq \GREL$.
+    For all $y \in X$ and $\word[2] \in \CSIG^*$, we have:
+    \[y \vdash_{\CFG} \word[2] \quad\Leftrightarrow\quad \algclass \models (\bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x) \to \word[2] \le y.\]
+\end{lemma}
+\begin{proof}
+    ($\Rightarrow$):
+    By induction on the derivation tree of $\vdash_{\CFG}$.
+    Let us consider \[\begin{prooftree}
+                  \hypo{x_1 \vdash_{\CFG} \word[2]_1}
+                  \hypo{\dots}
+                  \hypo{x_m \vdash_{\CFG} \word[2]_m}
+                  \infer3{y \vdash_{\CFG} \word[1]_0 \word[2]_1 \word[1]_1 \dots \word[2]_m \word[1]_m}
+           \end{prooftree} \mbox{ where $y \leftarrow \word[1]_0 x_1 \word[1]_1 \dots x_m \word[1]_m \in \mathcal{R}$.}\]
+    Then, w.r.t.\ ``$\val_{\CFG, \word} \models \bl$'',
+    we have:
+    \begin{align*}
+        \word[1]_0 \word[2]_1 \word[1]_1 \dots \word[2]_m \word[1]_m & \le \word[1]_0 x_1 \word[1]_1 \dots x_m \word[1]_m \tag{By IH, $\val_{\CFG, \word} \models \word[2]_k \le x_k$}\\
+        & \le y. \tag{Because $\val_{\CFG, \word} \models \bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x$}
+    \end{align*}
+
+    ($\Leftarrow$):
+    Let $\word[2] = a_0 \dots a_{n-1}$.
+    By construction, we have $\val_{\CFG, \word[2]} \models \bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x$ and $\tuple{0, n} \in \hat{\val}_{\CFG, \word[2]}(\word[2])$, so, we have $\tuple{0, n} \in \val_{\CFG, \word[2]}(y)$.
+    Then, it suffices to show the following:
+    $\forall i, j \in \range{0, n}, \forall y \in X$, $\tuple{i, j} \in \val_{\CFG, \word[2]}(y) \Longrightarrow y \vdash_{\CFG} a_i \dots a_{j-1}$.
+    We show this by induction on the derivation tree induced from the definition of $\val_{\CFG, \word[2]}$.
+    Let us consider
+    \[\begin{prooftree}
+        \hypo{\tuple{i, j} \in \hat{\val}_{\CFG, \word[2]}(\word[1]_0 x_1 \word[1]_1 \dots x_m \word[1]_m)}
+        \infer1{\tuple{i, j} \in \val_{\CFG, \word[2]}(y)}
+    \end{prooftree} \mbox{ where $y \leftarrow \word[1]_0 x_1 \word[1]_1 \dots x_m \word[1]_m \in \mathcal{R}$.}\]
+    Let $i = i_0 \le j_0 \le \dots \le i_{m} \le j_{m} = j$ be s.t.\
+    $\tuple{i_k, j_k} \in \hat{\val}_{\CFG, \word[2]}(\word[1]_k)$ and
+    $\tuple{j_{k-1}, i_k} \in \val_{\CFG, \word[2]}(x_k)$.
+    By the form of $\val_{\CFG, \word[2]}$, we have $\word[1]_k = a_{i_k} \dots a_{j_k-1}$.
+    By IH, we have $x_k \vdash_{\CFG} a_{j_{k-1}} \dots a_{i_k-1}$.
+    Combining them yields $y \vdash_{\CFG} a_{i} \dots a_{j-1}$.
+\end{proof}
+\begin{lemma}[cf.\ {\cite[Lem.\  48]{nakamuraExistentialCalculiRelations2023}}]\label{lemma: CFG encoding lang}
+    Let $\CFG = \tuple{X, \mathcal{R}, s}$ be a \kl{CFG} over a finite set $\CSIG = \set{a_1, \dots, a_n}$.
+    Let $\algclass$ be such that $\set{\val_{\CFG, \word} \mid \word \in \CSIG^*} \subseteq \algclass \subseteq \GREL$.
+    Then we have:
+    \[\ljump{\CFG} = \CSIG^* \quad\Leftrightarrow\quad\algclass \models  (\bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x) \to (\sum_{i = 1}^{n} a_i)^* \le s.\]
+    % Here, $\CSIG^*$ denotes the term $(\sum_{i = 1}^{n} a_i)^*$ in the right-hand side, where $\CSIG = \set{a_1, \dots, a_n}$.
+\end{lemma}
+\begin{proof}
+    ($\Rightarrow$):
+    By \Cref{lemma: CFG} with that $\GREL$ is $*$-continuous (i.e., $\displaystyle x y^* z = \sup_{n \ge 0} x y^{n} z$).
+    ($\Leftarrow$):
+    By \Cref{lemma: CFG} with $\algclass \models \word[2] \le (\sum_{i = 1}^{n} a_i)^*$ for all $\word[2] \in \CSIG^*$.
+\end{proof}
+\begin{proof}[Proof of \Cref{lemma: CFG and LANG}]
+    By \Cref{lemma: CFG encoding lang} (since $\set{\val_{\CFG, \word} \mid \word \in \CSIG^*} \subseteq \RSUB$).
+\end{proof}
+
+\begin{remark}
+    \Cref{lemma: CFG encoding lang} holds for $\LANG$ by viewing hypotheses as fixed-point equations.
+    We use $\RSUB$ for using Hore hypotheses elimination \Cref{corollary: ORD lr Hoare} and for showing \Cref{lemma: CFG and LANG star-free}.
+\end{remark}
+
+\section{Proof of \Cref{lemma: CFG and LANG star-free}}\label{section: lemma: CFG and LANG star-free}
+\begin{proof}
+    Because $\val_{\CFG, \word} \models \com{\id} = (\sum_{i = 1}^{n} a_i) \top$, we have $\set{\val_{\CFG, \word} \mid \word \in \CSIG^*} \subseteq \set{\val \in \RSUB \mid \val \models \com{\id} = (\sum_{i = 1}^{n} a_i) \top}$.
+    Thus, by \Cref{lemma: CFG encoding lang} with applying \Cref{proposition: star to top} to $(\sum_{i = 1}^{n} a_i)^*$,
+    we have:
+    \[\ljump{\CFG} = \CSIG^* \quad\Leftrightarrow\quad \RSUB \models (\com{\id} = (\sum_{i = 1}^{n} a_i) \top \land \bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x) \to \top \le s. \qedhere\] 
+\end{proof}
+
+\section{Trakhtenbrot's theorem from the universality problem of CFGs (\Cref{remark: Trakhtenbrot})}\label{section: remark: Trakhtenbrot}
+In this section, we note that Trakhtenbrot's theorem \cite{trakhtenbrotImpossibilityAlgorithmDecision1950} can be derived as an analog of \Cref{section: undecidability}.
+Let $\REL^{\mathrm{fin}}$ be the class of all \kl{valuations} of all \kl{relational models} on \emph{finite} sets.
+
+Let $z$ be a fresh \kl{variable} and let $\fml_0$ be the following \kl{formula}:
+\begin{align*}
+    \fml_0 &\quad\defeq\quad (z \le \com{\id}) \land (z z \le z) \land (\top \le \top ((\com{z} \cap \com{\id}) \top)^{-})  \land (z \le zz \union \sum_{i = 1}^{n} a_i).
+\end{align*}
+This \kl{formula} is defined based on \cite[p.\ 30]{ebbinghausFiniteModelTheory1995};
+the relation $z$ is irreflexive (by $z \le \com{\id}$) and transitive (by $z z \le z$) with a minimal element (by $\top \le \top ((\com{z} \cap \com{\id}) \top)^{-}$),
+and that $\tuple{x, y} \in \hat{\val}(\sum_{i = 1}^{n} a_i)$ holds for any immediate successor $y$ of $x$ (by $z \le zz \union \sum_{i = 1}^{n} a_i$ in finite models).
+Note that by construction, $\REL^{\mathrm{fin}} \models \fml_0 \to z \union \id \le (\sum_{i = 1}^{n} a_i)^*$.
+
+\begin{lemma}\label{lemma: CFG encoding lang Trakhten}
+    Let $\CFG = \tuple{X, \mathcal{R}, s}$ be a \kl{CFG} over a finite set $\CSIG = \set{a_1, \dots, a_n}$.
+    Then we have:
+    \[\ljump{\CFG} = \CSIG^* \quad\Leftrightarrow\quad \REL^{\mathrm{fin}} \models (\fml_0 \land \bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x) \to z \union \id \le s.\]
+\end{lemma}
+\begin{proof}
+    ($\Rightarrow$):
+    By \Cref{lemma: CFG encoding lang} with $\REL^{\mathrm{fin}} \models \fml_0 \to z \union \id \le (\sum_{i = 1}^{n} a_i)^*$.
+    ($\Leftarrow$):
+    Let $\word[2] \in \CSIG^*$ be arbitrary.
+    Let $\val_{\CFG, \word[2]}' \in \REL^{\mathrm{fin}}$ be the \kl{valuation} on the \kl{relational model} on $\range{0, n}$ such that $\val_{\CFG, \word[2]}'(x) = \val_{\CFG, \word[2]}(x)$ for $x \in \CSIG \cup X$ and $\val_{\CFG, \word[2]}'(z) = \hat{\val}_{\CFG, \word[2]}(\com{\id})$. 
+    Then, one can see that $\val_{\CFG, \word[2]}' \models \fml_0$,
+    $\val_{\CFG, \word[2]}' \models \bigwedge_{(x \leftarrow w) \in \mathcal{R}} w \le x$, thus we have $\val_{\CFG, \word[2]}' \models z \union \id \le s$.
+    By $\val_{\CFG, \word[2]}' \models z \union \id = (\sum_{i = 1}^{n} a_i)^* \ge \word[2]$, we have $\val_{\CFG, \word[2]}' \models \word[2] \le s$.
+    By $\hat{\val}_{\CFG, \word[2]}'(\word[2]') = \hat{\val}_{\CFG, \word[2]}(\word[2]')$ for $\word[2]' \in (\CSIG \cup X)^*$, we also have $\val_{\CFG, \word[2]} \models \word[2] \le s$.
+    Thus by \Cref{lemma: CFG}, we have $\word[2] \in \ljump{\CFG}$.
+    Hence, $\ljump{\CFG} = \CSIG^*$.
+\end{proof}
+
+By \Cref{lemma: CFG encoding lang Trakhten}, we have that the \kl{quantifier-free theory} of \kl{terms} over $\set{\union, \compo, \bl^{\compl}, \id}$ is $\Pi^{0}_{1}$-complete w.r.t.\ $\REL^{\mathrm{fin}}$.
+Thus, (e.g.,  by the standard translation \cite{tarskiCalculusRelations1941} from \kl{quantifier-free formulas} of the calculus of relations into the formulas of first-order logic),
+we have that the finite validity problem of first-order logic is $\Pi^{0}_{1}$-complete (Trakhtenbrot's theorem \cite{trakhtenbrotImpossibilityAlgorithmDecision1950}).

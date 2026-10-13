@@ -1,0 +1,190 @@
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclarePairedDelimiter\tuple{\langle}{\rangle}
+\DeclarePairedDelimiter\range{[}{]}
+
+\newcommand{\const}[1]{\mathsf{#1}}
+\newcommand{\bl}{\_}
+\newcommand{\defeq}{\mathrel{\ensurestackMath{\stackon[1pt]{=}{\scriptscriptstyle\Delta}}}}
+\newcommand{\defiff}{\mathrel{\ensurestackMath{\stackon[1pt]{\Leftrightarrow}{\scriptscriptstyle\Delta}}}}
+
+\newcommand{\nat}{\mathbb{N}}
+\newcommand{\card}{\mathop{\#}}
+
+\newcommand{\quo}[1]{[#1]}
+
+\NewDocumentCommand\alg{O{1}}{%
+    \ifcase#1
+        undefined
+    \or \mathcal{A}
+    \or \mathcal{B}
+    \else undefined
+
+    \fi
+}
+
+\NewDocumentCommand\algclass{O{1}}{%
+    \ifcase#1
+        undefined
+    \or \mathcal{C}
+    \else undefined
+
+    \fi
+}
+
+\NewDocumentCommand\valclass{O{1}}{%
+    \ifcase#1
+        undefined
+    \or \mathcal{V}
+    \else undefined
+
+    \fi
+}
+
+
+\NewDocumentCommand\graph{O{1}}{%
+    \ifcase#1
+        undefined
+    \or G
+    \or H
+    \or J
+    \else undefined
+
+    \fi
+}
+\newcommand{\homo}{\longrightarrow}
+
+\NewDocumentCommand\word{O{1}}{%
+    \ifcase#1
+        undefined
+    \or w
+    \or v
+    \else undefined
+
+    \fi
+}
+\NewDocumentCommand\wlang{O{1}}{%
+    \ifcase#1
+        undefined
+    \or L
+    \or K
+    \else undefined
+
+    \fi
+}
+
+\newcommand{\len}[1]{\|#1\|}
+\NewDocumentCommand\la{O{1}}{%
+    \ifcase#1
+        undefined
+    \or L
+    \or K
+    \else undefined
+
+    \fi
+}
+\NewDocumentCommand\rel{O{1}}{%
+    \ifcase#1
+        undefined
+    \or R
+    \or S
+    \else undefined
+
+    \fi
+}
+
+\newcommand{\vsig}{\mathbf{V}}
+\newcommand{\wsig}{\Sigma}
+\newcommand{\Term}{\mathbf{T}}
+\NewDocumentCommand\term{O{1}}{%
+    \ifcase#1
+        undefined
+    \or t
+    \or s
+    \or u
+    \else undefined
+
+    \fi
+}
+
+\newcommand{\sig}{\mathrm{S}}
+\newcommand{\union}{\mathbin{+}}
+\newcommand{\compo}{\mathbin{;}}
+\newcommand{\compl}{-}
+\newcommand{\id}{\const{1}}
+\newcommand{\emp}{\const{0}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\kstar}{*}
+
+\newcommand{\rcompo}{\mathbin{;}}
+
+
+\newcommand{\domain}[1]{|#1|}
+\newcommand{\val}{\mathfrak{v}}
+\newcommand{\VAL}{\mathfrak{V}}
+\newcommand{\ljump}[1]{[ #1 ]}
+
+
+\newcommand{\Subw}{\mathrm{Subw}}
+
+\newcommand{\lang}{\mathsf{lang}}
+\newcommand{\LANG}{\mathsf{LANG}}
+\newcommand{\REL}{\mathsf{REL}}
+\newcommand{\GREL}{\mathsf{GREL}}
+\newcommand{\SUBW}{\mathsf{SUB}}
+\newcommand{\subw}{\mathsf{sub}}
+\newcommand{\RSUB}{\mathsf{RSUB}}
+\newcommand{\rsub}{\mathsf{rsub}}
+\newcommand{\rlang}{\mathsf{rlang}}
+
+
+\newcommand{\LENGTH}[1]{\mathsf{L}_{#1}}
+
+\NewDocumentCommand\glang{O{1}}{%
+    \ifcase#1
+        undefined
+    \or \mathcal{G}
+    \or \mathcal{H}
+    \else undefined
+
+    \fi
+}
+
+\NewDocumentCommand\automaton{O{1}}{%
+    \ifcase#1
+        undefined
+    \or \mathcal{A}
+    \or \mathcal{B}
+    \else undefined
+
+    \fi
+}
+
+\NewDocumentCommand\fml{O{1}}{%
+    \ifcase#1
+        undefined
+    \or \varphi
+    \or \psi
+    \or \rho
+    \else undefined
+
+    \fi
+}
+
+
+% deprecated
+% \newcommand{\I}{\textcolor{red}{\const{I}}}
+% \newcommand{\com}[1]{\textcolor{red}{\overline{#1}}}
+
+\tikzstyle{mynode} = [inner sep = 1.5pt, fill= gray!20,  font = \scriptsize, draw, circle]
+\tikzstyle{mysmallnode} = [inner sep = 1.pt, fill= gray!20, font = \scriptsize, draw, circle]
+\tikzset{earrow/.style={>={{[flex] Latex[length=.08cm, width=2.5pt]}}}}
+\tikzset{homoarrow/.style={earrow, line width = .3pt, color = olive, opacity=0.8}}
+
+\newcommand{\KAtermclass}{\mathrm{KA}}
+
+\newcommand{\KA}{\mathsf{KA}}
+\newcommand{\ALL}{\mathsf{ALL}}
+\newcommand{\src}{\const{1}}
+\newcommand{\tgt}{\const{2}}
+
+\newcommand{\com}[1]{\overline{#1}}

@@ -1,0 +1,22 @@
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{stackengine}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{crossreftools}
+\pdfstringdefDisableCommands{%
+    \let\Cref\crtCref
+    \let\cref\crtcref
+}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{calc, positioning, arrows.meta, bending, decorations.pathreplacing}
+
+\usepackage[backgroundcolor=orange!20, textsize=tiny]{todonotes}
+\ifthenelse{\boolean{final}}{\presetkeys{todonotes}{disable}{}}{}
+
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{fact}[theorem]{Fact}
+\crefname{fact}{Fact}{Facts}
+\crefname{section}{Section}{Sections}
+\crefname{appendix}{Appendix}{Appendices}

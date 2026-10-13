@@ -1,0 +1,104 @@
+\section{Reverse elimination using word-to-letter valuations}
+Let $\term'$ be the term $\term$ in which renamed.
+
+TODO:
+
+\begin{definition}[\intro*\kl{word-to-letter valuations} \cite{ }]\label{definition: word-to-letter valuations reverse}
+    For a \kl{language valuation} over a set $X$ and \kl{words} $\word_0, \dots, \word_{n-1}$ over $X$ (where $n \ge 0$),
+    the \kl{subword language valuation} $\val^{\tuple{\word_0, \dots, \word_{n-1}}}$ over the set $\set{\ell_0, \dots, \ell_{n-1}}$ (where $\ell_{0}, \dots, \ell_{n-1}$ are pairwise distinct \kl{letters}) is defined as follows:
+    \[\val^{\tuple{\word_0, \dots, \word_{n-1}}}(x) \defeq \set{\ell_i \dots \ell_{j-1} \mid 0 \le i \le j \le n \  \land \  \word_i \dots \word_{j-1} \in \val(x)}.\]
+    \[\val^{\tuple{\word_0, \dots, \word_{n-1}}}(x') \defeq \set{\ell_i \dots \ell_{j-1} \mid 0 \le i \le j \le n \  \land \  \word_i \dots \word_{j-1} \in \hat{\val}(x^{\smile})}.\]
+\end{definition}
+\begin{lemma}[cf.\ \cite{ }]\label{proposition: letter-to-letter valuations reverse}
+    Let $\val$ be a \kl{language valuation} and $a_0, \dots, a_{n-1}$ be \kl{letters} (where $n \ge 0$).
+    For all terms $\term$ and $0 \le i \le j \le n$, we have:
+    \[\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term') \quad \iff \quad a_{i} \dots a_{j-1} \in \hat{\val}(\term).\]
+\end{lemma}
+\begin{proof}
+    By induction on $\term$.
+    Case $\term = x$:
+    By the construction of $\val^{\tuple{a_0, \dots, a_{n-1}}}$,
+    $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(x)$ iff $a_{i}\dots a_{j-1} \in \hat{\val}(x)$.
+    (Hence, we also have $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(x^{\compl})$ iff $a_{i} \dots a_{j-1} \in \hat{\val}(x^{\compl})$.)
+    Case $\term = x^{\compl}$:
+    Similarly to Case $\term = x$.
+
+    Case $\term = \emp$:
+    By $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\emp) \iff \const{False} \iff  a_{i} \dots a_{j-1} \in \hat{\val}(\emp)$.
+
+    Case $\term = \id$:
+    By $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\id) \iff i = j \iff  a_{i} \dots a_{j-1} \in \hat{\val}(\id)$.
+
+    Case $\term = \term[2] \union \term[3]$:
+    We have
+    \begin{align*}
+         & \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2] \union \term[3])                                                                                                               \\
+         & \Longleftrightarrow \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]) \lor \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[3]) \tag{By definition} \\
+         & \Longleftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2]) \lor a_{i} \dots a_{j-1} \in \hat{\val}(\term[3]) \tag{IH}                                                                                    \\
+         & \Longleftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2] \union \term[3]). \tag{By definition}
+    \end{align*}
+
+    Case $\term = \term[2] \compo \term[3]$:
+    We have
+    \begin{align*}
+         & \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2] \compo \term[3])                                                                                                                                          \\
+         & \Longleftrightarrow \bigvee_{i \le k \le j} (\ell_{i} \dots \ell_{k-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]) \land \ell_{k} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[3])) \tag{By definition} \\
+         & \Longleftrightarrow \bigvee_{i \le k \le j} (a_{i} \dots a_{k-1} \in \hat{\val}(\term[2]) \land a_{k} \dots a_{j-1} \in \hat{\val}(\term[3])) \tag{IH}                                                                                    \\
+         & \Longleftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2] \compo \term[3]). \tag{By definition}
+    \end{align*}
+
+    Case $\term = \term[2]^{\kstar}$:
+    We have
+    \begin{align*}
+         & \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]^{\kstar})                                                                                       \\                                                                                     & \Longleftrightarrow \exists m \in \nat, \bigvee_{i = k_0 \le k_1 \le \dots \le k_m = j} \bigwedge_{l = 1}^{m} (\ell_{k_{l-1}} \dots \ell_{k_{l}-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]))  \tag{By definition} \\
+         & \Longleftrightarrow \exists m \in \nat, \bigvee_{i = k_0 \le k_1 \le \dots \le k_m = j} \bigwedge_{l = 1}^{m} (a_{k_{l-1}} \dots a_{k_{l}-1} \in \hat{\val}(\term[2])) \tag{IH} \\
+         & \Longleftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2]^{\kstar}).  \tag{By definition}
+    \end{align*}
+
+    Case $\term = \term[2]^{\compl}$:
+    We have
+    \begin{align*}
+         & \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]^{\compl})       \\                                                                                     & \Longleftrightarrow \ell_{i} \dots \ell_{j-1} \not\in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2])        \tag{By definition, as $\ell_{i} \dots \ell_{j-1} \in X_n$} \\
+         & \Longleftrightarrow a_{i} \dots a_{j-1} \not\in \hat{\val}(\term[2]) \tag{IH}                   \\
+         & \Longleftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2]^{\compl}).  \tag{By definition}
+    \end{align*}
+\end{proof}
+
+\begin{lemma}\label{lemma: subw surjective reverse}
+    The following sets are the same:
+    \begin{itemize}
+        \item $\set{\val \in \VAL_{\SUBW} \mid \forall x \in \vsig, \hat{\val}(x \cap \id) = \hat{\val}(x' \cap \id)}$;
+        \item $\set{\val^{\tuple{a_0, \dots, a_{n-1}}} \mid \val \in \VAL_{\LANG}, n \in \nat, a_0, \dots, a_{n-1} \in A_{\val}}$.
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    $\supseteq$:
+    By $\id \in \val^{\tuple{a_0, \dots, a_{n-1}}}(x)$ iff $\id \in \val(x)$ iff $\id \in \val(x^{\smile})$ iff $\id \in \val^{\tuple{a_0, \dots, a_{n-1}}}(x')$.
+    $\subseteq$:
+    Let $\val' \in \VAL_{\SUBW}$ s.t.\ $\id \in \val'(x)$ iff $\id \in \val'(x')$, for all $x \in \vsig$.
+    Let $n \defeq \len{\val'}$.
+    Let $\val$ be the \kl{valuation} over $\set{\ell_0, \dots, \ell_{n-1}}$ in $\VAL_{\LANG}$ such that
+    $\val(x) = \val'(x) \cup \val'(x')^{\smile}$ for all $x \in \vsig$.
+    Then for all $0 \le i \le j \le n$, $x \in \vsig$,
+    \begin{itemize}
+        \item $\ell_{i} \dots \ell_{j-1} \in \val'(x)$ iff $\ell_{i} \dots \ell_{j-1} \in \val(x)$ (because $\ell_{i} \dots \ell_{j-1} \not\in \val'(x')^{\smile}$ if $i < j$; $\id \in \val'(x)$ iff $\id \in \val'(x')^{\smile}$ if $i = j$) iff $\ell_{i} \dots \ell_{j-1} \in \val^{\tuple{\ell_{0}, \dots, \ell_{n-1}}}(x)$;
+        \item $\ell_{i} \dots \ell_{j-1} \in \val'(x')$ iff $\ell_{j-1} \dots \ell_{i} \in \val(x)$ (because $\ell_{j-1} \dots \ell_{i} \not\in \val'(x)$ if $i < j$; $\id \in \val'(x)$ iff $\id \in \val'(x')^{\smile}$ if $i = j$) iff $\ell_{i} \dots \ell_{j-1} \in \val^{\tuple{\ell_{0}, \dots, \ell_{n-1}}}(x')$.
+    \end{itemize}
+    Thus we have $\val' = \val^{\tuple{\ell_{0}, \dots, \ell_{n-1}}}$.
+\end{proof}
+
+\begin{lemma}\label{lemma: lang and subw reverse}
+    For all terms $\term[1], \term[2]$,
+    \[\LANG \models \term[1] \le \term[2] \quad\iff\quad \SUBW_{\set{x \cap \id = x' \cap \id \mid x \in \vsig}} \models \term[1]' \le \term[2]'.\]
+\end{lemma}
+\begin{proof}
+    We have
+    \begin{align*}
+         & \LANG \models \term[1] \le \term[2]                                                                                                                                                                                                                                           \\
+         & \Longleftrightarrow \forall \val \in \VAL_{\LANG},\  \hat{\val}(\term[1]) \subseteq \hat{\val}(\term[2])                                                                                                                                                                      \\
+         & \Longleftrightarrow \forall \val \in \VAL_{\LANG}, n \in \nat, a_0, \dots, a_{n-1} \in A_{\val},\  \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[1]') \subseteq \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]')  \tag{\Cref{proposition: letter-to-letter valuations reverse}} \\
+         & \Longleftrightarrow \forall \val \in \VAL_{\SUBW},\  (\forall x \in \vsig, \hat{\val}(x \cap \id) = \hat{\val}(x' \cap \id)) \to \hat{\val}(\term[1]') \le \hat{\val}(\term[2]') \tag{\Cref{lemma: subw surjective reverse}}                                                \\
+         & \Longleftrightarrow \SUBW_{\set{x \cap \id = x' \cap \id \mid x \in \vsig}} \models \term[1]' \le \term[2]'.
+    \end{align*}
+\end{proof}
+

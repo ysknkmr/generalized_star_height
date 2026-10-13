@@ -1,0 +1,68 @@
+\section{Conclusion and Future directions}\label{section: conclusion}
+We have introduced $\RSUB$ for the \kl{equational theory w.r.t.\ languages} for $\KA_{\set{-}}$ \kl{terms}.
+Using $\RSUB$, we have shown some complexity results for the \kl{equational theory w.r.t.\ languages} for fragments of $\KA_{\set{-}}$ \kl{terms} (\Cref{table: summary}).
+We leave open the decidability and complexity of the \kl{equational theory w.r.t.\ languages} for $\KA_{\set{\com{\id}, \cap}}$ (cf.\ \Cref{remark: REL}).
+% We have presented finite \kl{generalized relational models} for KA terms with complement w.r.t.\ languages.
+% By using these relational models, we have shown the PSPACE decidability for KA terms with variable/constant complement and the $\Pi^{0}_{1}$-completeness for KA terms with complement.
+A natural interest is to consider variants or fragments of $\KAtermclass_{\set{-}}$, e.g.,\ with reverse \cite{bloomNotesEquationalTheories1995}, with tests \cite{kozenKleeneAlgebraTests1996} (by considering guarded strings) or with (anti-)domain \cite{desharnaisKleeneAlgebraDomain2006}.
+It would also be interesting to consider the combination of \kl{variables} and \kl{letters} (cf.\ \Cref{theorem: LANG and ORD,theorem: ord for the standard language valuation}) in the context of language/string constraints.
+% We leave open the (finite) axiomatizability of the \kl{equational theory} of $\KAtermclass_{\set{\com{x}}}$/$\KAtermclass_{\set{\com{\id}}}$/$\KAtermclass_{\set{\com{x},\com{\id}}}$ w.r.t.\ languages; note that the \kl{equational theory} of $\KAtermclass_{\set{-}}$ w.r.t.\ languages is not finitely axiomatizable because it is $\Pi^{0}_{1}$-complete (\Cref{theorem: Pi01-complete}).
+
+Additionally, to separate the expressive power w.r.t.\ languages,
+it would also be interesting to consider games like Ehrenfeucht-Fra{\"i}ss{\'e} games \cite{ehrenfeuchtApplicationGamesCompleteness1961,fraisseClassificationsSystemsRelations1954} on $\RSUB$, cf., e.g., on $\REL$ for the calculus of relations \cite{nakamuraExpressivePowerSuccinctness2022} and on languages for star-free expressions \cite{thomasConcatenationGameDotdepth1987}.
+
+% (Note that while the expressive powers w.r.t.\ languages can be separated if their language classes are not equivalent,
+% this argument cannot apply even to show, e.g., the expressive power difference between $\KAtermclass_{\set{\com{x}}}$ and $\KAtermclass$.)
+
+% For example, the term sets corresponding to each level of the Straubing-Therien hierarchy (or the dot-depth hierarchy) \cite{cohenDotdepthStarfreeEvents1971, pinDotDepthHierarchy452016} have pairwise distinct expressive powers w.r.t.\ languages.
+
+\begin{table}[t]
+    % \scalebox{.8}{
+        \begin{tabular}{c||c|c|c|c|c}
+            & $\KA$ & $\KA_{\set{\com{x}}}$ & $\KA_{\set{\com{\id}}}$ & $\KA_{\set{\com{x}, \com{\id}}}$ & $\KA_{\set{\cap}}$ \\
+    \hline\hline
+    $\LANG$ & \multicolumn{1}{c|}{\multirow{2}{*}{PSPACE-c \cite{kozenCompletenessTheoremKleene1991}}} & \multicolumn{3}{c|}{\multirow{2}{*}{{PSPACE-c (\Cref{theorem: PSPACE-complete})}}} & \multicolumn{1}{c}{\multirow{2}{*}{EXPSPACE-c \cite{brunetReversibleKleeneLattices2017}}}\\
+    $\RSUB$ & \multicolumn{1}{c|}{} & \multicolumn{3}{c|}{} & \multicolumn{1}{c}{}
+    \\
+    \hline
+    \multirow{1}{*}{\makecell{$\set{\val_{\mathrm{st}}}$}} & \multicolumn{4}{c|}{\multirow{1}{*}{\makecell{PSPACE-c {\cite{meyerEquivalenceProblemRegular1972}}}}} & \multicolumn{1}{c}{\multirow{1}{*}{\makecell{EXPSPACE-c {\cite{furerComplexityInequivalenceProblem1980}}}}} \\
+    \hline
+    \multirow{1}{*}{$\REL$} & \multicolumn{1}{c|}{\multirow{1}{*}{\makecell{PSPACE-c {\cite{kozenCompletenessTheoremKleene1991}}}}} & \multicolumn{2}{c|}{\multirow{1}{*}{\makecell{PSPACE-c {\cite{nakamuraExistentialCalculiRelations2023}}}}}
+      & \multicolumn{1}{c|}{\multirow{1}{*}{
+        {\makecell{in coNEXP {\cite{nakamuraExistentialCalculiRelations2023}}}}}}
+        & \multicolumn{1}{c}{\multirow{1}{*}{\makecell{EXPSPACE-c {\cite{brunetPetriAutomataKleene2015,brunetPetriAutomata2017,nakamuraPartialDerivativesGraphs2017,nakamuraDerivativesGraphsPositive2024}}}}}\\
+\end{tabular}\\[2ex]
+\begin{tabular}{c||c|c|c|c|}
+    & $\KA_{\set{\com{\id}, \cap}}$ & $\KA_{\set{\com{x}, \cap}}$ & $\KA_{\set{\com{x}, \com{\id}, \cap}}$ & $\KA_{\set{-}}$ \\
+\hline\hline
+$\LANG$ & \multicolumn{1}{c|}{{}}  &  \multicolumn{3}{c|}{\multirow{2}{*}{{$\Pi^{0}_{1}$-c (\Cref{theorem: Pi01-complete,corollary: in Pi01})}}}\\
+$\RSUB$ & \multicolumn{1}{c|}{\multirow{-2}{*}{{(open)}}} & \multicolumn{3}{c|}{{}}\\
+\hline
+\multirow{1}{*}{\makecell{$\set{\val_{\mathrm{st}}}$}} & \multicolumn{3}{c|}{\multirow{1}{*}{\makecell{EXPSPACE-c {\cite{furerComplexityInequivalenceProblem1980}}}}} & \multicolumn{1}{c|}{\multirow{1}{*}{\makecell{TOWER-c {\cite{stockmeyerComplexityDecisionProblems1974,schmitzComplexityHierarchiesElementary2016}}}}}\\
+\hline
+\multirow{1}{*}{$\REL$} & \multicolumn{1}{c|}{\multirow{1}{*}{\makecell{$\Pi^{0}_{1}$-c {\cite{nakamuraUndecidabilityPositiveCalculus2024}}}}} & \multicolumn{2}{c|}{\multirow{1}{*}{\makecell{$\Pi^{0}_{1}$-c {\cite{nakamuraExistentialCalculiRelations2023}}}}} & \multicolumn{1}{c|}{\multirow{1}{*}{\makecell{$\Pi^{1}_{1}$-c {\cite{hardinComplexityHornTheory2003} (\Cref{corollary: equational theory REL/GREL KA})}}}}\\
+\end{tabular}
+% }
+    \caption{Summary of our complexity results for \kl{equational theories w.r.t.\ languages}, with comparison to other semantics.}
+    \label{table: summary}
+\end{table}
+
+% We have studied the computational complexity of existential calculi of relations with transitive closure using edge saturations.
+% A natural interest is to extend our complexity results
+% for more general syntaxes. We believe that the upper bound
+% results for intersection-free fragments hold even if we extend
+% them with tests in KAT (by considering guarded strings [36]
+% instead of words (strings), in saturable paths); e.g., KAT with
+% top (w.r.t. binary relations), which are recently studied for
+% modeling incorrectness logic [24], [25], [37], [38].
+
+% Another future work is to study the axiomatizability of
+% them. Unfortunately, the equational theory of (full) ECoR∗
+% is not finitely axiomatizable because it is not recursively
+% enumerable (Thm. 50); but we leave it open to finding some
+% complete (finite) axiomatization for its fragments, including
+% KA terms with complements of term variables. (The equation
+% (1) indicates that, at least, we need axioms of KA with top
+% w.r.t. binary relations [24].)
+
+% Anti-domain

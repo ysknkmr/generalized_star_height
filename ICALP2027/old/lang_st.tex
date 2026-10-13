@@ -1,0 +1,54 @@
+
+\section{Proof of \Cref{theorem: ord for the standard language valuation}}\label{section: theorem: ord for the standard language valuation}
+\begin{definition}
+       Let \[\SUBW_{\mathrm{st}} \defeq \bigcup_{n \ge 0} \left\{\val \in \SUBW_{n} \mathrel{\Big|}
+              \begin{aligned}
+                     \mbox{$\bigcup_{a \in \vsig} \val(a) = \set{\ell_{i} \mid i \in \range{0, n-1}}$} \\
+                     \mbox{$\val(a)$ (where $a \in \vsig$) are disjoint sets}
+              \end{aligned}
+              \right\}.\]
+\end{definition}
+
+\begin{proposition}\label{proposition: st surjective}
+Let $n \in \nat$ and let $\val' \in \SUBW_{n} \cap \SUBW_{\mathrm{st}}$.
+For $i \in \range{0, n-1}$, let $a_i$ be the unique one s.t.\ $\val'(a_i) = \set{\ell_{i}}$.
+Then $\val_{\mathrm{st}}^{\tuple{a_{0}, \dots, a_{n-1}}} = \val'$.
+\end{proposition}
+\begin{proof}
+By \Cref{definition: word-to-letter valuations},
+$\ell_{i} \in \val_{\mathrm{st}}^{\tuple{a_{0}, \dots, a_{n-1}}}(x)$ iff
+$a_{i} \in \val_{\mathrm{st}}(x)$ iff $a_i = x$ iff
+$\ell_{i} \in \val'(x)$.
+Also, both $\val_{\mathrm{st}}^{\tuple{a_{0}, \dots, a_{n-1}}}(x)$ and $\val'(x)$ are subsets of $\set{\ell_{0}, \dots, \ell_{n-1}}$.
+Thus, $\val_{\mathrm{st}}^{\tuple{a_{0}, \dots, a_{n-1}}} = \val'$.
+\end{proof}
+
+\begin{lemma}[cf.\ \Cref{lemma: LANG and SUBW}]\label{lemma: st lang and SUBW}
+       For all \kl{quantifier-free formulas} $\fml$, we have:
+       \[\val_{\mathrm{st}} \models \fml \quad\Leftrightarrow\quad \SUBW_{\mathrm{st}} \models \fml.\]
+\end{lemma}
+\begin{proof}
+       As with \Cref{lemma: LANG and SUBW}, it suffices to prove when $\fml$ is of the form $(\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$.
+      \begin{align*}
+              & \SUBW_{\mathrm{st}} \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)                                                                                                                                    \\
+              & \Rightarrow\quad \exists n, a_0, \dots, a_{n-1} \in \vsig,\ 
+              \val_{\mathrm{st}}^{\tuple{a_{0}, \dots, a_{n-1}}} \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)                                                        \tag{\Cref{proposition: st surjective}}      \\
+              & \Rightarrow\quad \val_{\mathrm{st}} \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)        \tag{By \Cref{proposition: letter-to-letter valuations}}                                         \\
+              & \Rightarrow\quad \exists n \in \nat, i_1, j_1, \dots, i_m, j_m \mbox{ s.t.\ $0 \le i_1 \le j_1 \le i_2 \le j_2 \le \dots \le i_m \le j_m \le n$},                                                                                    \\
+              & \phantom{\Rightarrow\quad} \exists a_{0}, \dots, a_{n-1} \in \vsig,\ (\bigwedge_{k = 1}^{m}  a_{i_k} \dots a_{j_k-1} \in \hat{\val}_{\mathrm{st}}(\term[1]_k)) \land \hat{\val}_{\mathrm{st}}(\term[2]) = \emptyset                   \\
+              & \Rightarrow\quad \SUBW_{\mathrm{st}} \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp). \tag*{(By \Cref{proposition: letter-to-letter valuations} and $\val_{\mathrm{st}}^{\tuple{a_0, \dots, a_{n-1}}} \in \SUBW_{n} \cap \SUBW_{\mathrm{st}}$) \qedhere}
+       \end{align*}
+\end{proof}
+
+\begin{proposition}[Cor.\ of \Cref{proposition: subw and subwrel iso}]\label{proposition: st SUBW and ORD}
+       For all \kl{quantifier-free formulas} $\fml$, we have:
+       \[\SUBW_{\mathrm{st}} \models \fml \quad\Leftrightarrow\quad \RSUB_{\mathrm{st}} \models \fml.\]
+\end{proposition}
+\begin{proof}
+By the same bijective map $f \colon L \mapsto \set{\tuple{i,j} \mid 0 \le i \le j \le n \land \ell_{i} \dots \ell_{j-1} \in L}$ as \Cref{proposition: subw and subwrel iso}.
+% where $\ell_{i} \dots \ell_{j-1}$ denotes $\id$ if $i = j$.
+\end{proof}
+
+Combining \Cref{lemma: st lang and SUBW,proposition: st SUBW and ORD} yields
+\[\val_{\mathrm{st}} \models \fml \quad\Leftrightarrow\quad \RSUB_{\mathrm{st}} \models \fml.\]
+Particularly, we have $\ljump{\term[1]} = \ljump{\term[2]} \Leftrightarrow \RSUB_{\mathrm{st}} \models \term[1] = \term[2]$ (\Cref{theorem: ord for the standard language valuation}).

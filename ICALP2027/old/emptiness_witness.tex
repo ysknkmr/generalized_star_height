@@ -1,0 +1,96 @@
+\section{Proof of \Cref{proposition: witness}}\label{section: proposition: witness}
+Let $R' \subseteq \domain{\graph[2]} \times \domain{\graph[3]}$ be the minimal set such that
+\begin{itemize}
+       \item $\tuple{\src^{\graph[2]}, \src^{\graph[3]}} \in R'$,
+       \item $\forall a \in \tilde{\vsig}_{\id}, \forall x, x' \in \domain{\graph[2]}, \forall y, y' \in \domain{\graph[3]}$,\   $(\tuple{x, y} \in R' \land \tuple{x, x'} \in \delta_{a}^{\graph[2]} \land \tuple{y, y'} \in \delta_{a}^{\graph[3]}) \Rightarrow \tuple{x', y'} \in R'$.
+\end{itemize}
+\begin{claim}\label{claim: witness pre}
+$\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} \neq \emptyset$ \quad$\Leftrightarrow$\quad  $\tuple{\tgt^{\graph[2]}, \tgt^{\graph[3]}} \in R'$.
+\end{claim}
+\begin{claimproof}
+By definition, $R'$ coincides with the set of all reachable states of the product \kl{NFA} of $\graph[2]$ and $\graph[3]$.
+\end{claimproof}
+
+Let $R \subseteq \domain{\graph[2]} \times \domain{\graph[3]}$ be the minimal set such that
+\begin{itemize}
+       \item $\tuple{\src^{\graph[2]}, \src^{\graph[3]}} \in R$,
+       \item $\forall a \in \tilde{\vsig}_{\id}, \forall x, x' \in \domain{\graph[2]}, \forall y, y' \in \domain{\graph[3]}$,\   $(\tuple{x, y} \in R \land \tuple{x, x'} \in a^{\graph[2]} \land \tuple{y, y'} \in \delta_{a}^{\graph[3]}) \Rightarrow \tuple{x', y'} \in R$.
+\end{itemize}
+\begin{claim}\label{claim: witness eq}
+$R = R'$.
+\end{claim}
+\begin{claimproof}
+($\subseteq$):
+Clear, by $a^{\graph[2]} \subseteq \delta_{a}^{\graph[2]}$.
+($\supseteq$):
+By induction on derivations of $R'$.
+\begin{itemize}
+\item Case $\tuple{\src^{\graph[2]}, \src^{\graph[3]}} \in R'$:
+Trivial, by $\tuple{\src^{\graph[2]}, \src^{\graph[3]}} \in R$.
+\item Case $(\tuple{x, y} \in R' \land \tuple{x, x'} \in \delta_{a}^{\graph[2]} \land \tuple{y, y'} \in \delta_{a}^{\graph[3]}) \Rightarrow \tuple{x', y'} \in R'$:
+By IH, $\tuple{x, y} \in R$.
+\begin{itemize}
+       \item Sub-Case $a \neq \id$:
+Let $x_{0}, \dots, x_{n-1}, x_{n}, \dots, x_{m}$ be s.t.\ $\tuple{x, x'} = \tuple{x_0, x_m}$ and 
+\begin{itemize}
+       \item for all $i \in \range{1, n-1}$,  $\tuple{x_{i-1}, x_{i}} \in \id^{\graph[2]}$,
+       \item $\tuple{x_{n-1}, x_{n}} \in a^{\graph[2]}$,
+       \item for all $i \in \range{n+1, m}$,  $\tuple{x_{i-1}, x_{i}} \in \id^{\graph[2]}$.
+\end{itemize}
+Let $y_0 = \dots = y_{n-1} = y$ and $y_{n} = \dots = y_{m} = y'$.
+Then by applying the second rule multiply, we have $\tuple{x', y'} \in R$. 
+       \item Sub-Case $a = \id$:
+       By reflexivity of $\id^{\graph[2]}$, $\tuple{x, x'} \in (\id^{\graph[2]})^{+}$.
+       Let $x_{0}, \dots, x_{m}$ ($m > 0$) be s.t.\ $\tuple{x, x'} = \tuple{x_0, x_m}$ and 
+\begin{itemize}
+       \item for all $i \in \range{1, m}$,  $\tuple{x_{i-1}, x_{i}} \in \id^{\graph[2]}$.
+\end{itemize}
+       Let $y_0 = y$ and $y_{1} = \dots = y_{m} = y'$.
+       Then by applying the second rule multiply, we have $\tuple{x', y'} \in R$. 
+       \claimqedhere
+\end{itemize}
+\end{itemize}
+\end{claimproof}
+       
+\begin{proof}[Proof of \Cref{proposition: witness}]
+       ($\Rightarrow$):
+       By letting $U$ as the map defined by $U(x) \defeq \set{y \mid \tuple{x, y} \in R}$.
+       Here, $\tgt^{\graph[3]} \not\in U_{\tgt^{\graph[2]}}$ is shown by $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$ with \Cref{claim: witness pre,claim: witness eq}.
+       ($\Leftarrow$):
+       Let $R'' \defeq \set{\tuple{x, y} \mid y \in U(x)}$.
+       By the minimality of $R$, we have $R \subseteq R''$.
+       By $\tuple{\tgt^{\graph[2]}, \tgt^{\graph[3]}} \not\in R''$, we have $\tuple{\tgt^{\graph[2]}, \tgt^{\graph[3]}} \not\in R$.
+       Hence by \Cref{claim: witness pre,claim: witness eq}, we have $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$.
+\end{proof}
+
+% \begin{proof}
+%        \ref{proposition: witness 1}$\Rightarrow$\ref{proposition: witness 2}:
+%        Let
+%        $U_{i} \defeq \set{z \in \domain{\automaton} \mid \exists \word[2] \in \ljump{\automaton[1][\bl, z]},\  \graph(\word[2]) \homo \graph[2]^{\FillQ}[\bl, \quo{i}_{\graph[2]}]}$.
+%        For \ref{definition: witness s-t}:
+%        Clear, by the assumption.
+%        For \ref{definition: witness Con}:
+%        Let $\tuple{i, j} \in a^{\graph[2]}, x \in U_{i}, y \in \delta_{a}^{\automaton}(x)$.
+%        Then we show $y \in U_{j}$.
+%        By $x \in U_{i}$, there is $\word[2] \in \ljump{\automaton[1][\bl, x]}$ s.t.\ $\graph(\word[2]) \homo \graph[2]^{\FillQ}[\bl,\quo{i}_{\graph[2]}]$.
+%        Case $a \neq \id$:
+%        Since $\word[2]a \in \ljump{\automaton[1][\bl, y]}$ and $\tuple{i, j} \in a^{\graph[2]}$,
+%        we have that $\graph(\word[2] a) \homo \graph[2]^{\FillQ}[\bl, \quo{j}_{\graph[2]}]$; thus, $y \in U_{j}$.
+%        Case $a = \id$:
+%        Since $\quo{i}_{\graph[2]} = \quo{j}_{\graph[2]}$,
+%        we have that $\graph(\word[2]) \homo \graph[2]^{\FillQ}[\bl, \quo{j}_{\graph[2]}]$; thus, $y \in U_{j}$.
+%        \ref{proposition: witness 2}$\Rightarrow$\ref{proposition: witness 1}:
+%        Assume, towards contradiction, that there is $\word \in \ljump{\automaton}$ s.t.\  $\graph(\word) \homo \graph[2]^{\FillQ}$.
+%        Let $\word = a_1 \dots a_n$.
+%        Let $q_0, \dots, q_n \in \domain{\automaton}$ be such that $\tuple{q_{i-1}, q_{i}} \in \delta_{a_i}^{\automaton}$ for all $i$ and $\tuple{q_0, q_n} = \tuple{\src^{\automaton}, \tgt^{\automaton}}$.
+%        Let $v_0, v_0', v_1, \dots, v_n, v_n' \in \domain{\graph[2]}$ be such that $\tuple{v_{i-1}', v_{i}} \in a_i^{\graph[2]}$ and $\tuple{v_{i}', v_{i}} \in \id^{\graph[2]}$ for all $i$ and $\tuple{v_0, v_n'} = \tuple{\src^{\graph[2]}, \tgt^{\graph[2]}}$.
+%        We prove that $q_i \in U_{v_i'}$ for all $i$.
+%        Case $i = 0$:
+%        By \ref{definition: witness s-t}, $q_0 \in U_{v_0} = U_{v_0'}$ (\Cref{proposition: con I}).
+%        Case $i > 0$:
+%        \begin{align*}
+%               q_{i} \in \delta_{a}^{\automaton}(q_{i-1}) & \subseteq \delta_{a}^{\automaton}(U_{v_{i-1}'}) \tag{IH}                                           \\
+%                                                          & \subseteq U_{v_i} = U_{v_i'}. \tag{By \ref{definition: witness Con} and \Cref{proposition: con I}}
+%        \end{align*}
+%        Hence we have $q_n \in U_{v_n'}$, which contradicts $\tgt^{\automaton} \not\in U_{\tgt^{\graph[2]}}$.
+% \end{proof}

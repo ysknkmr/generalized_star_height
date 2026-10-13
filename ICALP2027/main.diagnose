@@ -1,0 +1,34 @@
+***********
+* Summary *
+***********
+
+0 undefined knowledge(s).
+0 autoreference(s) are introduced twice.
+0 autoreference(s) are used but not introduced.
+
+62 autoreference(s) are properly used.
+4 autoreference(s) are defined but not used.
+
+
+********
+* Help *
+********
+
+\knowledgeconfigure{diagnose bar=false} deactivate `|'-notation in diagnose file.
+\knowledgeconfigure{diagnose help=false} deactivate long help in the diagnose file.
+\knowledgeconfigure{diagnose line=true} add line numbers to diagnose file.
+
+***********************************
+* Autoref introduced but not used *
+***********************************
+
+% macros.tex:56
+macros.tex:56: {\chainmC }{default}{base}
+% kl-paper.tex:25
+kl-paper.tex:25: {variables}{default}{base}
+% kl-paper.tex:37
+kl-paper.tex:37: {size}{default}{base}
+% kl-paper.tex:60
+kl-paper.tex:60: {Interval locality}{default}{base}
+
+

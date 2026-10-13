@@ -1,0 +1,34 @@
+\ifthenelse{\boolean{final}}{%
+\usepackage[xcolor, cleveref, electronic]{knowledge}
+}{%
+\usepackage[xcolor, cleveref, composition]{knowledge}
+}
+\knowledgeconfigure{notion}
+\knowledgeconfigure{diagnose line=true, diagnose bar=true}
+\knowledgeconfigureenvironment{theorem,lemma,proposition,corollary,definition,proof}{}
+
+\definecolor{Dark Ruby Red}{HTML}{580507}
+\definecolor{Dark Blue Sapphire}{HTML}{053641}
+\definecolor{Dark Gamboge}{HTML}{be7c00}
+
+\IfKnowledgePaperModeTF{%
+}{%
+    \knowledgestyle{intro notion}{color={Dark Ruby Red}, emphasize}
+    \knowledgestyle{notion}{color={Dark Blue Sapphire}}
+    \hypersetup{
+        colorlinks=true,
+        breaklinks=true,
+        linkcolor={cGreen!80!black!100},
+        citecolor={cGreen!80!black!100},
+        filecolor={cGreen!80!black!100},
+        urlcolor={cGreen!80!black!100},
+    }
+    \IfKnowledgeElectronicModeTF{%
+    }{%
+        \knowledgeconfigure{anchor point color={Dark Ruby Red}, anchor point shape=corner}
+        \knowledgestyle{intro unknown}{color={Dark Gamboge}, emphasize}
+        \knowledgestyle{intro unknown cont}{color={Dark Gamboge}, emphasize}
+        \knowledgestyle{kl unknown}{color={Dark Gamboge}}
+        \knowledgestyle{kl unknown cont}{color={Dark Gamboge}}
+    }
+}

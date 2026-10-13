@@ -1,0 +1,262 @@
+\section{Two modules that no star of bounded depth distinguishes}\label{section: local}
+
+\subsection{Spectra}
+
+Let $\M$ be a valuation whose universe is an interval $\range{u, v}$ with $u < v$.
+For example, $\M$ can be a module.
+We call the vertices $x$ with $u < x < v$ \emph{interior}.
+For an interior $x$, let
+\[
+  \lambda_q(x) \defeq \tp{q}(\M\range{u, x}, u, x),
+  \qquad
+  \rho_q(x) \defeq \set{(F, C) \in \Rep{q}^{2} \mid (F^{*} \compo (C \inter \Dt))(x, v)}.
+\]
+The first component describes the prefix up to $x$, and the second describes which stars can leave $x$ towards $v$.
+The \emph{spectrum} of $\M$ is $\Spec{q}(\M) \defeq \set{(\lambda_q(x), \rho_q(x)) \mid x \text{ interior}}$.
+
+\begin{definition}\label{definition: local equivalence}
+  We write $\M \eqq{q} \M'$ if $\tp{q}(\M, u, v) = \tp{q}(\M', u', v')$ and $\Spec{q}(\M) = \Spec{q}(\M')$.
+  Here $u, v$ and $u', v'$ are the endpoints of $\M$ and $\M'$.
+\end{definition}
+
+\begin{lemma}[Spectrum]\label{lemma: spectrum}
+  Let $\M \eqq{q} \M'$.
+  Then for all $G, A, F, C \in \SF{q}$, each of the following holds in $\M$ iff it holds in $\M'$:
+  \[
+    G(u, v) \qquad\text{and}\qquad ((A \inter \Dt) \compo F^{*} \compo (C \inter \Dt))(u, v).
+  \]
+\end{lemma}
+\begin{proof}
+  The first claim follows from \Cref{lemma: SF types}.
+  For the second, we may assume $A, F, C \in \Rep{q}$.
+  The observation holds iff there is $x$ with $u < x$, $A(u, x)$ and $(F^{*} \compo (C \inter \Dt))(x, v)$.
+  The last condition forces $x < v$, so $x$ is interior.
+  By \Cref{lemma: locality,lemma: SF types}, $A(u, x)$ depends only on $\lambda_q(x)$.
+  So the observation holds iff some $(\lambda, \rho) \in \Spec{q}(\M)$ has $\lambda \models A$ and $(F, C) \in \rho$.
+\end{proof}
+
+\subsection{Prefix words and suffix words}
+
+Let $\M = \M(w)$ be a module.
+We label each interior vertex $z$ with the letter $(f(z), s(z)) \in \Gamma \defeq \set{0,1}^{2}$.
+Here $f(z) = 1$ iff $\vr(u, z)$, that is, $z$ is the first vertex of a branch.
+And $s(z) = 1$ iff $\vc(u, z)$, that is, $z$ is selected.
+For an interior $x$, the \emph{prefix word} $\alpha_x \in \Gamma^{+}$ is the sequence of labels of the vertices in $(u, x]$.
+The \emph{suffix word} $\beta_x \in \set{0,1}^{+}$ is the sequence of $f$-labels of the vertices in $[x, v)$.
+Let $\alpha(\M)$ be the label sequence of all interior vertices.
+
+\begin{lemma}[Prefixes]\label{lemma: prefixes}
+  Let $\M, \M'$ be modules.
+  \begin{enumerate}
+    \item If $\tau_q(\alpha(\M)) = \tau_q(\alpha(\M'))$, then $\tp{q}(\M, u, v) = \tp{q}(\M', u', v')$.
+    \item If $x, x'$ are interior vertices of $\M, \M'$ with $\tau_q(\alpha_x) = \tau_q(\alpha'_{x'})$, then $\lambda_q(x) = \lambda'_q(x')$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  We can rebuild $\M\range{u, x}$ from the word $\alpha_x$.
+  Add a new minimum $u$ to the word.
+  Let $\vr$ consist of the pairs $(u, z)$ with $f(z) = 1$ and the successor pairs $(z, z')$ with $f(z') = 0$.
+  Let $\vc$ consist of the pairs $(u, z)$ with $s(z) = 1$, and let $\vb$ be empty.
+  This is correct because two consecutive interior vertices lie in the same branch iff the second one is not the first vertex of a branch.
+  For the whole module we also add a new maximum $v$ and set $\vb \defeq \set{(u, v)}$.
+
+  Now take a winning strategy of Duplicator in the $q$-round game on $\alpha_x$ and $\alpha'_{x'}$.
+  Extend it by matching $u$ with $u'$ (and $v$ with $v'$).
+  The result is a winning strategy for the rebuilt structures, with $x$ and $x'$ matched as the last positions.
+  Indeed, all relations of the rebuilt structures are quantifier-free definable from the order, the successor, the letters, $u$ and $v$.
+\end{proof}
+
+\begin{lemma}[Suffixes]\label{lemma: suffixes}
+  There are a finite monoid $\Qm$ and a morphism $\chi \colon \set{0,1}^{*} \to \Qm$ with the following property.
+  For all modules $\M, \M'$ and interior vertices $x, x'$, if $\chi(\beta_x) = \chi(\beta'_{x'})$, then $\rho_q(x) = \rho'_q(x')$.
+\end{lemma}
+\begin{proof}
+  The suffix $\M\range{x, v}$ contains neither $u$ nor any $\vc$- or $\vb$-pair.
+  It is determined by $\beta_x$.
+  Its $\vr$-pairs are the successor pairs $(z, z')$ with $f(z') = 0$ and $z' \ne v$.
+  Fix $(F, C) \in \Rep{q}^{2}$, and let $L_{F, C}$ be the set of $\beta \in \set{0,1}^{+}$ for which the structure determined by $\beta$ satisfies $(F^{*} \compo (C \inter \Dt))(\min, \max)$.
+  Encode the structure as the word $\beta\sharp$, where $\sharp$ stands for $v$.
+  All relations are first-order definable in $\beta\sharp$, and reflexive transitive closure is definable in monadic second-order logic.
+  So $L_{F, C}$ is regular by the theorem of B\"uchi, Elgot and Trakhtenbrot~\cite{buchiWeakSecondorderArithmetic1960}.
+  Let $\chi$ be the product of the syntactic morphisms of the finitely many languages $L_{F, C}$.
+\end{proof}
+
+\subsection{Codes of branches}
+
+For a branch type $t$ with length $\ell$ and selected index $\sigma$, the \emph{prefix code} $\pc(t) \in \Gamma^{\ell}$ has the following letters.
+The first letter is $(1, 0)$, the $\sigma$-th letter is $(0, 1)$, and all other letters are $(0, 0)$.
+The \emph{suffix code} is $\scode(t) \defeq 1\,0^{\ell - 1}$.
+We extend both codes to words over $\set{\bg, \bs, \bl}$ by concatenation.
+So $\alpha(\M(w)) = \pc(w)$.
+For an interior $x$ of $\M(w)$, $\alpha_x$ is a prefix of $\pc(w)$ and $\beta_x$ is a suffix of $\scode(w)$.
+We define the morphisms
+\[
+  \varphi \defeq \tau_q \circ \pc \colon \set{\bg, \bs, \bl}^{*} \to \Types{q}(\Gamma),
+  \qquad
+  \hat\chi \defeq \chi \circ \scode \colon \set{\bg, \bs, \bl}^{*} \to \Qm.
+\]
+From now on, fix $q$ and let $m \defeq 2^{q+3}$.
+
+\begin{lemma}\label{lemma: branch identities}
+  \leavevmode
+  \begin{enumerate}
+    \item\label{item: long} $\varphi(\bg) = \varphi(\bl)$.
+          Moreover, the prefix of length $m-1$ of $\pc(\bg)$ and the prefix of length $m$ of $\pc(\bl)$ have the same $\tau_q$.
+    \item\label{item: shift} $\hat\chi(\bg) = \hat\chi(\bs)$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  (\ref{item: long})
+  We have $\pc(\bg) = (1,0)\,(0,0)^{m-2}\,(0,1)$ and $\pc(\bl) = (1,0)\,(0,0)^{m-1}\,(0,1)$.
+  The two prefixes are $(1,0)\,(0,0)^{m-2}$ and $(1,0)\,(0,0)^{m-1}$.
+  Since $m - 2 > 2^{q+1}$, \Cref{lemma: word types}(\ref{item: powers}) gives $\tau_q((0,0)^{m-2}) = \tau_q((0,0)^{m-1})$.
+  We conclude by \Cref{lemma: word types}(\ref{item: composition}).
+  (\ref{item: shift}) $\scode(\bg) = \scode(\bs) = 1\,0^{m-1}$.
+\end{proof}
+
+So the prefix monoid cannot tell $\bg$ from $\bl$, and the suffix monoid cannot tell $\bg$ from $\bs$.
+Neither monoid alone separates $\bg$ from $\Bad$.
+The question is whether both monoids can be fooled \emph{at the same point}.
+
+\subsection{The local pair}
+
+\begin{proposition}[Local pair]\label{proposition: local pair}
+  For every $q$ there are modules $\M^{+}_{q}$ and $\M^{-}_{q}$ with the following properties.
+  \begin{enumerate}
+    \item They have the same vertices and the same $\vr$ and $\vb$.
+          Their $\vc$ differ in exactly one pair: $\M^{-}_q$ has $(u, y_{m-1})$ where $\M^{+}_q$ has $(u, y_m)$, for one branch $y_1 < \dots < y_m$.
+    \item $\Kt(u, v)$ holds in $\M^{+}_q$ and fails in $\M^{-}_q$.
+    \item $\M^{+}_q \eqq{q} \M^{-}_q$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  Let $\Pm \defeq \varphi(\Bad^{*})$ and $\eta \defeq (\varphi, \hat\chi) \colon \Bad^{*} \to \Types{q}(\Gamma) \times \Qm$, and let $\Tm \defeq \eta(\Bad^{*})$.
+  The monoid $\Pm$ is aperiodic by \Cref{lemma: word types}(\ref{item: powers}), and the first projection maps $\Tm$ onto $\Pm$.
+  Fix an idempotent $e = (e_P, e_Q) \in \Kid(\Tm)$.
+  By \Cref{lemma: minimal ideal},
+  \begin{equation}\label{equation: collapse}
+    e\Tm e \text{ is a group}, \qquad e_P\, n\, e_P = e_P \quad (n \in \Pm).
+  \end{equation}
+  Note that $\varphi(\bg) = \varphi(\bl) \in \Pm$ by \Cref{lemma: branch identities}.
+
+  \emph{Reset words.}
+  Choose a nonempty $t \in \Bad^{*}$ with $\eta(t) = e$.
+  If $e$ is not the identity, any preimage works.
+  Otherwise $\Tm = \Kid(\Tm)$ is a group, and we take $t \defeq \bs^{\card{\Tm}}$.
+  For $x \in \Bad$, the element $e\eta(x)e$ lies in the group $e\Tm e$.
+  Choose $v_x \in \Bad^{*}$ such that $\eta(v_x)$ is its inverse in this group.
+  Let
+  \[
+    L_x \defeq t\, v_x\, t\, x\, t \quad (x \in \Bad),
+    \qquad
+    L^{+} \defeq t\, v_{\bs}\, t\, \bg\, t.
+  \]
+  Then $\eta(L_x) = \eta(v_x) \cdot e\eta(x)e = e$.
+  By \eqref{equation: collapse} and \Cref{lemma: branch identities}(\ref{item: shift}), also $\eta(L^{+}) = e$.
+  Define
+  \[
+    W^{-} \defeq L_{\bs}\, L_{\bl}\, L_{\bs}\, t,
+    \qquad
+    W^{+} \defeq L^{+}\, L_{\bl}\, L_{\bs}\, t,
+    \qquad
+    \M^{\pm}_q \defeq \M(W^{\pm}).
+  \]
+  The two words differ only in the displayed letter of the first block, which is $\bs$ in $W^{-}$ and $\bg$ in $W^{+}$.
+  Since $\bs$ and $\bg$ have the same length and differ only in the selected vertex, property~1 holds.
+  Property~2 follows from \Cref{lemma: signal}, since $W^{-} \in \Bad^{*}$.
+
+  \emph{Root types.}
+  We have $\varphi(W^{\pm}) = e_P^{4} = e_P$.
+  So the root types agree by \Cref{lemma: prefixes}.
+
+  \emph{Critical zones.}
+  Each of the three blocks has the form $t\, v\, t\, c\, t$.
+  We call the branch coming from the letter $c$ the \emph{displayed} branch of the block.
+  The \emph{critical zone} of the block consists of the last two vertices of the displayed branch and the vertices of the last copy of $t$ in the block.
+  Let $Z, Z', Z''$ be the critical zones of the first, second and third blocks.
+  These sets are the same in $\M^{+}$ and $\M^{-}$, since the two modules have the same vertices.
+  Let $x$ be a vertex in the critical zone of a block whose displayed letter is $c$.
+  Then its prefix word and suffix word factor as
+  \[
+    \alpha_x = \pi\, \zeta_x,
+    \qquad
+    \beta_x = \xi_x\, \kappa.
+  \]
+  Here $\pi$ is the prefix code of everything before the displayed branch, and $\zeta_x$ is the prefix of $\pc(c\, t)$ that ends at $x$.
+  Further, $\xi_x$ is the suffix of $\scode(c\, t)$ that starts at $x$, and $\kappa$ is the suffix code of everything after the block.
+  The word before the displayed branch is $t\, v\, t$, possibly preceded by earlier blocks.
+  The word after the block is a nonempty product of blocks and $t$.
+  So \eqref{equation: collapse} and $\eta(t) = \eta(L_x) = \eta(L^{+}) = e$ give
+  \begin{equation}\label{equation: zone states}
+    \tau_q(\pi) = e_P \quad\text{and}\quad \chi(\kappa) = e_Q
+    \qquad\text{in all three blocks, in both modules.}
+  \end{equation}
+  Hence $\tau_q(\alpha_x) = e_P\, \tau_q(\zeta_x)$ and $\chi(\beta_x) = \chi(\xi_x)\, e_Q$.
+  The point is that only $\zeta_x$ and $\xi_x$ depend on the block.
+  We match the vertices of two critical zones position by position.
+  The $j$-th last vertex of one displayed branch ($j = 1, 2$) goes to the $j$-th last vertex of the other, and the vertices of the final copies of $t$ correspond by position.
+  We write $\lambda^{\pm}, \rho^{\pm}$ for the maps of $\M^{\pm}_q$.
+  The matching is shown in \Cref{figure: reset}.
+
+  \begin{figure}[t]
+    \centering
+    \input{fig/reset}
+    \caption{The words $W^{-}$ and $W^{+}$ with the critical zones $Z, Z', Z''$ (shaded).
+      Before each displayed branch the prefix state is $e_P$, and after each block the suffix state is $e_Q$.
+      Outside $Z$ every vertex is matched to itself.
+      The vertices of $Z$ in $\M^{+}_q$ (good branch $\bg$) are matched to $Z'$ in $\M^{-}_q$ (long branch $\bl$).
+      The vertices of $Z$ in $\M^{-}_q$ are matched to $Z''$ in $\M^{+}_q$ (both shifted branches $\bs$).}
+    \label{figure: reset}
+  \end{figure}
+
+  \begin{claim}\label{claim: outside}
+    For every interior $x \notin Z$: $(\lambda^{+}(x), \rho^{+}(x)) = (\lambda^{-}(x), \rho^{-}(x))$.
+  \end{claim}
+  \begin{claimproof}
+    The suffixes $\M^{\pm}_q\range{x, v}$ coincide, because they contain no $\vc$-pair.
+    So $\rho^{+}(x) = \rho^{-}(x)$.
+    If $x$ is before $Z$, both changed $\vc$-targets lie after $x$, so $\M^{+}_q\range{u, x} = \M^{-}_q\range{u, x}$.
+    If $x$ is after $Z$, then $\alpha^{\pm}_x = \pc(L^{\pm})\, \gamma$ with $L^{-} \defeq L_{\bs}$ and a common word $\gamma$.
+    Since $\varphi(L^{+}) = \varphi(L_{\bs}) = e_P$, \Cref{lemma: prefixes} gives $\lambda^{+}(x) = \lambda^{-}(x)$.
+  \end{claimproof}
+
+  \begin{claim}\label{claim: good to long}
+    Let $x \in Z$ and let $x' \in Z'$ be its match.
+    Then $(\lambda^{+}(x), \rho^{+}(x)) = (\lambda^{-}(x'), \rho^{-}(x'))$.
+  \end{claim}
+  \begin{claimproof}
+    The displayed letters are $\bg$ (block one of $W^{+}$) and $\bl$ (block two of $W^{-}$).
+    The words $\zeta_x$ and $\zeta_{x'}$ are one of the following pairs.
+    (a) The prefixes of lengths $m-1$ of $\pc(\bg)$ and $m$ of $\pc(\bl)$.
+    (b) The words $\pc(\bg)$ and $\pc(\bl)$.
+    (c) The words $\pc(\bg)\,\delta$ and $\pc(\bl)\,\delta$ for a common prefix $\delta$ of $\pc(t)$.
+    In each case $\tau_q(\zeta_x) = \tau_q(\zeta_{x'})$ by \Cref{lemma: branch identities}(\ref{item: long}) and \Cref{lemma: word types}(\ref{item: composition}).
+    The words $\xi_x$ and $\xi_{x'}$ are equal.
+    They are $00\,\scode(t)$ or $0\,\scode(t)$ in the branch, since $m \ge 3$ and the last two vertices are not first vertices of the branch.
+    In the copy of $t$ they are the same suffix of $\scode(t)$.
+    By \eqref{equation: zone states} and \Cref{lemma: prefixes,lemma: suffixes}, the claim follows.
+  \end{claimproof}
+
+  \begin{claim}\label{claim: shifted to shifted}
+    Let $x \in Z$ and let $x'' \in Z''$ be its match.
+    Then $(\lambda^{-}(x), \rho^{-}(x)) = (\lambda^{+}(x''), \rho^{+}(x''))$.
+  \end{claim}
+  \begin{claimproof}
+    Both displayed letters are $\bs$.
+    Hence $\zeta_x = \zeta_{x''}$ and $\xi_x = \xi_{x''}$, and we conclude by \eqref{equation: zone states} as before.
+  \end{claimproof}
+
+  By \Cref{claim: outside,claim: good to long}, $\Spec{q}(\M^{+}_q) \subseteq \Spec{q}(\M^{-}_q)$.
+  By \Cref{claim: outside,claim: shifted to shifted}, $\Spec{q}(\M^{-}_q) \subseteq \Spec{q}(\M^{+}_q)$.
+  Together with the root types, $\M^{+}_q \eqq{q} \M^{-}_q$.
+\end{proof}
+
+\begin{remark}
+  The term $\Kt$ itself has star height one and distinguishes $\M^{+}_q$ from $\M^{-}_q$.
+  So $\eqq{q}$ does not imply equivalence for all terms of star height one.
+  What $\eqq{q}$ does guarantee is that stars of depth at most $q$ \emph{passing through} a module do not see the difference (\Cref{lemma: replacement}).
+  The amplification in \Cref{section: cells} makes this enough.
+  The suffix monoid $\Qm$ may contain nontrivial groups, for instance because $(\vr \compo \vr)^{*}$ counts modulo two.
+  This is why we need the minimal ideal and the inverses $v_x$, and not only the aperiodicity of the prefix monoid.
+\end{remark}

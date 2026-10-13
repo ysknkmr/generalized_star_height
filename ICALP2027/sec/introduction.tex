@@ -1,0 +1,83 @@
+\section{Introduction}\label{section: introduction}
+
+The \kl{star height} of a regular expression is the maximal nesting depth of Kleene stars in it.
+Star height has been a driving question in automata theory since Eggan~\cite{egganTransitionGraphsStarheight1963}:
+Dejean and Sch\"utzenberger showed that the star-height hierarchy of regular languages is infinite already over a binary alphabet~\cite{dejeanQuestionEggan1966},
+and the decidability of star height, settled by Hashiguchi~\cite{hashiguchiAlgorithmsDeterminingRelative1988} and revisited by Kirsten~\cite{kirstenDistanceDesertAutomata2005}, is a landmark of the field.
+When the complement is admitted as an operator, the picture changes completely.
+Languages of \emph{generalized} star height $0$ are the star-free languages, characterized by Sch\"utzenberger's theorem~\cite{schutzenbergerFiniteMonoidsHaving1965},
+but it has been a long-standing open problem whether the generalized star height of regular languages is bounded (see, e.g.,~\cite{pinResultsGeneralizedStarheight1992}).
+Very recently, OpenAI announced a proof that every regular language has generalized star height at most three~\cite{openaiGeneralizedStarHeight2026};
+thus the generalized star-height hierarchy of regular languages collapses at level three, while it is still unknown whether level two is needed at all.
+
+In this paper we consider star height for \emph{terms} of Kleene algebra with complement~\cite{nakamuraFiniteRelationalSemantics2025}, \kl{wrt} their equational theory \kl{wrt} languages.
+Here a \kl{term} is a regular expression over variables built from $\emp$, $\id$, $\union$, $\compo$, $\bl^{*}$ and complement $\com{\bl}$,
+and two \kl{terms} are \kl{language-equivalent} if they denote the same language under every valuation that maps the variables to arbitrary languages (over arbitrary alphabets).
+Equational theories \kl{wrt} languages are classical for Kleene algebra~\cite{kozenCompletenessTheoremKleene1991} and its extensions with intersection, converse, or top~\cite{andrekaEquationalTheoryKleene2011,brunetReversibleKleeneLattices2017,pousCompletenessTheoremsKleene2022},
+and for Kleene algebra with complement they are captured by a finite relational semantics~\cite{nakamuraFiniteRelationalSemantics2025}.
+\kl{Language-equivalence} is finer than equivalence under the standard interpretation, in which each variable denotes itself as a letter,
+so star-height lower bounds \kl{wrt} languages are weaker than lower bounds for generalized star height.
+Nonetheless, to the best of our knowledge, it has not been known whether complement collapses the star-height hierarchy of \kl{terms} \kl{wrt} languages, even at level two.
+
+\subparagraph*{Contribution.}
+We show that the hierarchy is infinite.
+Let $\Hcl{h}$ be the class of operations on languages that are defined by \kl{terms} over the four variables $x, y, z, c$ of \kl{star height} at most $h$.
+\begin{theorem}[Main theorem]\label{theorem: main}
+    For every $h \in \nat$, there is a \kl{term} $\Qt{h}$ over the variables $x, y, z, c$ with $\sh(\Qt{h}) = h+1$ such that $\Qt{h}$ is not \kl{language-equivalent} to any \kl{term} $\term$ (over any variables) with $\sh(\term) \le h$.
+    Hence $\Hcl{0} \subsetneq \Hcl{1} \subsetneq \Hcl{2} \subsetneq \cdots$.
+    Moreover, $\Qt{h}$ is not equivalent to any such $\term$ over finite relational models (hence over $\REL$) either (\Cref{theorem: main REL}).
+\end{theorem}
+Thus, in contrast to the collapse at level three under the standard interpretation~\cite{openaiGeneralizedStarHeight2026}, the hierarchy \kl{wrt} languages is infinite.
+The witness $\Qt{h}$ is fixed in advance and does not depend on the competing \kl{term};
+only the counter-model depends on it.
+The separation also holds for the finite relational models $\RSUB$ of~\cite{nakamuraFiniteRelationalSemantics2025} (\Cref{section: strategy}).
+Since validity \kl{wrt} languages and \kl{wrt} relational models are incomparable, the relational part is not a consequence of the language part. Moreover, the equational theory of relational models does not have the finite model property in general, so separation over \emph{finite} relational models is a priori stronger than over $\REL$.
+
+\subparagraph*{Technical overview.}
+The whole proof rests on one invariant, which we explain first.
+
+\emph{Setting.}
+By~\cite{nakamuraFiniteRelationalSemantics2025}, it suffices to work with relations on finite chains.
+We use chain models $\Mod{a}$ (\Cref{figure: model}) with $m$ \kl{phases} and an integer parameter $a$.
+In $\Mod{a}$, a \kl{term} only sees time differences, so it defines, in each \kl{phase}, an \kl{ultimately periodic} set of integers.
+Its \kl{period} depends on $a$, and turns out to be a polynomial $P(a)$ (on residue classes).
+
+\emph{The invariant.}
+We measure a \kl{term} by the largest degree of an \emph{irreducible factor} of its period polynomial $P$.
+\begin{itemize}
+    \item \emph{Witnesses can make it large} (\Cref{section: witness}).
+          One star suffices to turn periods $q_1, \dots, q_m$ (one per \kl{phase}) into the periods $\lcm_k q_k + p i$ (in \kl{phase} $i$).
+          For suitable $a$, this lcm is a product of $m$ shifted copies divided by a constant, and the result is irreducible by Eisenstein's criterion.
+          So each star multiplies the irreducible degree by $m$, and the witness $\Qt{h}$ has an irreducible factor of degree $m^{h}$.
+    \item \emph{Arbitrary terms keep it small} (\Cref{section: upper bound}).
+          Boolean operations and composition only multiply periods, so they create no new irreducible factors.
+          A star multiplies the period by the weights of a few short cycles; each such weight is a polynomial whose degree is at most the total degree $d$ of the period before the star.
+          So a star creates new irreducible factors of degree at most $d$, while $d$ grows by a factor of at most $m + 1$.
+          Hence a \kl{term} $\term$ of \kl{star height} $h$ has only irreducible factors of degree at most $\tsize{\term} (m+1)^{h-1}$.
+\end{itemize}
+Since $m^{h} > \tsize{\term} (m+1)^{h-1}$ for large $m$, the period of $\term$ cannot be a multiple of the period of $\Qt{h}$ for large $a$ (by a B\'ezout argument), so $\term$ and $\Qt{h}$ differ.
+\Cref{section: strategy} states this reduction precisely.
+
+\emph{Technical ingredients.}
+That cycle weights are polynomials in $a$ follows from the quasi-polynomiality of optima in parametric Presburger arithmetic~\cite{bogartParametricPresburgerArithmetic2017}.
+To apply it after nested stars, we prove that weights of walks in graphs labeled by ultimately periodic parametric Presburger families are again parametric Presburger (\Cref{lemma: closure}).
+For finite relational models we use cyclic versions of $\Mod{a}$, where the star case is even simpler (\Cref{section: appendix: rel}).
+
+\subparagraph*{Related work.}
+Besides the star-height results above, the dot-depth hierarchy of star-free languages is infinite~\cite{brzozowskiDotdepthHierarchyStarfree1978,thomasConcatenationGameDotdepth1987},
+which is the analogue of our result \emph{inside} generalized star height $0$.
+The model class $\RSUB$ and the complexity of the equational theory of Kleene algebra with complement \kl{wrt} languages are from~\cite{nakamuraFiniteRelationalSemantics2025}; it is based on Pratt's embedding of languages into relations~\cite{prattDynamicAlgebrasNature1980}.
+Kleene star corresponds to the transitive closure operator, and our \kl{terms} can be seen as formulas of transitive closure logic with three variables.
+For full transitive closure logic on finite structures, Gr\"adel and McColm proved a hierarchy theorem for the nesting of transitive closure and negation by Ehrenfeucht--Fra\"iss\'e games~\cite{gradelHierarchiesTransitiveClosure1996}.
+In contrast, on ordered finite structures, every formula of transitive closure logic is equivalent to one with a single transitive closure, at the price of higher arity~\cite{immermanLanguagesThatCapture1987}.
+Since our models are chains, the bounded arity of \kl{terms} is essential in \Cref{theorem: main}.
+Expressive-power separations for relational calculi have also been obtained by Ehrenfeucht--Fra\"iss\'e games~\cite{nakamuraExpressivePowerSuccinctness2022};
+our argument is instead arithmetic.
+On the arithmetic side, we use parametric Presburger arithmetic~\cite{bogartParametricPresburgerArithmetic2017},
+and Parikh's theorem~\cite{parikhContextFreeLanguages1966} together with semilinearity of Presburger sets~\cite{ginsburgSemigroupsPresburgerFormulas1966}.
+
+\subparagraph*{Organization.}
+\Cref{section: preliminaries} fixes the syntax and the semantics.
+\Cref{section: strategy} defines the witnesses and reduces \Cref{theorem: main} to two propositions, which are proved in \Cref{section: witness,section: upper bound}.
+\Cref{section: conclusion} concludes.
+Omitted proofs are in the appendix.

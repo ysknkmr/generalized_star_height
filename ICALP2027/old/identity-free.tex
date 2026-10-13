@@ -1,0 +1,46 @@
+\section{Identity-free}
+Moreover, we can also eliminate the identity $\id$.
+
+\begin{proposition}[cf.\ {\Cref{proposition: ORD lr,proposition: LANG lr}}]\label{proposition: ORD lr Gamma}
+    For all \kl{terms} $\term[1], \term[2]$ and sets of \kl{equations} $\Gamma$,
+    we have
+    \[\RSUB_{\Gamma} \models \term[1] \le \term[2] \quad\iff\quad \forall n, \mbox{$\val$ of $\RSUB_{n}$ s.t.\ $\Gamma$ is true on $\val$},\  \tuple{0, n} \not\in \hat{\val}(\term[1]) \setminus \hat{\val}(\term[2]).\]
+\end{proposition}
+\begin{proof}[Proof Sketch]
+    By using the same transformation of \kl{valuations} in \Cref{proposition: LANG lr}.
+    This transformation works because the truth of $\Gamma$ is preserved.
+\end{proof}
+
+
+\begin{proposition}\label{proposition: star and identity to top}
+    Let $\Gamma = \set{\CSIG \cap \CSIG \CSIG = \emp, \CSIG (\CSIG \top)^{\compl} = \emp}$.
+    Let $\val$ be a \kl{valuation} on $\RSUB_{n}$.
+    If $\Gamma$ is true on $\val$, Then $\tuple{0, n} \in \hat{\val}(\CSIG^{+}) \iff \tuple{0, n} \in \hat{\val}(\CSIG \top)$.
+\end{proposition}
+\begin{proof}
+    $\Longrightarrow$:
+    By $\hat{\val}(\CSIG^{+}) = \hat{\val}(\CSIG \CSIG^{*}) \subseteq \hat{\val}(\CSIG \top)$.
+    $\Longleftarrow$:
+    Note that $\tuple{i, i} \not\in \hat{\val}(\CSIG)$ for all $0 \le i \le n$, because $\CSIG \cap \CSIG \CSIG = \emp \in \Gamma$.
+    We prove that for all $i$, if $\tuple{i, n} \in \hat{\val}(\CSIG \top)$, then $\tuple{i, n} \in \hat{\val}(\CSIG^{+})$.
+    By induction on $i$ (from $n$ to $0$).
+    If $\tuple{i, n} \in \hat{\val}(\CSIG \top)$, then there is $j$ such that $\tuple{i, j} \in \hat{\val}(\CSIG)$.
+    Because $\tuple{i, i} \not\in \hat{\val}(\CSIG)$, $j > i$.
+    Because $\CSIG (\CSIG \top)^{\compl} = \emp \in \Gamma$, $\tuple{j, n} \in \hat{\val}(\CSIG \top)$.
+    Thus by IH, $\tuple{j, n} \in \hat{\val}(\CSIG^{+})$.
+    Hence $\tuple{i, n} \in \hat{\val}(\CSIG^{+})$.
+\end{proof}
+
+\begin{corollary}
+    The equational theory w.r.t.\ languages is $\Pi^{0}_{1}$-complete for star-free and identity-free $\KAtermclasstermclass_{\set{-}}$.
+\end{corollary}
+\begin{proof}
+    By an easy modification of the universality problem of \kl{CFGs}, the following problem is also $\Pi^{0}_{1}$-hard (see \Cref{ }, for more details):
+    Given a \kl{CFG} $\CFG = \tuple{X, \set{x_i \leftarrow w_i \mid i \in [n]}, \const{s}}$ such that $w_i \neq \id$ for all $i$, does $\ljump{\CFG} = \CSIG^{+}$ hold?
+    Then by almost the same reduction of \Cref{theorem: Pi01 complete}, we can reduce this problem to the equational theory w.r.t.\ languages as follows:
+    \begin{align*}
+        \ljump{\CFG} = \CSIG^{+} & \Longleftrightarrow  \RSUB_{\set{w_i \le x_i \mid i \in [n]} \cup \set{\CSIG \cap \CSIG \CSIG = \emp, \CSIG (\CSIG \top)^{\compl} = \emp}} \models \CSIG^{+} \le \const{s}                                                                     \tag{Cor.\ of \Cref{lemma: CFG encoding lang}; $\set{\CSIG \cap \CSIG \CSIG = \emp, \CSIG (\CSIG \top)^{\compl} = \emp}$ is true on $\val_{\CFG, \word}$} \\
+                                 & \Longleftrightarrow \RSUB_{\set{w_i \cap \com{x_i} = \emp \mid i \in [n]} \cup \set{\CSIG \cap \CSIG \CSIG = \emp, \CSIG (\CSIG \top)^{\compl} = \emp}} \models \CSIG\top \le \const{s}                          \tag{\Cref{proposition: star and identity to top,proposition: ORD lr Gamma}}                                                                                                            \\
+                                 & \Longleftrightarrow  \RSUB \models \CSIG \top \le \const{s} \cup \left(\bigcup_{i = 1}^{n} \top (w_i \cap \com{x_i}) \top\right) \cup (\top (\CSIG \cap \CSIG \CSIG) \top) \cup (\top  \CSIG (\CSIG \top)^{\compl} \top)  \tag*{(\Cref{lemma: deduction theorem}) \qedhere}
+    \end{align*}
+\end{proof}

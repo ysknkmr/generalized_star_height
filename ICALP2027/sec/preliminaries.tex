@@ -1,0 +1,93 @@
+\section{Preliminaries}\label{section: preliminaries}
+
+We write $\nat$ for the set of non-negative integers, $\pnat \defeq \nat \setminus \set{0}$, and $\range{l, r} \defeq \set{i \in \inte \mid l \le i \le r}$.
+For subsets $X, Y$ of an abelian group we write $X + Y \defeq \set{\alpha + \beta \mid \alpha \in X, \beta \in Y}$, and $P\nat \defeq \set{P k \mid k \in \nat}$.
+
+\AP Let $P, T \in \pnat$. A set $X \subseteq \nat$ is \intro{$P$-periodic from $T$} if $n \in X \Leftrightarrow n + P \in X$ for all $n \ge T$.
+We then call $P$ an \intro{period} of $X$ and $T$ a \intro{preperiod}; $X$ is \intro{ultimately periodic} if it has an \kl{period}.
+Clearly, if $X$ is $P$-periodic from $T$, then so is $\nat \setminus X$, and $X$ is $kP$-periodic from $T'$ for all $k \in \pnat$ and $T' \ge T$; every finite subset of $\range{0, T - 1}$ is $P$-periodic from $T$.
+\begin{restatable}{fact}{factPeriods}\label{fact: periods}
+    Let $X, Y \subseteq \nat$.
+    \begin{enumerate}
+        \item\label{fact: periods: min} If $X$ is $P$-periodic from $T$ and $X \cap \range{T, T + q + P} = q \nat \cap \range{T, T + q + P}$ for some $q \in \pnat$, then $q \mid P$.
+        \item\label{fact: periods: sum} If $X$ and $Y$ are $P$-periodic from $T_X$ and $T_Y$, respectively, then $X + Y$ is $P$-periodic from $T_X + T_Y + P$.
+    \end{enumerate}
+\end{restatable}
+Both are elementary; see \Cref{section: appendix: witness}.
+
+\subsection{Terms and star height}\label{section: terms}
+\AP Let $\intro*\vsig$ be a countably infinite set of \intro{variables}.
+\intro{Terms} are given by the grammar
+\[\term[1], \term[2] \quad::=\quad x \mid \emp \mid \id \mid \term[1] \union \term[2] \mid \term[1] \compo \term[2] \mid \term[1]^{*} \mid \com{\term[1]} \qquad (x \in \vsig).\]
+We write $\term[1] \inter \term[2] \defeq \com{\com{\term[1]} \union \com{\term[2]}}$.
+\AP The \intro{star height} $\intro*\sh(\term)$ is the maximal nesting depth of $\bl^{*}$ in $\term$:
+$\sh(x) = \sh(\emp) = \sh(\id) = 0$, $\sh(\com{\term}) = \sh(\term)$, $\sh(\term[1] \union \term[2]) = \sh(\term[1] \compo \term[2]) = \max(\sh(\term[1]), \sh(\term[2]))$, and $\sh(\term^{*}) = \sh(\term) + 1$.
+In particular, complement does not count, and $\sh(\term[1] \inter \term[2]) = \max(\sh(\term[1]), \sh(\term[2]))$.
+\AP The \intro{size} $\intro*\tsize{\term}$ is the number of occurrences of variables and constants in $\term$.
+
+\subsection{Language semantics and relational semantics}\label{section: semantics}
+\AP A \intro{language valuation} $\val$ maps each variable to a language over some alphabet $X$; it extends to \kl{terms} by interpreting $\emp$, $\id$, $\union$, $\compo$, $\bl^{*}$ as $\emptyset$, $\set{\varepsilon}$, union, concatenation, and Kleene star, and $\com{\bl}$ as complement relative to $X^{*}$.
+\AP Two \kl{terms} $\term[1], \term[2]$ are \intro{language-equivalent}, written $\intro*\LANG \models \term[1] = \term[2]$, if they denote the same language under every \kl{language valuation}.
+\AP For $h \in \nat$, we let $\intro*\Hcl{h}$ be the set of equivalence classes, \kl{wrt} \kl{language-equivalence}, of \kl{terms} $\term$ over $\set{x, y, z, c}$ with $\sh(\term) \le h$.
+
+\subparagraph*{Relational models.}
+\AP A \intro{relational valuation} on a set $\Omega$ maps each variable to a binary relation on $\Omega$.
+Its semantics $\intro*\semR{\term}{\val} \subseteq \Omega^{2}$ interprets $\emp$, $\id$, $\union$, $\compo$, $\bl^{*}$ as the empty relation, the identity, union, relational composition, and reflexive transitive closure, and $\com{\bl}$ as complement relative to $\Omega^{2}$.
+We write $\intro*\REL \models \term[1] = \term[2]$ if $\semR{\term[1]}{\val} = \semR{\term[2]}{\val}$ for every \kl{relational valuation} $\val$ on every set $\Omega$.
+
+\subparagraph*{Forward semantics and $\RSUB$.}
+\AP Let $(\Omega, \le)$ be a linear order in which every interval $\range{u, v} \defeq \set{w \mid u \le w \le v}$ is finite.
+Its set of \intro{forward pairs} is $\intro*\univ{\Omega} \defeq \set{(u, v) \in \Omega^2 \mid u \le v}$.
+\AP For a \kl{relational valuation} $\val$ on $\Omega$ with $\val(x) \subseteq \univ{\Omega}$ for all $x$, the \intro{forward semantics} $\intro*\sem{\term}{\val} \subseteq \univ{\Omega}$ is defined like $\semR{\term}{\val}$, except that complement is taken relative to $\univ{\Omega}$: $\sem{\com{\term}}{\val} = \univ{\Omega} \setminus \sem{\term}{\val}$.
+Since all relations then consist of \kl{forward pairs}, the intermediate points of a composition and of a closure path from $u$ to $v$ lie in $\range{u, v}$.
+An induction on $\term$ thus gives:
+\begin{lemma}[\intro{Interval locality}]\label{lemma: locality}
+    For $u \le v$ in $\Omega$, whether $(u, v) \in \sem{\term}{\val}$ depends only on the isomorphism type of $(\range{u, v}, \le, (\val(x) \cap \range{u, v}^2)_{x})$.
+\end{lemma}
+
+\AP An \intro{$\RSUB$ valuation} is a \kl{relational valuation} $\val$ on a finite chain $\range{0, n}$ with $\val(x) \subseteq \univ{\range{0, n}}$ such that, for each $x$, $\val(x)$ contains all pairs $(u, u)$ or none of them.
+We write $\intro*\RSUB \models \term[1] = \term[2]$ if $\sem{\term[1]}{\val} = \sem{\term[2]}{\val}$ for every \kl{$\RSUB$ valuation}~$\val$.
+\begin{theorem}[{\cite[Thm.~3.2]{nakamuraFiniteRelationalSemantics2025}}]\label{theorem: LANG RSUB}
+    For all \kl{terms} $\term[1], \term[2]$: $\LANG \models \term[1] = \term[2]$ if and only if $\RSUB \models \term[1] = \term[2]$.
+\end{theorem}
+\AP We say that $\val$ is \intro{diagonal-uniform} if each $\val(x)$ contains all pairs $(u, u)$ or none of them.
+By \Cref{lemma: locality,theorem: LANG RSUB}, a single discrepancy on an infinite chain suffices to separate two \kl{terms} \kl{wrt} languages:
+\begin{corollary}\label{corollary: transfer}
+    Let $\val$ be a \kl{diagonal-uniform} \kl{relational valuation} on $\Omega$ with $\val(x) \subseteq \univ{\Omega}$, and let $(u, v) \in \sem{\term[1]}{\val} \setminus \sem{\term[2]}{\val}$.
+    Then $\RSUB \not\models \term[1] = \term[2]$; hence $\term[1]$ and $\term[2]$ are not \kl{language-equivalent}.
+\end{corollary}
+\begin{proof}
+    Restrict $\val$ to the finite interval $\range{u, v}$ and rename it to a chain $\range{0, n}$.
+    The result is an \kl{$\RSUB$ valuation} since it is \kl{diagonal-uniform}, and by \Cref{lemma: locality} it still distinguishes $\term[1]$ and $\term[2]$ at the endpoints.
+\end{proof}
+Validity \kl{wrt} $\LANG$ and \kl{wrt} $\REL$ are incomparable:
+for instance, $x \le x \compo \com{\emp} \compo x$ (\ie, $x \inter \com{x \compo \com{\emp} \compo x} = \emp$) holds in $\REL$ but not in $\LANG$~\cite{pousCompletenessTheoremsKleene2022},
+and conversely there are equations valid in $\LANG$ but not in $\REL$~\cite{nakamuraFiniteRelationalSemantics2025}.
+Hence neither separation implies the other.
+The main text treats \kl{language-equivalence}; finite relational models are treated in \Cref{section: appendix: rel}.
+
+\subsection{Chain models with phases}\label{section: chain models}
+\input{fig/model}
+\AP Throughout the paper, we fix an integer $m \ge 2$ and a prime $p > m$; constants hidden in $O(\cdot)$ may depend on $m$ and $p$.
+\AP Let $\intro*\chainm \defeq \nat \times \range{1, m}$, ordered lexicographically: $\pt{t}{i} < \pt{t'}{i'}$ iff $t < t'$, or $t = t'$ and $i < i'$.
+We call $t$ the \intro{time} and $i$ the \intro{phase} of $\pt{t}{i}$.
+\AP For $a \in \pnat$, the \intro{chain model} $\intro*\Mod{a}$ is the \kl{relational valuation} on $\chainm$ with
+\begin{align*}
+    z &\mapsto \set{(\pt{t}{i}, \pt{t+k}{i}) \mid k \in \nat}, &
+    x &\mapsto \set{(\pt{t}{i}, \pt{t + a + p i}{i})}, \\
+    c &\mapsto \set{(\pt{t}{i}, \pt{t+1}{j})}, &
+    y &\mapsto \set{(\pt{t}{i}, \pt{t + p i - 2}{i})},
+\end{align*}
+where $t$ ranges over $\nat$ and $i, j$ over $\range{1, m}$, and all other variables are mapped to $\emptyset$; we use the \kl{forward semantics}.
+Thus $z$ relates two points of the same \kl{phase} with non-negative time difference, and $c$ moves one time step between arbitrary \kl{phases}.
+All these pairs are \kl{forward pairs}; $\Mod{a}(z)$ contains all pairs $(u, u)$, and the other variables contain none, so $\Mod{a}$ is \kl{diagonal-uniform}.
+\Cref{figure: model} depicts $\Mod{a}$.
+
+\AP For a \kl{term} $\term$ and \kl{phases} $i, j$, we define the \intro{difference set}
+\[\intro*\dset{\term}{i}{j}(a) \defeq \set{n \in \nat \mid (\pt{0}{i}, \pt{n}{j}) \in \sem{\term}{\Mod{a}}}.\]
+(Note that $0 \notin \dset{\term}{i}{j}(a)$ if $j < i$, as $(\pt{0}{i}, \pt{0}{j})$ is not a \kl{forward pair}.)
+The shift $\pt{t}{i} \mapsto \pt{t+s}{i}$ maps each interval of $\chainm$ isomorphically onto another one and preserves $\Mod{a}$.
+Hence, by \Cref{lemma: locality}, the truth value of $\term$ at a pair depends only on the two \kl{phases} and the time difference:
+\begin{equation}
+    (\pt{t}{i}, \pt{t'}{j}) \in \sem{\term}{\Mod{a}} \iff t' - t \in \dset{\term}{i}{j}(a). \label{equation: shift}
+\end{equation}

@@ -1,0 +1,108 @@
+%
+% General
+%
+\usepackage{stmaryrd}
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclarePairedDelimiter\tuple{\langle}{\rangle}
+\DeclarePairedDelimiter\range{[}{]}
+\newrobustcmd{\defeq}{\mathrel{\ensurestackMath{\stackon[1pt]{=}{\scriptscriptstyle\Delta}}}}
+\newrobustcmd{\nat}{\mathbb{N}}
+\newrobustcmd{\pnat}{\mathbb{N}_{+}}
+\newrobustcmd{\inte}{\mathbb{Z}}
+\newrobustcmd{\rat}{\mathbb{Q}}
+\newrobustcmd{\const}[1]{\mathsf{#1}}
+\DeclareMathOperator{\lcm}{lcm}
+\newrobustcmd{\ndiv}{\nmid}
+
+%
+% Terms
+%
+\knowledgenewrobustcmd{\vsig}{\cmdkl{\mathbf{V}}}
+\NewDocumentCommand\term{O{1}}{%
+    \ifcase#1 undefined
+    \or t
+    \or s
+    \or u
+    \else undefined \fi
+}
+\newrobustcmd{\union}{\mathbin{+}}
+\newrobustcmd{\compo}{\mathbin{;}}
+\newrobustcmd{\inter}{\mathbin{\cap}}
+\newrobustcmd{\id}{\const{1}}
+\newrobustcmd{\emp}{\const{0}}
+\newrobustcmd{\com}[1]{\overline{#1}}
+\newrobustcmd{\bl}{{-}}
+\newrobustcmd{\nid}{\com{\id}}
+\knowledgenewrobustcmd{\sh}{\operatorname{\cmdkl{sh}}}
+\knowledgenewrobustcmd{\tsize}[1]{\cmdkl{\|}#1\cmdkl{\|}}
+\knowledgenewrobustcmd{\Hcl}[1]{\cmdkl{\mathcal{H}}_{#1}}
+
+%
+% Semantics
+%
+\knowledgenewrobustcmd{\univ}[1]{\cmdkl{U}_{#1}}
+\newrobustcmd{\val}{\mathfrak{v}}
+\knowledgenewrobustcmd{\sem}[2]{\cmdkl{\llbracket}#1\cmdkl{\rrbracket}_{#2}}
+\knowledgenewrobustcmd{\RSUB}{\cmdkl{\mathsf{RSUB}}}
+\knowledgenewrobustcmd{\LANG}{\cmdkl{\mathsf{LANG}}}
+\knowledgenewrobustcmd{\REL}{\cmdkl{\mathsf{REL}}}
+\knowledgenewrobustcmd{\semR}[2]{\cmdkl{\llbracket}#1\cmdkl{\rrbracket}^{\mathsf{rel}}_{#2}}
+\knowledgenewrobustcmd{\equivR}{\mathrel{\cmdkl{\equiv}}}
+
+%
+% The chain models
+%
+\knowledgenewrobustcmd{\chainm}{\cmdkl{\Omega}}
+\knowledgenewrobustcmd{\chainmC}[1]{\cmdkl{\Omega}^{\circ}_{#1}}
+\knowledgenewrobustcmd{\Mod}[1]{\cmdkl{\mathfrak{M}}_{#1}}
+\knowledgenewrobustcmd{\ModR}[1]{\cmdkl{\mathfrak{M}}^{\circ}_{#1}}
+\knowledgenewrobustcmd{\dset}[3]{\cmdkl{L}^{#1}_{#2#3}}
+\knowledgenewrobustcmd{\dsetR}[3]{\cmdkl{L}^{#1,\circ}_{#2#3}}
+\newrobustcmd{\pt}[2]{(#1, #2)}
+
+%
+% Witness terms
+%
+\newrobustcmd{\Zthree}{z \inter \com{\id \union c \union c \compo c}}
+\knowledgenewrobustcmd{\Mt}{\cmdkl{\mathsf{M}}}
+\knowledgenewrobustcmd{\Jt}{\cmdkl{\mathsf{J}}}
+\knowledgenewrobustcmd{\Phit}{\cmdkl{\Phi}}
+\knowledgenewrobustcmd{\Qt}[1]{\cmdkl{Q}_{#1}}
+
+%
+% Arithmetic of the witnesses
+%
+\knowledgenewrobustcmd{\fseq}[1]{\cmdkl{f}_{#1}}
+\knowledgenewrobustcmd{\qseq}[1]{\cmdkl{q}_{#1}}
+\knowledgenewrobustcmd{\Aseq}[1]{\cmdkl{A}_{#1}}
+\knowledgenewrobustcmd{\Nseq}[1]{\cmdkl{N}_{#1}}
+\knowledgenewrobustcmd{\Hm}{\cmdkl{H}}
+\knowledgenewrobustcmd{\Dm}{\cmdkl{\Delta}}
+\knowledgenewrobustcmd{\dseq}[1]{\cmdkl{\delta}_{#1}}
+
+%
+% Upper bound
+%
+\knowledgenewrobustcmd{\per}[1]{\cmdkl{P}_{#1}}
+\knowledgenewrobustcmd{\thr}[1]{\cmdkl{T}_{#1}}
+\knowledgenewrobustcmd{\dg}[1]{\cmdkl{d}_{#1}}
+\knowledgenewrobustcmd{\ib}[1]{\cmdkl{b}_{#1}}
+\knowledgenewrobustcmd{\minw}[2]{\cmdkl{\mu}_{#1#2}}
+\knowledgenewrobustcmd{\cyw}[1]{\cmdkl{w}_{#1}}
+\knowledgenewrobustcmd{\kfold}[2]{#1\mathbin{\cmdkl{\odot}}#2}
+\newrobustcmd{\resc}[2]{#1 \equiv #2}
+
+%
+% Misc
+%
+\newcommand{\proofstep}[1]{\par\smallskip\noindent\textit{#1}\ }
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\newrobustcmd{\ie}{\kl{ie}}
+\newrobustcmd{\eg}{\kl{eg}}
+\newrobustcmd{\wrt}{\kl{wrt}}
+\knowledgenewrobustcmd{\dom}{\cmdkl{D}}
+\knowledgenewrobustcmd{\cyc}[1]{\cmdkl{G}_{#1}}
+\knowledgenewrobustcmd{\bnd}{\cmdkl{K}}
+\knowledgenewrobustcmd{\far}{\cmdkl{\delta}}
+\knowledgenewrobustcmd{\grp}{\cmdkl{A}}
+\knowledgenewrobustcmd{\sgn}{\operatorname{\cmdkl{\sigma}}}

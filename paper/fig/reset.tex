@@ -1,0 +1,56 @@
+\begin{tikzpicture}[x=1cm,y=1cm,
+    cellbox/.style={draw,minimum height=0.55cm,inner sep=0pt,font=\scriptsize},
+    zone/.style={fill=orange!25},
+    match/.style={-{Stealth[length=5pt]},thick}]
+  % a block t v t c t starting at x=#1, row y=#2, displayed letter #3, name prefix #4
+  \newcommand{\block}[4]{%
+    \begin{scope}[shift={(#1,#2)}]
+      \fill[zone] (2.35,-0.275) rectangle (3.45,0.275);
+      \draw (0,-0.275) rectangle (3.45,0.275);
+      \foreach \a in {0.55,1.35,1.9,2.85}{\draw[gray] (\a,-0.275) -- (\a,0.275);}
+      \node[font=\scriptsize] at (0.275,0) {$t$};
+      \node[font=\scriptsize] at (0.95,0) {$v_{\bs}$};
+      \node[font=\scriptsize] at (1.625,0) {$t$};
+      \node[font=\small] at (2.375,0) {#3};
+      \node[font=\scriptsize] at (3.15,0) {$t$};
+      \coordinate (#4) at (2.9,0);
+    \end{scope}}
+  \newcommand{\blockl}[4]{%
+    \begin{scope}[shift={(#1,#2)}]
+      \fill[zone] (2.35,-0.275) rectangle (3.45,0.275);
+      \draw (0,-0.275) rectangle (3.45,0.275);
+      \foreach \a in {0.55,1.35,1.9,2.85}{\draw[gray] (\a,-0.275) -- (\a,0.275);}
+      \node[font=\scriptsize] at (0.275,0) {$t$};
+      \node[font=\scriptsize] at (0.95,0) {$v_{\bl}$};
+      \node[font=\scriptsize] at (1.625,0) {$t$};
+      \node[font=\small] at (2.375,0) {#3};
+      \node[font=\scriptsize] at (3.15,0) {$t$};
+      \coordinate (#4) at (2.9,0);
+    \end{scope}}
+  % rows
+  \node[anchor=east] at (-0.15,2) {$W^{+}$};
+  \node[anchor=east] at (-0.15,0) {$W^{-}$};
+  % W+ : L+ L_l L_s t
+  \block{0}{2}{$\bg$}{P1}
+  \blockl{3.6}{2}{$\bl$}{P2}
+  \block{7.2}{2}{$\bs$}{P3}
+  \draw (10.8,1.725) rectangle (11.35,2.275); \node[font=\scriptsize] at (11.075,2) {$t$};
+  % W- : L_s L_l L_s t
+  \block{0}{0}{$\bs$}{M1}
+  \blockl{3.6}{0}{$\bl$}{M2}
+  \block{7.2}{0}{$\bs$}{M3}
+  \draw (10.8,-0.275) rectangle (11.35,0.275); \node[font=\scriptsize] at (11.075,0) {$t$};
+  % block labels
+  \foreach \x/\l in {1.725/{$L^{+}$},5.325/{$L_{\bl}$},8.925/{$L_{\bs}$}}{\node[font=\scriptsize] at (\x,2.5) {\l};}
+  \foreach \x/\l in {1.725/{$L_{\bs}$},5.325/{$L_{\bl}$},8.925/{$L_{\bs}$}}{\node[font=\scriptsize] at (\x,-0.5) {\l};}
+  % zone names
+  \node[font=\scriptsize] at (2.9,1.45) {$Z$};
+  \node[font=\scriptsize] at (6.5,1.45) {$Z'$};
+  \node[font=\scriptsize] at (10.1,1.45) {$Z''$};
+  \node[font=\scriptsize] at (2.9,0.55) {$Z$};
+  \node[font=\scriptsize] at (6.5,0.55) {$Z'$};
+  \node[font=\scriptsize] at (10.1,0.55) {$Z''$};
+  % matchings
+  \draw[match,blue!70!black] ($(P1)+(0.15,-0.3)$) -- node[pos=0.35,above,sloped,font=\scriptsize]{$\bg \mapsto \bl$} ($(M2)+(-0.1,0.3)$);
+  \draw[match,red!70!black] ($(M1)+(0.15,0.3)$) -- node[pos=0.2,below,sloped,font=\scriptsize]{$\bs \mapsto \bs$} ($(P3)+(-0.1,-0.3)$);
+\end{tikzpicture}

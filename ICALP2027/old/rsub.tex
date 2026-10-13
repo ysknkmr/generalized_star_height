@@ -1,0 +1,191 @@
+ % By $\val \models \term[1] = \term[2] \leftrightarrow (\term[1] \le \term[2] \land \term[2] \le \term[1])$ and $\val \models \term[1] \le \term[2] \leftrightarrow \term[1] \cap \term[2]^{-} \le \emp$ (which are set-theoretic equivalences) for $\val \in \LANG \cup \SUBW$, without loss of generality, we can assume that each \kl{equation} in $\fml$ is of the form $\term[3] \le \emp$.
+    % By taking the conjunctive normal form, it suffices to show the claimed lemma when $\fml$ is of the form $(\bigvee_{k} \term[1]_{k} \le \emp) \lor (\bigvee_{k} \lnot \term[2]_{k} \le \emp)$.
+    % By $\val \models (\term[1] \le \emp \land \term[2] \le \emp) \leftrightarrow \term[1] \cup \term[2] \le \emp$ (and $\val \models \mathsf{f} \leftrightarrow \top \le \emp$) for $\val \in \LANG \cup \SUBW$,
+    % it suffices to show when $\fml$ is of the form $(\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$.
+    % Then, we have:
+    % $\SUBW \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$
+    % $\Rightarrow$ $\LANG \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$ (by \Cref{proposition: surjective,proposition: letter-to-letter valuations})
+    % $\Rightarrow$ $\exists n \in \nat, i_1, j_1, \dots, i_m, j_m \mbox{ s.t.\ $0 \le i_1 \le j_1 \le i_2 \le j_2 \le \dots \le i_m \le j_m \le n$}, \exists X, \val \in \LANG_{X}, a_{0}, \dots, a_{n-1} \in X,\ (\bigwedge_{k = 1}^{m}  a_{i_k} \dots a_{j_k-1} \in \hat{\val}(\term[1]_k)) \land \hat{\val}(\term[2]) = \emptyset$
+    % $\Rightarrow$ $\SUBW \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$ (by \Cref{proposition: letter-to-letter valuations} and $\val^{\tuple{a_0, \dots, a_{n-1}}} \in \SUBW_{n}$).
+    % By \Cref{lemma: LANG and SUBW} and \Cref{proposition: subw and subwrel iso}.
+
+
+\section{$\SUBW$: subword models}\label{section: SUBW}
+In this section, we also define the class $\SUBW$ of \emph{\kl{subword models}}, which is isomorphic to $\RSUB$.
+Apart from $\RSUB$, intuitively, this model is based on the following property in \kl{the standard language valuation} ($\val_{\mathrm{st}}$):
+the membership $\word \in \hat{\val}_{\mathrm{st}}(\term)$ can be determined from $\word' \in \hat{\val}_{\mathrm{st}}(\term')$ where $\word'$ ranges over \emph{\kl{subwords}} of $\word$ (and $\term'$ ranges over subterms of $\term$).
+This situation is the same also for any \kl{valuations} $\val \in \LANG$.
+The class $\SUBW$ is helpful to use this property.
+These models are \kl{language models} where the universe is restricted to the set of \kl{subwords} of a \kl{word}.
+
+\begin{definition}\label{definition: subword language algebra}
+    Let $X$ be a set and let $\word \in X^*$.
+    The \intro*\kl{subword language model} $\subw_{\word}$ is the \kl{$\sig$-algebra} defined by:
+    $\domain{\alg} = \wp(\Subw(\word))$,
+    $\id^{\alg} = \set{\eps}$,
+    $\emp^{\alg} = \emptyset$,
+    and for all $\la[1], \la[2] \subseteq \Subw(\word)$,
+    \begin{align*}
+        \la[1] \compo^{\alg} \la[2] & = (\la[1] \compo \la[2]) \cap \Subw(\word),             &
+        \la[1] \union^{\alg} \la[2] & = \la[1] \cup \la[2],                      \\
+        \la[1]^{\kstar^{\alg}}      & = \la[1]^{\kstar} \cap \Subw(\word),                    &
+        \la[1]^{\compl^{\alg}}      & = \Subw(\word) \setminus \la[1]. 
+    \end{align*}
+    We write $\SUBW_{\word}$ for the class of all \kl{valuations} of $\subw_{\word}$ and $\SUBW$.
+    \lipicsEnd
+\end{definition}
+Let $\kappa_{\word}'$ be the map given by $L \mapsto L \cap \Subw(\word)$.
+The map $\kappa_{\word}'$ forms an $\sig$-homomorphism from $\lang_{X}$ to $\subw_{\word}$.
+
+We use $\ell_{1}, \ell_{2}, \dots$ as fixed pairwise distinct \kl{letters}.
+We write $\SUBW$ for $\bigcup_{n \ge 0} \SUBW_{\ell_{1} \ell_{2} \dots \ell_{n}}$.
+Let $\chi'$ be the map given by $L \mapsto \set{\ell_1 \dots \ell_{n} \mid a_1 \dots a_n \in L}$.
+For each \kl{word} $a_1 \dots a_n$,
+the map $\chi'$ forms an $\sig$-homomorphism from $\subw_{a_1 \dots a_n}$ to $\subw_{\ell_1 \dots \ell_n}$.
+\begin{remark}
+    The map $\chi'$ is defined, inspired by \kl{words-to-letters valuations} \cite{nakamuraWordstoLettersValuationsLanguage2023} where we consider ``\intro*\kl{letters-to-letters valuations}'' by restricting the mapping from \kl{words} to \kl{letters}.
+\end{remark}
+% Using this, we can embed the membership in $\LANG$ into that in $\SUBW$.
+% \begin{proposition}\label{proposition: letter-to-letter valuations}
+%     Let $X$ be a set and let $\val \in \LANG_{X}$.
+%     Let $n \in \nat$ and let $a_0, \dots, a_{n-1}$ be \kl{letters} over $X$.
+%     For all \kl{terms} $\term$ and $0 \le i \le j \le n$, $\ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term)$ iff $a_{i} \dots a_{j-1} \in \hat{\val}(\term)$.
+% \end{proposition}
+% \begin{proof}
+%     By easy induction on $\term$, cf.\ {\cite[Lem.\ 23]{nakamuraWordstoLettersValuationsLanguage2023}}\footnote{This equivalence holds because $a_i, \dots, a_{j-1}$ are \kl{letters} not \kl{words}. For \kl{words-to-letters valuations}, only the direction $\Rightarrow$ of \Cref{proposition: letter-to-letter valuations} holds {\cite[Lem.\ 23]{nakamuraWordstoLettersValuationsLanguage2023}}.} (see \Cref{section: proposition: letter-to-letter valuations}, for detailed proof).
+%     %     We only write for Case $\term = \term[2] \compo \term[3]$ (see \Cref{section: proposition: letter-to-letter valuations} for each case).
+%     %     Then we have
+%     %     \begin{align*}
+%     %          & \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2] \compo \term[3])                                                                                                                                                                       \\
+%     %          & \hspace{-2.3em}\Longleftrightarrow \ell_{i} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]) \compo \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[3]) \tag{$\ell_i \dots \ell_{j-1}$ is a subword of $\ell_{0} \dots \ell_{n-1}$}              \\
+%     %          & \hspace{-2.3em}\Longleftrightarrow \bigvee_{i \le k \le j} (\ell_{i} \dots \ell_{k-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[2]) \land \ell_{k} \dots \ell_{j-1} \in \hat{\val}^{\tuple{a_0, \dots, a_{n-1}}}(\term[3])) \tag{Def.\ of \kl{concatenation}} \\
+%     %          & \hspace{-2.3em}\Longleftrightarrow \bigvee_{i \le k \le j} (a_{i} \dots a_{k-1} \in \hat{\val}(\term[2]) \land a_{k} \dots a_{j-1} \in \hat{\val}(\term[3])) \tag{IH}                                                                                                  \\
+%     %          & \hspace{-2.3em}\Longleftrightarrow a_{i} \dots a_{j-1} \in \hat{\val}(\term[2]) \compo \hat{\val}(\term[3]). \tag*{(Def.\ of \kl{concatenation})\footnotemark \qedhere}
+%     %     \end{align*} %
+% \end{proof}
+% Moreover, this transformation is a surjective map to $\SUBW$, as follows:
+% \begin{proposition}\label{proposition: surjective}
+%     Let $n \in \nat$ and let $\val' \in \SUBW_{n}$.
+%     Let $\val \in \LANG_{\set{\ell_{0}, \dots, \ell_{n-1}}}$ be the \kl{valuation} defined by $\val(x) = \val'(x)$.
+%     Then $\val^{\tuple{\ell_{0}, \dots, \ell_{n-1}}} = \val'$.
+% \end{proposition}
+% \begin{proof}
+%     By \Cref{definition: word-to-letter valuations},
+%     $\val^{\tuple{\ell_{0}, \dots, \ell_{n-1}}}(x) = \val(x) \cap \set{\ell_{i} \dots \ell_{j-1} \mid 0 \le i \le j \le n} = \val'(x)$.
+% \end{proof}
+% From them, we have that the \kl{quantifier-free theory} of $\LANG$ coincides with that of $\SUBW$.
+% \begin{lemma}\label{lemma: LANG and SUBW}
+%     For all \kl{quantifier-free formulas} $\fml$, we have: $\LANG \models \fml \ \Leftrightarrow\  \SUBW \models \fml$.
+% \end{lemma}
+% \begin{proof}
+%     By $\val \models \term[1] = \term[2] \leftrightarrow (\term[1] \le \term[2] \land \term[2] \le \term[1])$ and $\val \models \term[1] \le \term[2] \leftrightarrow \term[1] \cap \term[2]^{-} \le \emp$ (which are set-theoretic equivalences) for $\val \in \LANG \cup \SUBW$, without loss of generality, we can assume that each \kl{equation} in $\fml$ is of the form $\term[3] \le \emp$.
+%     By taking the conjunctive normal form, it suffices to show the claimed lemma when $\fml$ is of the form $(\bigvee_{k} \term[1]_{k} \le \emp) \lor (\bigvee_{k} \lnot \term[2]_{k} \le \emp)$.
+%     By $\val \models (\term[1] \le \emp \land \term[2] \le \emp) \leftrightarrow \term[1] \cup \term[2] \le \emp$ (and $\val \models \mathsf{f} \leftrightarrow \top \le \emp$) for $\val \in \LANG \cup \SUBW$,
+%     it suffices to show when $\fml$ is of the form $(\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$.
+%     Then, we have:
+%     $\SUBW \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$
+%     $\Rightarrow$ $\LANG \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$ (by \Cref{proposition: surjective,proposition: letter-to-letter valuations})
+%     $\Rightarrow$ $\exists n \in \nat, i_1, j_1, \dots, i_m, j_m \mbox{ s.t.\ $0 \le i_1 \le j_1 \le i_2 \le j_2 \le \dots \le i_m \le j_m \le n$}, \exists X, \val \in \LANG_{X}, a_{0}, \dots, a_{n-1} \in X,\ (\bigwedge_{k = 1}^{m}  a_{i_k} \dots a_{j_k-1} \in \hat{\val}(\term[1]_k)) \land \hat{\val}(\term[2]) = \emptyset$
+%     $\Rightarrow$ $\SUBW \not\models (\bigvee_{k = 1}^{m} \term[1]_{k} \le \emp) \lor (\lnot \term[2] \le \emp)$ (by \Cref{proposition: letter-to-letter valuations} and $\val^{\tuple{a_0, \dots, a_{n-1}}} \in \SUBW_{n}$).
+% \end{proof}
+
+\begin{proposition}\label{proposition: subw and subwrel iso}
+    For each $n \in \nat$, $\subw_{\ell_1 \dots \ell_{n}}$ is \kl{isomorphic} to $\rsub_n$.
+\end{proposition}
+\begin{proof}
+    By the map $L \mapsto \set{\tuple{i,j} \mid 1 \le i \le j \le n+1 \land \ell_{i} \dots \ell_{j-1} \in L}$.
+    This map can be also given by $\theta \circ \iota_{\set{\ell_1, \dots, \ell_{n}}}$.
+    % As $f(\set{\id}) = \triangle_{\range{0, n}}$ (cf.\ \Cref{definition: relational bounded language model})
+    % and $f(\set{\ell_{i} \dots \ell_{j-1}}) = \set{\tuple{i, j}}$ is singleton if $i < j$, this map is bijective.
+    Fig.\ \ref{figure: proposition: subw and subwrel iso} presents illustrative instances of this map.
+    %  (we display binary relations as graphs in a standard way).
+\end{proof}
+By \Cref{proposition: subw and subwrel iso}, the isomorphism closure of $\RSUB$ coincides with that of $\SUBW$.
+Particularly, the \kl{quantifier-free theory} w.r.t.\ $\RSUB$ coincides with that of $\SUBW$.
+
+\begin{figure}[ht]
+    \begin{align*}
+        \left\{\begin{aligned}
+                   \eps
+               \end{aligned}\right\}                                            & \qquad\mapsto\qquad \begin{tikzpicture}[baseline = -.5ex]
+                                                                                                          \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+                                                                                                          {0/{$0$}[mysmallnode]}
+                                                                                                          -!- {1/{$1$}[mysmallnode]}
+                                                                                                          -!- {2/{$2$}[mysmallnode]}
+                                                                                                          -!- {3/{$3$}[mysmallnode]}
+                                                                                                          };
+                                                                                                          \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                          {0,1,2,3} ->[out=-100, in=-80, looseness=15] {0,1,2,3};
+                                                                                                          };
+                                                                                                      \end{tikzpicture} \\[-1.ex]
+        % \left\{\begin{aligned}
+        %            \ell_{1}\ell_{2}
+        %        \end{aligned}\right\}                                            & \qquad\mapsto\qquad \begin{tikzpicture}[baseline = -.5ex]
+        %                                                                                                   \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+        %                                                                                                   {0/{$0$}[mysmallnode]}
+        %                                                                                                   -!- {1/{$1$}[mysmallnode]}
+        %                                                                                                   -!- {2/{$2$}[mysmallnode]}
+        %                                                                                                   -!- {3/{$3$}[mysmallnode]}
+        %                                                                                                   };
+        %                                                                                                   \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        %                                                                                                   1 ->[bend left = 20] 3;
+        %                                                                                                   };
+        %                                                                                               \end{tikzpicture} \\
+        \left\{\begin{aligned}
+                   \ell_{1}, \ell_{2}\ell_{3},\ \ell_{1}\ell_{2}, \ell_{3} 
+               \end{aligned}\right\}                             & \qquad\mapsto\qquad \begin{tikzpicture}[baseline = -.5ex]
+                                                                                           \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+                                                                                           {0/{$0$}[mysmallnode]}
+                                                                                           -!- {1/{$1$}[mysmallnode]}
+                                                                                           -!- {2/{$2$}[mysmallnode]}
+                                                                                           -!- {3/{$3$}[mysmallnode]}
+                                                                                           };
+                                                                                           \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                           0 -> 1;
+                                                                                           1 ->[bend left = 20] 3;
+                                                                                        %    {0,1,2,3} ->[out=-100, in=-80, looseness=15] {0,1,2,3};
+          0 ->[bend right = 20] 2;
+          2 -> 3;                                                                                 };
+                                                                                       \end{tikzpicture}                \\[-1.ex]
+        \left\{\ell_{i} \dots \ell_{j-1} \mid 1 \le i \le j \le 4 \right\} & \qquad\mapsto\qquad \begin{tikzpicture}[baseline = -.5ex]
+a                                                                                                    \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+                                                                                                    {0/{$0$}[mysmallnode]}
+                                                                                                    -!- {1/{$1$}[mysmallnode]}
+                                                                                                    -!- {2/{$2$}[mysmallnode]}
+                                                                                                    -!- {3/{$3$}[mysmallnode]}
+                                                                                                    };
+                                                                                                    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                    0 -> 1;
+                                                                                                    1 -> 2;
+                                                                                                    2 -> 3;
+                                                                                                    0 ->[bend left = 20] 2;
+                                                                                                    1 ->[bend left = 20] 3;
+                                                                                                    0 ->[bend left = 25] 3;
+                                                                                                    {0,1,2,3} ->[out=-100, in=-80, looseness=15] {0,1,2,3};
+                                                                                                    };
+                                                                                                \end{tikzpicture}
+    \end{align*}
+    \caption{Illustrative instances of the bijective map of \Cref{proposition: subw and subwrel iso}, when $n = 3$.}
+    \label{figure: proposition: subw and subwrel iso}
+\end{figure}
+Summarizing the above and \Cref{section: relation}, for each \kl{word} $\word_0 = a_1 \dots a_{n} \in X^*$,
+we have considered the following $\sig$-homomorphisms:
+
+\begin{tikzpicture}[baseline = -.5ex]
+    \graph[grow right = 3.cm, branch down = 8ex, nodes={}]{
+    {0l/{$\lang_{X}$}, 0r/{$\rlang_{X}$}}
+    -!- {1l/{$\subw_{\word_0}$}[xshift = 0cm], 1r/{$\rlang_{X} \restriction \Subw(\word_0)$}[xshift = 0cm]}
+    -!- {2l/{$\subw_{\ell_{1} \dots \ell_{n}}$}[xshift = 4cm], 2r/{$\rlang_{\set{\ell_{1}, \dots, \ell_{n}}} \restriction \Subw(\ell_{1} \dots \ell_{n})$}[xshift = 4cm], rsub/{$\rsub_{n}$}[xshift = 4cm]}
+    };
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        0l -> ["$\iota_{X}$" auto] 0r; 0l -> ["$\cong$"{auto, left, font = \tiny}] 0r;
+        1l -> ["$\iota_{X}$" auto] 1r; 1l -> ["$\cong$"{auto, left, font = \tiny}] 1r;
+        2l -> ["$\iota_{\set{\ell_{1}, \dots, \ell_{n}}}$" auto] 2r; 2l -> ["$\cong$"{auto, left, font = \tiny}] 2r;
+    % {0,1,2,3} ->[out=-100, in=-80, looseness=15] {0,1,2,3};
+        0l -> ["$\kappa'_{\word_0}$" auto] 1l; 0r -> ["$\kappa_{\word_0}$" auto] 1r;
+        1l -> ["$\chi' \colon L \mapsto \set{\word \mid f(\word) \in L}$" auto] 2l;
+        1r -> ["$R \mapsto \set{\tuple{\word, \word \word[2]} \mid \tuple{f(\word), f(\word \word[2])} \in R}$" auto, bend left = 10] 2r;
+        2r -> ["$\theta$" auto] rsub; 2r -> ["$\cong$"{auto, left, font = \tiny}] rsub;
+    };
+\end{tikzpicture}\\
+where $f$ is the monoid homomorphism given by $\ell_i \mapsto a_i$ for $i \in \range{1, n}$.

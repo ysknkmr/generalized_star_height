@@ -1,0 +1,53 @@
+\section{The witness term and an overview of the proof}\label{section: overview}
+
+We define
+\begin{equation}\label{equation: Psi}
+  \begin{aligned}
+    \Kt    &\defeq \vb \inter \bigl(((\vr \compo \vr)^{*} \inter \vc) \compo \Dt\bigr), &
+    \Nt    &\defeq \vb \setminus \Kt,\\
+    \Ht    &\defeq (\St^{2} \compo \Kt \compo \St^{2}) \union (\St \compo \Kt \compo \St)
+              \union (\St^{2} \compo \Nt \compo \St) \union (\St \compo \Nt \compo \St^{2}), &
+    \Psit  &\defeq \Ht^{*}.
+  \end{aligned}
+\end{equation}
+The star $(\vr \compo \vr)^{*}$ lies inside $\Kt$, and $\Kt$ lies inside the star $\Ht^{*}$.
+All abbreviations are star-free, so $\sh(\Psit) = 2$.
+Hence \Cref{theorem: main} follows from the next theorem.
+
+\begin{theorem}\label{theorem: lower bound}
+  No term $E$ with $\sh(E) \le 1$ is equivalent to $\Psit$ on $\Cls{2}$.
+  This holds even if only $\RSUB$ valuations are considered in which $\vr, \vc, \vb$ are irreflexive.
+\end{theorem}
+
+The roles of the parts of $\Psit$ are as follows.
+\begin{itemize}
+  \item $\Kt$ reads one bit from an interval $\range{u, v}$ with $(u, v) \in \vb$, called a \emph{module}.
+        The bit says whether some $\vc$-successor $y$ of $u$ can be reached from $u$ by an $\vr$-path of even length (\Cref{section: modules}).
+  \item $\Ht$ shifts this bit to two ports before $u$ and two ports after $v$.
+        A module in $\Kt$ swaps the ports and a module in $\Nt$ keeps them, so $\Ht^{*}$ computes a parity (\Cref{section: cells}).
+\end{itemize}
+Let $E$ be a term with $\sh(E) \le 1$.
+Let $q$ be an upper bound of $\cd(F)$ for all subterms $F^{*}$ of $E$.
+The proof of \Cref{theorem: lower bound} has three steps.
+\begin{enumerate}
+  \item\label{step: local pair}
+        We construct two modules $\M^{+}_{q}, \M^{-}_{q}$ on the same vertices (\Cref{proposition: local pair}).
+        They differ in a single $\vc$-pair, $\M^{+}_q$ is in $\Kt$ and $\M^{-}_q$ is not.
+        However, no observation of the form $((A \inter \Dt) \compo F^{*} \compo (C \inter \Dt))(u, v)$ with $A, F, C \in \SF{q}$ distinguishes them.
+        Note that $\Kt(u, v)$ is not of this form, since it intersects $(\vr \compo \vr)^{*}$ with $\vc$ at the pair $(u, y)$.
+  \item\label{step: replacement}
+        We put modules into a sequence of cells.
+        A replacement lemma shows the following (\Cref{lemma: replacement}).
+        For every star $F^{*}$ of $E$, replacing a module that lies strictly between the endpoints by $\M^{-}_{q}$ does not change the value of $F^{*}$.
+  \item\label{step: logic}
+        Hence the value of $E$ can be computed from the bit sequence of the cells by a first-order formula with modular predicates.
+        That logic cannot express the parity computed by $\Psit$ (\Cref{section: lower bound}).
+\end{enumerate}
+Step~\ref{step: local pair} is the technical core.
+The two modules must agree on all observations of depth $q$ at once.
+An observation may read the prefix of a module up to some point and, at the same time, the suffix after that point.
+Prefixes are described by first-order types, which form an aperiodic monoid.
+Suffixes are described by a finite automaton, whose transition monoid may contain groups.
+For example, $(\vr \compo \vr)^{*}$ counts modulo two.
+We use an idempotent from the minimal ideal of the product monoid.
+It acts as a reset on the first component and as a local identity on the second.

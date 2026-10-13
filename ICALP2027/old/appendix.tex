@@ -1,0 +1,45 @@
+% \input{lang_st}
+
+\section{Slight Extensions of \Cref{theorem: LANG and ORD}}\label{section: LANG and ORD for positive quantifier-free formulas}
+In this section, we note that we can extend \Cref{theorem: LANG and ORD} in the following two:
+\begin{theorem}\label{theorem: LANG and ORD for positive quantifier-free formulas}
+    For all \kl[positive quantifier-free formulas]{\emph{positive} quantifier-free formulas} $\fml$ of $\KA_{\set{-}}$ \kl{terms},
+    we have: $\LANG \models \fml \Rightarrow \RSUB \models \fml$.
+\end{theorem}
+\begin{proof}[Proof Sketch]
+    By the same surjective $\sig$-homomorphism in the proof of \Cref{theorem: LANG and ORD}($\Rightarrow$).
+\end{proof}
+\begin{theorem}\label{theorem: LANG and ORD for quantifier-free formulas}
+    For all \kl{quantifier-free formulas} $\fml$ of $\KA_{\set{-}}$ \kl{terms},
+    we have: $\RSUB \models \fml \Rightarrow \LANG \models \fml$.
+\end{theorem}
+\begin{proof}
+    Because the \kl{formulas} $\term[1] = \term[2] \leftrightarrow (\term[1] \le \term[2] \land \term[2] \le \term[1])$ and $\term[1] \le \term[2] \leftrightarrow \term[1] \cap \term[2]^{-} \le \emp$ are valid on $\LANG \cup \SUBW$,
+    without loss of generality, we can assume that each \kl{equation} in $\fml$ is of the form $\term[3] \le \emp$.
+    By taking the conjunctive normal form,
+    it suffices to prove when $\fml$ is of the form $(\bigvee_{i = 1}^{n} \term[1]_i \le \emp) \lor (\bigvee_{j = 1}^{m} \lnot \term[2]_j \le \emp)$.
+    We prove the contraposition.
+    By $\LANG \not\models \fml$, there are $X, \val \in \LANG_X, \word_1, \dots, \word_n \in X^*$ such that
+    $\word_i \in \hat{\val}(\term[1]_i)$ for $i \in \range{1,n}$ and $\hat{\val}(\term[2]_j) = \emptyset$ for $j \in \range{1,m}$.
+    By letting $\word_0 \defeq \word_1 \dots \word_n$ and considering the same $\sig$-homomorphism as \Cref{theorem: LANG and ORD}($\Leftarrow$), we have $\RSUB \not\models \fml$.
+\end{proof}
+For \Cref{theorem: LANG and ORD for quantifier-free formulas},
+note that the converse direction fails (\Cref{remark: quantifier-free}), cf.\ \Cref{theorem: LANG and ORD for positive quantifier-free formulas}.
+
+\section{Proof of \Cref{corollary: graph characterization}}\label{section: corollary: graph characterization}
+\begin{proof}
+    We have:
+    \begin{align*}
+        &\algclass \models \term[1] \le \term[2] \ \Leftrightarrow\  \forall \word \in \ljump{\term[1]}_{\tilde{\vsig}}, \forall \graph[2] \in \FillS_{\algclass}(\const{\graph}(\word)), \exists \word[2] \in \ljump{\term[2]}_{\tilde{\vsig}}, \const{\graph}(\word[2]) \homo \graph[2]^{\FillQ} \tag{\Cref{theorem: graph characterization} and $\glang(\term[2]) = \set{\const{\graph}(\word[2]) \mid \word[2] \in \ljump{\term[2]}_{\tilde{\vsig}}}$} \\
+                                                & \Leftrightarrow\quad \forall \word \in \ljump{\term[1]}_{\tilde{\vsig}}, \forall \graph[2] \in \FillS_{\algclass}(\const{\graph}(\word)), \ljump{\term[2]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} \neq \emptyset \tag{$\ljump{\graph[2]}_{\tilde{\vsig}} = \set{\word[2] \in \tilde{\vsig}^* \mid \const{\graph}(\word[2]) \homo \graph[2]^{\FillQ}}$}                       \\
+                                                & \Leftrightarrow\quad \ljump{\term[1]}_{\tilde{\vsig}} \subseteq \set{\word \in \tilde{\vsig}^* \mid \forall \graph[2] \in \FillS_{\algclass}(\const{\graph}(\word)), \ljump{\term[2]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} \neq \emptyset }. \tag*{\qedhere}
+    \end{align*}
+\end{proof}
+
+\input{emptiness_witness}
+\input{automata_proof}
+
+\ifiscameraready
+\else
+\input{extra_appendix}
+\fi

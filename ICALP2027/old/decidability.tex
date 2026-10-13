@@ -1,0 +1,1402 @@
+\newcommand{\FillQ}{\mathcal{Q}}
+
+% \newcommand{\FillQS}{\mathcal{QS}}
+\newcommand{\gfun}{g}
+\newcommand{\allgraph}{\mathrm{GR}}
+\newcommand{\vgraph}{\mathrm{\graph}}
+\section{Graph characterization for $\KAtermclass_{\set{\com{x}, \com{\id}, \top, \cap}}$ terms}\label{section: graph}
+In \Cref{section: graph,section: decidability}, we show that the \kl{equational theory} w.r.t.\ languages for $\KAtermclass_{\set{\bar{x}, \bar{\id}, \top}}$ is decidable and PSPACE-complete.
+We recall \Cref{section: preliminaries} for \kl{graphs}.
+In this section, we give a graph characterization of the \kl{equational theory} of $\RSUB$ for $\KAtermclass_{\set{\com{x}, \com{\id}, \top, \cap}}$,
+by generalizing the graph characterization of $\REL$ \cite[Thm.\  18]{nakamuraExistentialCalculiRelations2023} (and also \cite{andrekaEquationalTheoryUnionfree1995,brunetPetriAutomataKleene2015,brunetPetriAutomata2017}).
+Slightly more generally, we show this characterization for \emph{\kl{submodel-closed}} classes (\Cref{section: Schroder-Tarski}).
+% $\algclass \subseteq \GREL$.
+% (A class $\algclass \subseteq \GREL$ is \intro*\kl{submodel-closed} if for all $\val \in \algclass$ (on a binary relation $U$ on a set $A$) and all non-empty subsets $B \subseteq A$, we have $(\val \restriction B) \in \algclass$.)
+% By definition, $\RSUB$ is a \kl{submodel-closed} class (up to isomorphism).
+% (In \Cref{section: decidability}, we use this characterization for the decidability of $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ w.r.t.\ languages.)
+
+\subsection{Graph languages for $\KAtermclass_{\set{\com{x}, \com{\id}, \top, \cap}}$}\label{section: languages basics}
+Let $\tilde{\vsig} \defeq \set{x, \com{x} \mid x \in \vsig} \cup \set{\com{\id}, \top}$ and $\tilde{\vsig}_{\id} \defeq \tilde{\vsig} \cup \set{\id}$.
+For a $\KAtermclass_{\set{\com{x}, \com{\id}, \top, \cap}}$ \kl{term} $\term$, the \kl{graph language} $\glang(\term)$ \cite{andrekaEquationalTheoryUnionfree1995,brunetPetriAutomata2017,nakamuraExistentialCalculiRelations2023} is a set of \kl{graphs} over $\tilde{\vsig}_{\id}$ defined by:\footnote{We introduce $\top$-labeled edges, cf.\ \cite[Def.\ 6]{nakamuraExistentialCalculiRelations2023}, because $\top$ is not fixed to the full relation.
+% Also, $\id^{\graph} = \emptyset$ for all $\graph \in \glang(\bl)$.
+}
+\begin{align*}
+    \hspace{-1.em} \glang(x)                                                                                                      & \defeq \set{
+        \begin{tikzpicture}[baseline = -.5ex]
+            \graph[grow right = 1.cm, branch down = 6ex, nodes={}]{
+            {0/{}[mynode]}-!-{1/{}[mynode]}
+            };
+            \node[left = .5em of 0](l){};
+            \node[right = .5em of 1](r){};
+            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            0 ->["$x$"] 1;
+            l -> 0; 1 -> r;
+            };
+        \end{tikzpicture}
+    }  \mbox{ where $x \in \tilde{\vsig}$},                                                                                        & \glang(\emp)                                                                                                                  & \defeq \emptyset,  \hspace{1em} \glang(\id)             \defeq \set{\begin{tikzpicture}[baseline = -.5ex]
+                                                                                                                                                                                                                                                                                                                                                     \graph[grow right = 1.cm, branch down = 6ex, nodes={}]{
+                                                                                                                                                                                                                                                                                                                                                     {0/{}[mynode]}
+                                                                                                                                                                                                                                                                                                                                                     };
+                                                                                                                                                                                                                                                                                                                                                     \node[left = .5em of 0](l){};
+                                                                                                                                                                                                                                                                                                                                                     \node[right = .5em of 0](r){};
+                                                                                                                                                                                                                                                                                                                                                     \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                                                                                                                                                                                                                                                                         l -> 0; 0 -> r;
+                                                                                                                                                                                                                                                                                                                                                     };
+                                                                                                                                                                                                                                                                                                                                                 \end{tikzpicture}}, \\
+    \hspace{-1.em}\glang(\term[1] \cap \term[2])                                                                                  & \defeq
+    \set{\begin{tikzpicture}[baseline = -.5ex]
+                 \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+                 {s1/{}[mynode]}
+                 -!- {t1/{}[mynode]}
+                 };
+                 \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+                 \node[right = 4pt of t1](t1l){}; \path (t1) edge[earrow, ->] (t1l);
+                 \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                 s1 ->["$G$", bend left = 25] t1;
+                 s1 ->["$H$", bend right = 25] t1;
+                 };
+             \end{tikzpicture} \mid G \in \glang(\term[1]) \land  H \in \glang(\term[2])}, & \glang(\term[1] \union \term[2])                                                                                                & \defeq \glang(\term[1]) \cup \glang(\term[2]),                                                                                                                                                                   \\
+    \hspace{-1.em}\glang(\term[1] \compo \term[2])                                                                                 & \defeq \set{\begin{tikzpicture}[baseline = -.5ex]
+                                                                                                                                                        \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+                                                                                                                                                        {s1/{}[mynode]}
+                                                                                                                                                        -!- {c/{}[mynode]}
+                                                                                                                                                        -!- {t1/{}[mynode]}
+                                                                                                                                                        };
+                                                                                                                                                        \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+                                                                                                                                                        \node[right = 4pt of t1](t1l){}; \path (t1) edge[earrow, ->] (t1l);
+                                                                                                                                                        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                                                                        s1 ->["$G$"] c;
+                                                                                                                                                        c ->["$H$"] t1;
+                                                                                                                                                        };
+                                                                                                                                                    \end{tikzpicture} \mid G \in \glang(\term[1]) \land H \in \glang(\term[2])}, &
+    \glang(\term[1]^{*})                                                                                                          & \defeq
+    \bigcup_{n \ge 0} \glang(\term[1]^n).
+\end{align*}
+% (We use \intro*\kl{series-composition} for ($\compo$) and \intro*\kl{parallel-composition} for ($\cap$).)
+
+For a \kl{valuation} $\val \in \GREL$ on a binary relation on a set $B$ and $\tuple{x, y} \in \hat{\val}(\top)$,
+let $\const{\graph}(\val, x, y)$ be the \kl{graph} defined by:
+$\const{\graph}(\val, x, y) \defeq \tuple{B, \set{\hat{\val}(a)}_{a \in \tilde{\vsig}_{\id}}, x, y}$.
+For a class $\algclass \subseteq \GREL$,
+let $\allgraph_{\algclass}$ be the \kl{graph language} $\set{\const{\graph}(\val, x, y) \mid \mbox{$\val \in \algclass$} \mbox{ and } \mbox{$\tuple{x, y} \in \hat{\val}(\top)$}}$.
+Note that if $\algclass \subseteq \GREL$ is \kl{submodel-closed},
+then $\allgraph_{\algclass}$ is \kl{induced subgraph-closed} (i.e., every \kl{induced subgraph} of every $\graph \in \glang$ is \kl{isomorphic} to a member of $\glang$).
+
+We recall \kl{edge-saturations} $\FillS(h)$ of \Cref{definition: edge-saturation}.
+For a \kl{graph} $\graph$ and \kl{graph language} $\glang$, let%\footnote{The definition for $\REL$ differs from \cite{nakamuraExistentialCalculiRelations2023}, but is equivalent to \cite{nakamuraExistentialCalculiRelations2023}.}
+\begin{align*}
+    \FillS_{\algclass}(\graph) & \ \defeq\  \set{\FillS(h) \mid \exists \graph[2] \in \allgraph_{\algclass}, h \colon \graph \homo \graph[2]}, & \FillS_{\algclass}(\glang) \ \defeq\  \bigcup_{\graph[2] \in \glang} \FillS_{\algclass}(\graph[2]).
+\end{align*}
+
+\begin{example}\label{example: FillS}
+    The following is an instance of $\FillS_{\RSUB}(\graph)$ where $\vsig = \set{a}$:
+    \[\FillS_{\RSUB}(\begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = .8cm, branch down = 2.ex, nodes={}]{
+        {A0/{}[mynode]}
+        -!- {A1/{}[mynode]}
+        -!- {A2/{}[mynode]}
+        };
+        \node[left = .5em of A0](l){};
+        \node[right = .5em of A2](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        l -> A0; A2 -> r;
+        A0 ->["$a$"] A1;
+        A1 ->["$\com{a}$"] A2;
+        };
+    \end{tikzpicture}) = \left\{\begin{aligned}
+        \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = 1.4cm, branch down = 2.ex, nodes={}]{
+        {A0/{}[mynode]}
+        -!- {A1/{}[mynode]}
+        -!- {A2/{}[mynode]}
+        };
+        \node[left = .5em of A0](l){};
+        \node[right = .5em of A2](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        l -> A0; A2 -> r;
+        A0 ->["$a\textcolor{gray}{, \com{\id}}$"] A1;
+        A1 ->["$\com{a}\textcolor{gray}{, \com{\id}}$"] A2;
+        {A0,A1,A2} ->["$a$", color = gray, out=-120, in=-60, looseness=17] {A0,A1,A2};
+        {A0} ->["$\com{\id}$", color = gray, bend left = 34] {A2};
+        };
+    \end{tikzpicture}, \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = 1.4cm, branch down = 2.ex, nodes={}]{
+        {A0/{}[mynode]}
+        -!- {A1/{}[mynode]}
+        -!- {A2/{}[mynode]}
+        };
+        \node[left = .5em of A0](l){};
+        \node[right = .5em of A2](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        l -> A0; A2 -> r;
+        A0 ->["$a\textcolor{gray}{, \com{\id}}$"] A1;
+        A1 ->["$\com{a}\textcolor{gray}{, \com{\id}}$"] A2;
+        {A0,A1,A2} ->["$\com{a}$", color = gray, out=-120, in=-60, looseness=17] {A0,A1,A2};
+        {A0} ->["$\com{\id}$", color = gray, bend left = 34] {A2};
+        };
+    \end{tikzpicture},\\
+    \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = 1.4cm, branch down = 2.ex, nodes={}]{
+        {A0/{}[mynode]}
+        -!- {A1/{}[mynode]}
+        -!- {A2/{}[mynode]}
+        };
+        \node[left = .5em of A0](l){};
+        \node[right = .5em of A2](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        l -> A0; A2 -> r;
+        A0 ->["$a\textcolor{gray}{, \id}$"] A1;
+        A1 ->["$a, \id$", color = gray, bend left = 31] A0;
+        A1 ->["$\com{a}\textcolor{gray}{, \com{\id}}$"] A2;
+        {A0,A1,A2} ->["$a$", color = gray, out=-120, in=-60, looseness=18] {A0,A1,A2};
+        {A0} ->["$\com{\id}$", color = gray, bend left = 34] {A2};
+        };
+    \end{tikzpicture}, \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = 1.4cm, branch down = 2.ex, nodes={}]{
+        {A0/{}[mynode]}
+        -!- {A1/{}[mynode]}
+        -!- {A2/{}[mynode]}
+        };
+        \node[left = .5em of A0](l){};
+        \node[right = .5em of A2](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        l -> A0; A2 -> r;
+        A0 ->["$a\textcolor{gray}{, \com{\id}}$"] A1;
+        A1 ->["$\com{a}\textcolor{gray}{, \id}$"] A2;
+        A2 ->["$\com{a}, \id$", color = gray, bend left = 31] A1;
+        {A0,A1,A2} ->["$\com{a}$", color = gray, out=-120, in=-60, looseness=18] {A0,A1,A2};
+        {A0} ->["$\com{\id}$", color = gray, bend left = 34] {A2};
+        };
+    \end{tikzpicture}\phantom{,}
+\end{aligned}\right\}.\]
+(Here, gray-colored edges are the edges extended by \kl{edge-saturations} $\FillS_{\RSUB}$. We omit unimportant edges.)
+
+For instance, the below right \kl{graph} above can be obtained from the following map:
+\[\begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = .8cm, branch down = 2.ex, nodes={}]{
+        {A0/{}[mynode, ]}
+        -!- {A1/{}[mynode, ]}
+        -!- {A2/{}[mynode, ]}
+        };
+        \node[left = .5em of A0](l){};
+        \node[right = .5em of A2](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        l -> A0; A2 -> r;
+        A0 ->["$a$"] A1;
+        A1 ->["$\com{a}$"] A2;
+        };
+    \end{tikzpicture}
+    \hspace{2em}
+    \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = 1.5cm, branch down = 2.5ex, nodes={}]{
+        {0/{}[mynode, ]}
+        -!- {1/{}[mynode, ]}
+        };
+        \node[left = .5em of 0](l){};
+        \node[right = .5em of 1](r){};                                                                                                                                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        l -> 0; 1 -> r;
+        0 ->["$a, \com{\id}, \top$"] 1;
+        {0,1} ->["$\com{a}, \id, \top$", out=-120, in=-60, looseness=18] {0,1};
+        };
+    \end{tikzpicture}
+    \begin{tikzpicture}[remember picture, overlay]
+        \path (A0) edge [homoarrow,->, out = -30, in = -150, looseness = .70] (0);
+        \path (A1) edge [homoarrow,->, out = 30, in = 150, looseness = .70] (1);
+        \path (A2) edge [homoarrow,->, out = 30, in = 150, looseness = .70] (1);
+        % \path (C0) edge [homoarrow,->] (0);
+        % \path (C1) edge [homoarrow,->] (1);
+        % \path (C3) edge [homoarrow,->] (3);
+    \end{tikzpicture}.\]
+Note that, for instance,
+$\FillS_{\RSUB}(\begin{tikzpicture}[remember picture, baseline = -.5ex]
+    \graph[grow right = .8cm, branch down = 2.ex, nodes={}]{
+    {A0/{}[mynode]}
+    -!- {A1/{}[mynode]}
+    -!- {A2/{}[mynode]}
+    };
+    \node[left = .5em of A0](l){};
+    \node[right = .5em of A2](r){};
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+    l -> A0; A2 -> r;
+    A0 ->["$a$"] A1;
+    A1 ->["$\com{a}$"] A2;
+    };
+\end{tikzpicture})$ does not contain \kl{graphs} of the forms $\begin{tikzpicture}[remember picture, baseline = -.5ex]
+    \graph[grow right = 1.2cm, branch down = 2.ex, nodes={}]{
+    {A0/{}[mynode]}
+    -!- {A1/{}[mynode]}
+    -!- {A2/{}[mynode]}
+    };
+    \node[left = .5em of A0](l){};
+    \node[right = .5em of A2](r){};
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+    l -> A0; A2 -> r;
+    A0 ->["$a\textcolor{gray}{, \id}$"] A1;
+    A1 ->["$\textcolor{gray}{\id}$", color = gray, bend left = 34] A0;
+    A1 ->["$\com{a}\textcolor{gray}{, \id}$"] A2;
+    A2 ->["$\textcolor{gray}{\id}$", color = gray, bend left = 34] A1;
+    {A0} <->["$\id$", color = gray, bend left = 28] {A2};
+    };
+\end{tikzpicture}$ nor $\begin{tikzpicture}[remember picture, baseline = -.5ex]
+    \graph[grow right = 1.2cm, branch down = 2.ex, nodes={}]{
+    {A0/{}[mynode]}
+    -!- {A1/{}[mynode]}
+    -!- {A2/{}[mynode]}
+    };
+    \node[left = .5em of A0](l){};
+    \node[right = .5em of A2](r){};
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+    l -> A0; A2 -> r;
+    A0 ->["$a\textcolor{gray}{, \com{\id}}$"] A1;
+    A1 ->["$\com{a}\textcolor{gray}{, \com{\id}}$"] A2;
+    {A0} <->["$\id$", color = gray, bend left = 28] {A2};
+    };
+\end{tikzpicture}$ because we cannot make a \kl{graph homomorphism} into \kl{graphs} of $\RSUB$.
+\lipicsEnd
+% (In the sequel, we often omit $\top$- or $\com{\id}$-labeled edges for notational simplicity.)
+\end{example}
+By the form of $\allgraph_{\RSUB}$, each \kl{graph} $\graph[2] \in \FillS_{\RSUB}(\bl)$ satisfies the following:
+\begin{itemize}
+    \item $\top^{\graph[2]}$ is a total preorder (possibly not a total order);
+    \item $a^{\graph[2]} \supseteq \id^{\graph[2]}$ or $\com{a}^{\graph[2]} \supseteq \id^{\graph[2]}$ holds for each $a \in \vsig$.
+\end{itemize}
+
+Let $\graph[2]^{\FillQ} \defeq \graph[2]/(\id^{\graph[2]})^{=}$ and $\glang^{\FillQ} \defeq \set{\graph[2]^{\FillQ} \mid \graph[2] \in \glang}$ where $R^{=}$ denotes the equivalence closure of $R$.
+We then have the following graph language characterization, which is an analog of \cite[Thm.\ 18]{nakamuraExistentialCalculiRelations2023}, but is slightly generalized for including $\RSUB$
+\ifiscameraready
+(see \cite{nakamuraFiniteRelationalSemantics2024}, for an explicit proof).
+\else
+(see \Cref{section: theorem: graph characterization}, for an explicit proof).
+\fi
+
+% By extending \kl{graph languages} by using \kl{edge-saturations} and \kl{quotient graph} ($\FillS_{\algclass}(\bl)^{\FillQ}$), we can characterize the \kl{equational theory} of $\algclass$ by using \kl{graph homomorphisms} as follows:
+\begin{theorem}\label{theorem: graph characterization}
+    Let $\algclass \subseteq \GREL$ be \kl{submodel-closed}.
+    For all $\KAtermclass_{\set{\com{x}, \com{\id}, \top, \cap}}$ \kl{terms} $\term[1], \term[2]$,
+    \[\algclass \models \term[1] \le \term[2] \quad\Leftrightarrow\quad  \forall \graph[2] \in \FillS_{\algclass}(\glang(\term[1]))^{\FillQ}, \exists \graph[1] \in \glang(\term[2]), \graph[1] \homo \graph[2].\]
+\end{theorem}
+\begin{example}\label{example: graph characterization}\setlength{\tabcolsep}{3pt}%
+    (We recall the \kl{inequations} in \Cref{remark: LANG and GREL}.)
+    Here are examples to show $\KAtermclass_{\set{\com{x}, \com{\id}, \top, \cap}}$ \kl{equations} on $\RSUB$ using \Cref{theorem: graph characterization}.
+    (Gray-colored edges are the edges extended by \kl{edge-saturations} $\FillS_{\RSUB}$. We omit unimportant edges.)
+    \begin{itemize}
+        \item $\LANG \models a \le \com{b}a\com{b} \union bab$: This \kl{equation} is shown by the following \kl{graph homomorphisms}:\\
+        % For each \kl{graph} $\graph[2] \in \FillS_{\RSUB}(\glang(a))^{\FillQ}$, we can give a \kl{graph homomorphism} from some \kl{graph} in $\glang(\com{b}a\com{b} \union bab)$ as follows:\\
+        \begin{tabular}{ccccccc}
+            $\glang(\com{b}a\com{b} \union bab)$              & $=$ & $\left\{ \right.$ & \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                            \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                            {A0/{}[mynode, ]}
+                                                                                            -!- {A1/{}[mynode, ]}
+                                                                                            -!- {A2/{}[mynode, ]}
+                                                                                            -!- {A3/{}[mynode, ]}
+                                                                                            };
+                                                                                            \node[left = .5em of A0](l){};
+                                                                                            \node[right = .5em of A3](r){};
+                                                                                            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                            l -> A0; A3 -> r;
+                                                                                            A0 ->["$\com{b}$"] A1;
+                                                                                            A1 ->["$a$"] A2;
+                                                                                            A2 ->["$\com{b}$"] A3;
+                                                                                            };
+                                                                                        \end{tikzpicture}                                                                                                                                                                      & \hspace{-1em}, & \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                                                                                                                                                                                                                         \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                                                                                                                                                                                                                         {B0/{}[mynode, ]}
+                                                                                                                                                                                                                                                                                         -!- {B1/{}[mynode, ]}
+                                                                                                                                                                                                                                                                                         -!- {B2/{}[mynode, ]}
+                                                                                                                                                                                                                                                                                         -!- {B3/{}[mynode, ]}
+                                                                                                                                                                                                                                                                                         };
+                                                                                                                                                                                                                                                                                         \node[left = .5em of B0](l){};
+                                                                                                                                                                                                                                                                                         \node[right = .5em of B3](r){};
+                                                                                                                                                                                                                                                                                         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                                                                                                                                                                                                         l -> B0; B3 -> r;
+                                                                                                                                                                                                                                                                                         B0 ->["$b$"] B1;
+                                                                                                                                                                                                                                                                                         B1 ->["$a$"] B2;
+                                                                                                                                                                                                                                                                                         B2 ->["$b$"] B3;
+                                                                                                                                                                                                                                                                                         };
+                                                                                                                                                                                                                                                                                     \end{tikzpicture} & $\left. \right\}$                                                                 \\[2ex]
+            $\FillS_{\RSUB}(\glang(a))^{\FillQ} \ni \graph[2]$ & :   &                   & \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                            \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+                                                                                            {0/{}[mynode, ]}
+                                                                                            -!- {1/{}[mynode, ]}
+                                                                                            };
+                                                                                            \node[left = .5em of 0](l){};
+                                                                                            \node[right = .5em of 1](r){};                                                                                                                                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                            l -> 0; 1 -> r;
+                                                                                            0 ->["$a$"] 1;
+                                                                                            {0,1} ->["$\com{b}$", color = gray, out=-120, in=-60, looseness=20] {0,1};
+                                                                                            };
+                                                                                        \end{tikzpicture} &   &
+            \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                \graph[grow right = 1.cm, branch down = 2.5ex, nodes={}]{
+                {0'/{}[mynode, ]}
+                -!- {1'/{}[mynode, ]}
+                };
+                \node[left = .5em of 0'](l){};
+                \node[right = .5em of 1'](r){};                                                                                                                                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                l -> 0'; 1' -> r;
+                0' ->["$a$"] 1';
+                {0',1'} ->["$b$", color = gray, out=-120, in=-60, looseness=20] {0',1'};
+                };
+            \end{tikzpicture}                                                                                                                                                                    \\
+                                                            &     &                   & {\scriptsize\color{black} (Case $\com{b}^{\graph[2]} \supseteq \id^{\graph[2]}$)}                                                                                                                                                                                                             &   & {\scriptsize\color{black} (Case $b^{\graph[2]} \supseteq \id^{\graph[2]}$)}
+            \begin{tikzpicture}[remember picture, overlay]
+                \path (A0) edge [homoarrow,->] (0);
+                \path (A1) edge [homoarrow,->] (0);
+                \path (A2) edge [homoarrow,->] (1);
+                \path (A3) edge [homoarrow,->] (1);
+            \end{tikzpicture}
+            \begin{tikzpicture}[remember picture, overlay]
+                \path (B0) edge [homoarrow,->] (0');
+                \path (B1) edge [homoarrow,->] (0');
+                \path (B2) edge [homoarrow,->] (1');
+                \path (B3) edge [homoarrow,->] (1');
+            \end{tikzpicture}
+        \end{tabular}
+
+        \item $\LANG \models ab \cap cd \le a \top d \union c \top b$:
+        For each \kl{graph} $\graph[2] \in \FillS_{\RSUB}(\glang(ab \cap cd))^{\FillQ}$, we can give a \kl{graph homomorphism} from some \kl{graph} in $\glang(a \top d \union c \top b)$ as follows:\\
+        \begin{tabular}{ccccccc}
+            $\glang(a \top d \union c \top b)$                         & $=$ & $\left\{ \right.$ & \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                                     \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                                     {A0/{}[mynode]}
+                                                                                                     -!- {A1/{}[mynode, ]}
+                                                                                                     -!- {A2/{}[mynode, ]}
+                                                                                                     -!- {A3/{}[mynode]}
+                                                                                                     };
+                                                                                                     \node[left = .5em of A0](l){};
+                                                                                                     \node[right = .5em of A3](r){};
+                                                                                                     \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                     l -> A0; A3 -> r;
+                                                                                                     A0 ->["$a$"] A1;
+                                                                                                     A1 ->["$\top$"] A2;
+                                                                                                     A2 ->["$d$"] A3;
+                                                                                                     };
+                                                                                                 \end{tikzpicture}                                                                                                                                                                     & \hspace{-1em}, & \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                                                                                                                                                                                                                                  \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                                                                                                                                                                                                                                  {B0/{}[mynode]}
+                                                                                                                                                                                                                                                                                                  -!- {B1/{}[mynode, ]}
+                                                                                                                                                                                                                                                                                                  -!- {B2/{}[mynode, ]}
+                                                                                                                                                                                                                                                                                                  -!- {B3/{}[mynode]}
+                                                                                                                                                                                                                                                                                                  };
+                                                                                                                                                                                                                                                                                                  \node[left = .5em of B0](l){};
+                                                                                                                                                                                                                                                                                                  \node[right = .5em of B3](r){};
+                                                                                                                                                                                                                                                                                                  \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                                                                                                                                                                                                                  l -> B0; B3 -> r;
+                                                                                                                                                                                                                                                                                                  B0 ->["$c$"] B1;
+                                                                                                                                                                                                                                                                                                  B1 ->["$\top$"] B2;
+                                                                                                                                                                                                                                                                                                  B2 ->["$b$"] B3;
+                                                                                                                                                                                                                                                                                                  };
+                                                                                                                                                                                                                                                                                              \end{tikzpicture} & $\left. \right\}$                                                 \\[2ex]
+            $\FillS_{\RSUB}(\glang(ab \cap cd))^{\FillQ} \ni \graph[2]$ & :   &                   & \begin{tikzpicture}[remember picture, baseline = -3.5ex]
+                                                                                                     \graph[grow right = 1.cm, branch down = 3.ex, nodes={}]{
+                                                                                                     {/, 0/{}[mynode]}
+                                                                                                     -!- {1/{$x$}[mynode, ], /, 2/{$y$}[mynode, ]}
+                                                                                                     -!- {/, 3/{}[mynode]}
+                                                                                                     };
+                                                                                                     \node[left = .5em of 0](l){};
+                                                                                                     \node[right = .5em of 3](r){};                                                                                                                                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                     l -> 0; 3 -> r;
+                                                                                                     0 ->["$a$"] 1 ->["$b$"] 3;
+                                                                                                     0 ->["$c$"] 2 ->["$d$"] 3;
+                                                                                                     1 ->["$\top$", color = gray] 2;
+                                                                                                     };
+                                                                                                 \end{tikzpicture} &   &
+            \begin{tikzpicture}[remember picture, baseline = -3.5ex]
+                \graph[grow right = 1.cm, branch down = 3.ex, nodes={}]{
+                {/, 0'/{}[mynode]}
+                -!- {1'/{$x$}[mynode, ], /, 2'/{$y$}[mynode, ]}
+                -!- {/, 3'/{}[mynode]}
+                };
+                \node[left = .5em of 0'](l){};
+                \node[right = .5em of 3'](r){};                                                                                                                                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                l -> 0'; 3' -> r;
+                0' ->["$a$"] 1' ->["$b$"] 3';
+                0' ->["$c$"] 2' ->["$d$"] 3';
+                2' ->["$\top$", color = gray] 1';
+                };
+            \end{tikzpicture}                                                                                                                                                             \\
+                                                                     &     &                   & {\scriptsize\color{black} (Case $\tuple{\begin{tikzpicture}[baseline = -.5ex] \graph{{/{$x$}[mynode, ]}};\end{tikzpicture},\begin{tikzpicture}[baseline = -.5ex] \graph{{/{$y$}[mynode, ]}};\end{tikzpicture}} \in \top^{\graph[2]}$)}                                                                                                                                                                                                                                   &   & {\scriptsize\color{black} (Case $\tuple{\begin{tikzpicture}[baseline = -.5ex] \graph{{/{$x$}[mynode, ]}};\end{tikzpicture},\begin{tikzpicture}[baseline = -.5ex] \graph{{/{$y$}[mynode, ]}};\end{tikzpicture}} \in \top^{\graph[2]}$)}                                                                                            
+            \begin{tikzpicture}[remember picture, overlay]
+                \path (A0) edge [homoarrow,->] (0);
+                \path (A1) edge [homoarrow,->, out = -45, in = 135, looseness = 0.001] (1);
+                \path (A2) edge [homoarrow,->, out = -135, in = 45, looseness = 0.001] (2);
+                \path (A3) edge [homoarrow,->] (3);
+            \end{tikzpicture}
+            \begin{tikzpicture}[remember picture, overlay]
+                \path (B0) edge [homoarrow,->] (0');
+                \path (B1) edge [homoarrow,->, out = -45, in = 135, looseness = 0.001] (2');
+                \path (B2) edge [homoarrow,->, out = -135, in = 45, looseness = 0.001] (1');
+                \path (B3) edge [homoarrow,->] (3');
+            \end{tikzpicture}
+        \end{tabular}
+
+        % \item $\LANG \models \top \le \com{\id} \cup \id$:
+        % We color vertices as $\FillS_{\RSUB}(\glang(\top)) \ni \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        %     \graph[grow right = 1cm, branch down = 6ex, nodes={}]{
+        %     {A0/{}[mynode, fill = blue!60]}-!-{A1/{}[mynode, fill = red!60]}
+        %     };
+        %     \node[left = .5em of A0](l){};
+        %     \node[right = .5em of A1](r){};
+        %     \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        %         l -> A0; A1 -> r;
+        %     };
+        % \end{tikzpicture}$.
+        % For the following two distinguished cases of $\graph[2]$, we can give \kl{graph homomorphisms} as follows:\\
+        % \begin{tabular}{ccccccc}
+        %     $\glang(\com{\id} \cup \id)$              & $=$ & $\left\{ \right.$ &  \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        %         \graph[grow right = 1cm, branch down = 6ex, nodes={}]{
+        %         {0/{}[mynode]}-!-{1/{}[mynode]}
+        %         };
+        %         \node[left = .5em of 0](l){};
+        %         \node[right = .5em of 1](r){};
+        %         \path (0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt,font = \scriptsize, opacity = 1](a1){$\com{\id}$}(1);
+        %         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        %             0 -- a1 -> 1;
+        %             l -> 0; 1 -> r;
+        %         };
+        %     \end{tikzpicture} & , &\begin{tikzpicture}[remember picture, baseline = -.5ex]
+        %         \graph[grow right = 1cm, branch down = 6ex, nodes={}]{
+        %         {0'/{}[mynode]}
+        %         };
+        %         \node[left = .5em of 0'](l){};
+        %         \node[right = .5em of 0'](r){};
+        %         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        %             l -> 0'; 0' -> r;
+        %         };
+        %     \end{tikzpicture} & $\left. \right\}$                                                                 \\[2ex]
+        %     $\FillS_{\RSUB}(\glang(\top))^{\FillQ} \ni \graph[2]$ & :   &                   & \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        %         \graph[grow right = 1cm, branch down = 6ex, nodes={}]{
+        %         {A0/{}[mynode]}-!-{A1/{}[mynode]}
+        %         };
+        %         \node[left = .5em of A0](l){};
+        %         \node[right = .5em of A1](r){};
+        %         \path (A0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt,font = \scriptsize, opacity = 1,  color = gray](a1){$\com{\id}$}(A1);
+        %         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        %             A0 --[color = gray] a1 ->[ color = gray] A1;
+        %             l -> A0; A1 -> r;
+        %             {A0,A1} ->["$\id$", color = gray, out=-120, in=-60, looseness=15] {A0,A1};
+        %         };
+        %     \end{tikzpicture} &   &
+        %     \begin{tikzpicture}[remember picture, baseline = -.5ex]
+        %         \graph[grow right = 1cm, branch down = 6ex, nodes={}]{
+        %         {B0/{}[mynode]}
+        %         };
+        %         \node[left = .5em of B0](l){};
+        %         \node[right = .5em of B0](r){};
+        %         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        %             l -> B0; B0 -> r;
+        %             {B0} ->["$\id$", color = gray, out=-120, in=-60, looseness=15] {B0};
+        %         };
+        %     \end{tikzpicture}                                                                                                                                                                   \\
+        %                                                     &     &                   & {\scriptsize\color{gray} (Case $\com{b}^{\graph} \cap \id^{\graph} = \id^{\graph}$)}                                                                                                                                                                                                             &   & {\scriptsize\color{gray} (Case $b^{\graph} \cap \id^{\graph} = \id^{\graph}$)}
+        %     \begin{tikzpicture}[remember picture, overlay]
+        %         \path (0) edge [homoarrow,->] (A0);
+        %         \path (1) edge [homoarrow,->] (A1);
+        %     \end{tikzpicture}
+        %     \begin{tikzpicture}[remember picture, overlay]
+        %         \path (0') edge [homoarrow,->] (B0);
+        %     \end{tikzpicture}
+        % \end{tabular}
+        % Note that we cannot construct homomorphism 
+        % Hence, $\bl^{\FillQ}$ is necessary for \Cref{theorem: graph characterization}.
+    \end{itemize}
+    Additionally, note that $\bl^{\FillQ}$ is necessary in general, e.g., for $\top \le \id \union \com{\id}$ \cite[Remark 19]{nakamuraExistentialCalculiRelations2023}.
+    \lipicsEnd
+\end{example}
+
+\begin{remark}
+    \Cref{theorem: graph characterization} fails when $\algclass$ is not \kl{submodel-closed}.
+    E.g., if $\algclass$ consists of the one \kl{valuation} given by $\begin{tikzpicture}[baseline = -1.5ex]
+    \graph[grow right = .8cm, branch down = 1.ex, nodes={}]{
+    {/, 0/{}[mynode]}
+    -!- {/, /, 2/{}[mynode]}
+    -!- {/, 3/{}[mynode]}
+    };
+    % \node[left = .5em of 0](l){};\node[right = .5em of 3](r){};
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+    % l -> 0; 3 -> r;
+    0 ->["$a$", bend left=15] 3;
+    0 ->["$b$", bend right = 5] 2 ->["$b$", bend right = 5] 3;
+    };
+\end{tikzpicture}$, $\term[1] = a$, and $\term[2] = b b$,
+    then $\algclass \models \term[1] \le \term[2]$ holds but the right-hand side does not hold.
+    \lipicsEnd
+\end{remark}
+
+% \begin{remark}
+%     While $\LANG \models \top \le \id \union \com{\id}$, there does not exist any \kl{graph homomorphism}
+%     from any \kl{graphs} in $\glang(\id \union \com{\id}) =  \set{\begin{tikzpicture}[baseline = -.5ex]
+%                 \graph[grow right = 1cm, branch down = 6ex, nodes={inner sep = 1.pt}]{
+%                 {0/{}[mynode]}
+%                 };
+%                 \node[left = .5em of 0](l){};
+%                 \node[right = .5em of 0](r){};
+%                 \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                     l -> 0; 0 -> r;
+%                 };
+%             \end{tikzpicture}, \begin{tikzpicture}[baseline = -.5ex]
+%                 \graph[grow right = 1cm, branch down = 6ex, nodes={inner sep = 1.pt}]{
+%                 {0/{}[mynode]}-!-{1/{}[mynode]}
+%                 };
+%                 \node[left = .5em of 0](l){};
+%                 \node[right = .5em of 1](r){};
+%                 \path (0) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.5pt,font = \scriptsize, opacity = 1](a1){$\com{\id}$}(1);
+%                 \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                     0 -- a1 -> 1;
+%                     l -> 0; 1 -> r;
+%                 };
+%             \end{tikzpicture}}$ to the \kl{graph} $\begin{tikzpicture}[baseline = -.5ex]
+%             \graph[grow right = 1cm, branch down = 6ex, nodes={inner sep = 1.pt}]{
+%             {0/{}[mynode]}-!-{1/{}[mynode]}
+%             };
+%             \node[left = .5em of 0](l){};
+%             \node[right = .5em of 1](r){};
+%             \path (0) edge [color = gray, draw = white, opacity = 0, bend left] node[pos= 0.5,inner sep = 1.5pt, font = \scriptsize, opacity = 1](a01){$\id$}(1);
+%             \path (1) edge [color = gray, draw = white, opacity = 0, bend left] node[pos= 0.5,inner sep = 1.5pt, font = \scriptsize, opacity = 1](a10){$\id$}(0);
+%             \node[color = gray, above = 2ex of 0,inner sep = 1.5pt, font = \scriptsize,](a00){$\id$};
+%             \node[color = gray, above = 2ex of 1,inner sep = 1.5pt, font = \scriptsize,](a11){$\id$};
+%             \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%             0 --[color = gray, bend left = 15] a00 ->[color = gray, bend left = 15] 0;
+%             0 --[color = gray, ] a01 ->[color = gray, ] 1;
+%             1 --[color = gray, ] a10 ->[color = gray, ] 0;
+%             1 --[color = gray, bend left = 15] a11 ->[color = gray, bend left = 15] 1;
+%             l -> 0; 1 -> r;
+%             };
+%         \end{tikzpicture} \in \FillS_{\RSUB}(\top)$.
+%         Hence, $\bl^{\FillQ}$ is necessary for \Cref{theorem: graph characterization}.
+%         \lipicsEnd
+% \end{remark}
+
+\subsection{Word languages for $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$}
+Particularly for $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$, \Cref{theorem: graph characterization} can be rephrased by \kl[word languages]{\emph{word} languages}.
+
+For a \kl{word} $\word = a_1 \dots a_n$ over $\tilde{\vsig}$, let $\const{\graph}(\word)$ be the following \kl{graph} where $\domain{\const{\graph}(\word)} = \range{0, n}$:
+\[\begin{tikzpicture}[baseline = -.5ex]
+    \graph[grow right = 1.2cm, branch down = 6ex]{
+    {0/{$0$}[mynode]}-!-{1/{$1$}[mynode]}-!-{2/{$2$}[mynode]}-!-{3/{\tiny $\dots$}[xshift = -1.5em]}-!-{n/{$n$}[mynode]}
+    };
+    \node[left = .5em of 0](l){};
+    \node[right = .5em of n](r){};
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+    0 ->["$a_1$"] 1;
+    1 ->["$a_2$"] 2;
+    2 -- 3;
+    3 ->["$a_{n}$"]n;
+    l -> 0; n -> r;
+    };
+\end{tikzpicture}.\]
+$\const{\graph}(\word)$ is the unique \kl{graph} in $\glang(\word)$ up to \kl{graph isomorphisms}.
+
+For a $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ \kl{term} $\term$,
+we write $\ljump{\term}_{\tilde{\vsig}}$ for the \kl{word language} $\ljump{\term}$ over $\tilde{\vsig}$ (namely, $\com{x}$, $\com{\id}$, and $\top$ are also viewed as \kl{letters}); e.g., $\ljump{\com{a}}_{\tilde{\vsig}} = \set{\com{a}}$ and $\ljump{\com{a}} = \vsig^* \setminus \set{a}$ for $a \in \vsig$.
+Note that $\glang(\term) = \set{\const{\graph}(\word) \mid \word \in \ljump{\term}_{\tilde{\vsig}}}$;
+thus, for $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ \kl{terms}, \kl{graph languages} are expressible by using \kl{word languages}.
+
+Additionally, we introduce nondeterministic finite word automata with epsilon transitions (\intro*\kl{NFAs}).
+\kl{NFAs} are \kl{($2$-pointed) graphs} over $\tilde{\vsig}_{\id}$ where the source and target vertices denote the initial and (single) accepting states, respectively, and $\id$-labeled edges denote epsilon transitions.
+For a \kl{graph} $\graph[2]$ and a \kl{word} $\word = a_1 \dots a_n$, we write $\delta_{\word}^{\graph[2]}$ for the binary relation $(\id^{\graph[2]})^* \rcompo a_1^{\graph[2]} \rcompo (\id^{\graph[2]})^* \rcompo \ldots \rcompo a_n^{\graph[2]} \rcompo (\id^{\graph[2]})^*$.
+For $q \in \univ{\graph[2]}$, we let $\delta_{\word}^{\graph[2]}(q) \defeq \set{q' \mid \tuple{q, q'} \in \delta_{\word}^{\graph[2]}}$.
+For $Q \subseteq \univ{\graph[2]}$, we let $\delta_{\word}^{\graph[2]}(Q) \defeq \bigcup_{q \in Q} \delta_{\word}^{\graph[2]}(q)$.
+The \kl{word language} $\ljump{\graph[2]}_{\tilde{\vsig}}$ is defined as $\set{\word \in \tilde{\vsig}^* \mid \tuple{\src^{\graph[2]}, \tgt^{\graph[2]}} \in \delta_{\word}^{\graph[2]}}$.
+Note that $\ljump{\graph[2]}_{\tilde{\vsig}} = \set{\word \in \tilde{\vsig}^* \mid \const{\graph}(\word) \homo \graph[2]^{\FillQ}}$ if $\id^{\graph[2]}$ is an equivalence relation.
+% Hence, $(\forall \word[2] \in \wlang,\  \const{\graph}(\word[2]) \centernot\homo \graph[2]^{\FillQ})$ iff $L \cap \ljump{\graph[2]^{\FillQ}}_{\vsig'} = \emptyset$.
+We then have the following, which a rephrasing of \Cref{theorem: graph characterization} (see \Cref{section: corollary: graph characterization} for an explicit proof).
+This shows that $\RSUB \models \term[1] \le \term[2]$ is equivalent to that every \kl{NFA} obtained from a \kl{word} $\word$ of $\term$ by an \kl{edge-saturation} w.r.t.\ $\RSUB$ has an intersection with $\ljump{\term[2]}_{\tilde{\vsig}}$.
+\begin{corollary}\label{corollary: graph characterization}
+    Let $\algclass \subseteq \GREL$ be \kl{submodel-closed}.
+    For all $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ \kl{terms} $\term[1]$ and $\term[2]$,
+    \[\algclass \models \term[1] \le \term[2] \quad\Leftrightarrow\quad \ljump{\term[1]}_{\tilde{\vsig}} \subseteq \set{\word \in \tilde{\vsig}^* \mid  \forall \graph[2] \in \FillS_{\algclass}(\const{\graph}(\word)), \ljump{\term[2]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} \neq \emptyset}.\]
+\end{corollary}
+\begin{example}
+    Here are examples to show $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ \kl{equations} on $\RSUB$ using \Cref{corollary: graph characterization}.
+    \begin{itemize}
+        \item $\LANG \models a \le \com{b}a\com{b} \union b a b$ (the first example in \Cref{example: graph characterization}):
+        For all \kl{NFAs} $\graph[2] \in \FillS_{\RSUB}(\const{\graph}(a))$,
+        we have $\ljump{\com{b}a\com{b} \union b a b}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} \ni \begin{cases}
+            \com{b} a \com{b} & (\com{b}^{\graph[2]} \supseteq \id^{\graph[2]})\\ 
+            b a b & (b^{\graph[2]} \supseteq \id^{\graph[2]})
+        \end{cases}$ by the following paths:
+        \begin{center}
+            \begin{tabular}{ccc}
+                \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                                    \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                                    {A0/{}[mynode, ]}
+                                                                                                    -!- {A1/{}[mynode, ]}
+                                                                                                    };
+                                                                                                    \node[left = .5em of A0](l){};
+                                                                                                    \node[right = .5em of A1](r){};
+                                                                                                    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                    l -> A0; A1 -> r;
+                                                                                                    A0 ->["$a$", line width = 1pt] A1;
+                                                                                                    {A0,A1} ->["$\com{b}$", color = gray, out=-120, in=-60, looseness=20, line width = 1pt] {A0, A1};
+                                                                                                    };
+                                                                                                \end{tikzpicture}                                                                                                                                                                      & \hspace{-1em}$\mid$ &  \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                                    \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                                    {A0/{}[mynode, ]}
+                                                                                                    -!- {A1/{}[mynode, ]}
+                                                                                                    };
+                                                                                                    \node[left = .5em of A0](l){};
+                                                                                                    \node[right = .5em of A1](r){};
+                                                                                                    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                    l -> A0; A1 -> r;
+                                                                                                    A0 ->["$a$", line width = 1pt] A1;
+                                                                                                    {A0,A1} ->["$b$", color = gray, out=-120, in=-60, looseness=20, line width = 1pt] {A0, A1};
+                                                                                                    };
+                                                                                                \end{tikzpicture}         \\[2ex]
+                 {\scriptsize\color{black} (Case $\com{b}^{\graph[2]} \supseteq \id^{\graph[2]}$)}                                                                                                                                                                                                             &   & {\scriptsize\color{black} (Case $b^{\graph[2]} \supseteq \id^{\graph[2]}$)}
+                \end{tabular}
+        \end{center}
+
+        \item $\LANG \models a \le \com{\id} \union a a$ \cite[(3)]{nakamuraExistentialCalculiRelations2023}:
+        For all \kl{NFAs} $\graph[2] \in \FillS_{\RSUB}(\const{\graph}(a))$,
+        we have $\ljump{\com{\id} \union a a}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} \ni \begin{cases}
+            \com{\id}  & (\id^{\graph[2]} = \Delta_{\univ{\graph[2]}})\\
+            a a  & (\id^{\graph[2]} = \top^{\graph[2]})
+        \end{cases}$ by the following paths:
+        \begin{center}
+            \begin{tabular}{ccc}
+                \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                                    \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                                    {A0/{}[mynode, ]}
+                                                                                                    -!- {A1/{}[mynode, ]}
+                                                                                                    };
+                                                                                                    \node[left = .5em of A0](l){};
+                                                                                                    \node[right = .5em of A1](r){};
+                                                                                                    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                    l -> A0; A1 -> r;
+                                                                                                    A0 ->["$a$"] A1;
+                                                                                                    A0 ->["$\com{\id}$",  color = gray, bend right = 60, line width = 1pt] A1;
+                                                                                                    };
+                                                                                                \end{tikzpicture}                                                                                                                                                                      & \hspace{-1em}$\mid$ &  \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                                    \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                                    {A0/{}[mynode, ]}
+                                                                                                    -!- {A1/{}[mynode, ]}
+                                                                                                    };
+                                                                                                    \node[left = .5em of A0](l){};
+                                                                                                    \node[right = .5em of A1](r){};
+                                                                                                    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                                    l -> A0; A1 -> r;
+                                                                                                    A0 ->["$a$", line width = 1pt] A1;
+                                                                                                    A0 <->["$\id$",  color = gray, bend right = 60, line width = 1pt] A1;
+                                                                                                    };
+                                                                                                \end{tikzpicture}         \\[2ex]
+                 {\scriptsize\color{black} (Case $\id^{\graph[2]} = \Delta_{\univ{\graph[2]}}$)}                                                                                                                                                                                                             &   & {\scriptsize\color{black} (Case  $\id^{\graph[2]} = \top^{\graph[2]}$)}
+                \end{tabular}
+        \end{center}
+        
+        \item $\LANG \models \com{\id} a \com{a} \com{\id} \le \com{\id} \com{a} a \com{\id}$ \cite{nakamuraWordstoLettersValuationsLanguage2024}:
+        For all \kl{NFAs} $\graph[2] \in \FillS_{\RSUB}(\const{\graph}(\com{\id} a \com{a} \com{\id}))$,
+        we have $\ljump{\com{\id} \com{a} a \com{\id}}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} \ni \com{\id} \com{a} a \com{\id}$ 
+        in either $\com{a}^{\graph[2]} \supseteq \id^{\graph[2]}$ or $a^{\graph[2]} \supseteq \id^{\graph[2]}$ by the following paths:
+        \begin{center}
+        \begin{tabular}{ccc}
+        \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                            \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                            {A0/{}[mynode, ]}
+                                                                                            -!- {A1/{}[mynode, ]}
+                                                                                            -!- {A2/{}[mynode, ]}
+                                                                                            -!- {A3/{}[mynode, ]}
+                                                                                            -!- {A4/{}[mynode, ]}
+                                                                                            };
+                                                                                            \node[left = .5em of A0](l){};
+                                                                                            \node[right = .5em of A4](r){};
+                                                                                            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                            l -> A0; A4 -> r;
+                                                                                            A0 ->["$\com{\id}$", line width = 1pt] A1;
+                                                                                            A1 ->["$a$", line width = 1pt] A2;
+                                                                                            A2 ->["$\com{a}$"] A3;
+                                                                                            A3 ->["$\com{\id}$"] A4;
+                                                                                            A2 ->["$\com{\id}$",  color = gray, bend right = 30, line width = 1pt] A4;
+                                                                                            {A1} ->["$\com{a}$", color = gray, out=-120, in=-60, looseness=20, line width = 1pt] {A1};
+                                                                                            };
+                                                                                        \end{tikzpicture}                                                                                                                                                                      & \hspace{-1em}$\mid$ & \begin{tikzpicture}[remember picture, baseline = -.5ex]
+                                                                                            \graph[grow right = 1.cm, branch down = 2.ex, nodes={}]{
+                                                                                            {A0/{}[mynode, ]}
+                                                                                            -!- {A1/{}[mynode, ]}
+                                                                                            -!- {A2/{}[mynode, ]}
+                                                                                            -!- {A3/{}[mynode, ]}
+                                                                                            -!- {A4/{}[mynode, ]}
+                                                                                            };
+                                                                                            \node[left = .5em of A0](l){};
+                                                                                            \node[right = .5em of A4](r){};
+                                                                                            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                                                                                            l -> A0; A4 -> r;
+                                                                                            A0 ->["$\com{\id}$"] A1;
+                                                                                            A1 ->["$a$"] A2;
+                                                                                            A2 ->["$\com{a}$", line width = 1pt] A3;
+                                                                                            A3 ->["$\com{\id}$", line width = 1pt] A4;
+                                                                                            A0 ->["$\com{\id}$",  color = gray, bend right = 30, line width = 1pt] A2;
+                                                                                            {A3} ->["$a$", color = gray, out=-120, in=-60, looseness=20, line width = 1pt] {A3};
+                                                                                            };
+                                                                                        \end{tikzpicture}         \\[2ex]
+         {\scriptsize\color{black} (Case $\com{a}^{\graph[2]} \supseteq \id^{\graph[2]}$)}                                                                                                                                                                                                             &   & {\scriptsize\color{black} (Case $a^{\graph[2]} \supseteq \id^{\graph[2]}$)}
+        \end{tabular}
+    \end{center}
+\end{itemize}
+\end{example}
+
+Next, we use the \kl{NFA} characterization of \Cref{corollary: graph characterization} for an automata construction.
+
+% \begin{proposition}[\cite{ }]\label{proposition: lang val}
+%     Let $\val$ be a \kl{language valuation}.
+%     For all KA with $x^{\compl}$ terms $\term$, we have
+%     \[\hat{\val}(\term) = \hat{\val}(\ljump{\term}_{\tilde{\vsig}}).\]
+% \end{proposition}
+% \begin{proof}
+%     By easy induction on $\term$.
+% \end{proof}
+% Using \Cref{proposition: lang val}, we can reduce the equational theory as follows:
+% \begin{proposition}\label{proposition: lang decomposition}
+%     For all KA with $x^{\compl}$ terms $\term[1], \term[2]$,
+%     \[\LANG \models \term[1] \le \term[2] \quad\Leftrightarrow\quad \LANG \models \word \le \term[2] \mbox{ for all $\word \in \ljump{\term[1]}_{\tilde{\vsig}}$}.\]
+% \end{proposition}
+% \begin{proof}
+%     We have
+%     \begin{align*}
+%         \LANG \models \term[1] \le \term[2] & \Leftrightarrow \hat{\val}(\term[1]) \subseteq \hat{\val}(\term[2]) \mbox{ for all \kl{valuations} $\val$}                                                    \\
+%                                             & \Leftrightarrow \hat{\val}(\ljump{\term[1]}_{\tilde{\vsig}}) \subseteq \hat{\val}(\term[2]) \mbox{ for all \kl{valuations} $\val$} \tag{\Cref{proposition: lang val}} \\
+%                                             & \Leftrightarrow \hat{\val}(\word) \subseteq \hat{\val}(\term[2]) \mbox{ for all \kl{valuations} $\val$ and $\word \in \ljump{\term[1]}_{\tilde{\vsig}}$}              \\
+%                                             & \Leftrightarrow \LANG \models \word \le \term[2] \mbox{ for all $\word \in \ljump{\term[1]}_{\tilde{\vsig}}$}.
+%     \end{align*}
+% \end{proof}
+
+
+
+% \begin{remark}
+%     By modifying $\FillS_{\algclass}(\graph)^{\FillQ}$ to $\FillS_{\algclass}'(\graph) \defeq \set{\graph[2] \in \allgraph_{\algclass} \mid \graph \homo \graph[2]}$,
+%     we can show
+% \end{remark}
+
+% For a \kl{word language} $\wlang$ and a \kl{graph} $\graph[2]_0$, we use the following notation:
+% \[\Saturable_{\wlang}(\graph[2]_0) \quad\defiff\quad \exists \graph[2] \in \FillS_{\RSUB}(\graph[2]_0),\forall \word[2] \in \wlang,\  \const{\graph}(\word[2]) \centernot\homo \graph[2]^{\FillQ}.\]
+
+
+\newcommand{\Con}{\mathrm{Con}}
+\newcommand{\Saturable}{\mathrm{Saturable}}
+\section{PSPACE decidability for $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ terms}\label{section: decidability}
+In this section, based on the graph characterization (\Cref{section: graph}),
+we present an \kl{NFA} construction for deciding the \kl{equational theory} for $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ \kl{terms}.
+Here, we will use \kl{NFAs} (\kl{graphs} over $\tilde{\vsig}_{\id}$) instead of $\KAtermclass_{\set{\bar{x}, \bar{\id}, \top}}$ \kl{terms} (regular expressions over the alphabet $\tilde{\vsig}$).
+To be more precise, relying on the graph characterization (\Cref{corollary: graph characterization}),
+we consider the following: given an \kl{NFA} $\graph[3]$ (having the same \kl{language} as the \kl{term} $\term[2]$ in \Cref{corollary: graph characterization}), we construct an \kl{NFA} recognizing the following \kl{word language}:
+\[\const{L}_{\graph[3]} \ \defeq\  \set{\word \in \tilde{\vsig}^* \mid \exists \graph[2] \in \FillS_{\RSUB}(\const{\graph}(\word)), \ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset}.\]
+Note that $\RSUB \models \term[1] \le \term[2] \Leftrightarrow \ljump{\term}_{\tilde{\vsig}} \cap \const{L}_{\graph[3]} = \emptyset$ when $\ljump{\term[2]}_{\tilde{\vsig}} =\ljump{\graph[3]}_{\tilde{\vsig}}$.
+We first present an equivalent notion of ``$\word \in \const{L}_{\graph[3]}$'' in \Cref{section: saturable path}, and then we give an \kl{NFA} construction in \Cref{section: NFA}.
+Our approach in this section is based on \cite{nakamuraExistentialCalculiRelations2023} where we consider $\RSUB$ instead of $\REL$.
+\subsection{Saturable paths for $\RSUB$}\label{section: saturable path}
+We first give an equivalent notion of $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$ in the definition of $\const{L}_{\graph[3]}$.
+\begin{definition}\label{definition: witness}
+    Let $\graph[3]$ and $\graph[2]$ be \kl{NFAs}.
+    A map $U \colon \domain{\graph[2]} \to \wp(\domain{\graph[3]})$ is an \intro*\kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$ if the following hold where $U_{x} \defeq U(x)$:
+    \begin{itemize}
+        \item $\src^{\graph[3]} \in U_{\src^{\graph[2]}}$ and $\forall a \in \tilde{\vsig}_{\id}, \forall \tuple{x, y} \in a^{\graph[2]}$, $\delta_{a}^{\graph[3]}(U_{x}) \subseteq U_{y}$,
+        \item $\tgt^{\graph[3]} \not\in U_{\tgt^{\graph[2]}}$.    \lipicsEnd
+    \end{itemize}
+\end{definition}
+Intuitively, the first condition denotes that $U$ is a cover of the reachable states from the pair ``$\src^{\graph[3]} \in U_{\src^{\graph[2]}}$''.
+If the second condition holds, we can see that the pair ``$\tgt^{\graph[3]} \in U_{\tgt^{\graph[2]}}$'' is unreachable.
+As expected, we have the following (see \Cref{section: proposition: witness}, for a proof).
+\begin{proposition}\label{proposition: witness}
+    Let $\graph[3]$ and $\graph[2]$ be \kl{NFAs} where $\id^{\graph[2]}$ is reflexive.
+    Then, we have:
+    \[\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset \quad\Leftrightarrow\quad \exists U \colon \domain{\graph[2]} \to \wp(\domain{\graph[3]}), \mbox{ $U$ is an \kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$}.\]
+\end{proposition}
+
+\begin{example}\label{example: witness}
+    We consider the following \kl{NFAs} $\graph[3]$ and $\graph[2]$.
+    The \kl{NFA} $\graph[3]$ satisfies $\ljump{\graph[3]}_{\tilde{\vsig}} = \set{\word \in \set{a, \com{a}}^{*} \mid \mbox{$\exists n \in \nat$, $\com{a}$ occurs $3n+2$ times in $\word$}}$ and the \kl{NFA} $\graph[2]$ is a \kl{graph} in $\FillS_{\RSUB}(\const{\graph}(a \com{a} a))$,
+    where $\top$- or $\com{\id}$-labeled edges are omitted, and gray-colored edges are the edges edge-saturated from the \kl{graph} $\const{\graph}(a \com{a} a)$.
+    From the form of $\graph[2]$, one can see that $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$.
+    \begin{align*}
+        \graph[3]  & = \begin{tikzpicture}[baseline = -.4ex]
+            \def \n {3}
+            \def \radius {.7cm}
+            \node[mynode, fill = gray!40](1) at ({180+ 360/\n * (1 - 1)}:\radius) {$x$};
+            \node[mynode, fill = gray!40](2) at ({180+ 360/\n * (2 - 1)}:\radius) {$y$};
+            \node[mynode, fill = gray!40](3) at ({180+ 360/\n * (3 - 1)}:\radius) {$z$};
+            \node[left = 4pt of 1](l){};
+            \node[right = 4pt of 3](r){};
+            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            l -> 1; 3 -> r;
+            {1} ->["$\com{a}$"] {2} -> ["$\com{a}$"]{3} -> ["$\com{a}$"]{1};
+            {1, 3} ->["$a$", out=60, in=120, looseness=9] {1, 3};
+            {2} ->["$a$", out=-60, in=-120, looseness=9] {2};
+            };
+        \end{tikzpicture}                                                                           &
+        \graph[2] & = \begin{tikzpicture}[baseline = -.5ex, xshift = -4em]
+                           \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{
+                           {1x/{$0$}[mysmallnode]}-!-{2x/{$1$}[mysmallnode]}-!-{3x/{$2$}[mysmallnode]}-!-{4x/{$3$}[mysmallnode]}
+                           };
+                           \node[left = .5em of 1x](l){};
+                           \node[right = .5em of 4x](r){};
+                           \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+                           {1x,2x,3x,4x} ->["$a, \id$", color = gray, densely dashed, out=60, in=120, looseness=10] {1x,2x,3x,4x};
+                           {1x} ->["$a$"] {2x};
+                           {2x} ->["$\com{a}$"] {3x};
+                           {3x} ->["$a\textcolor{gray}{, \id}$"] {4x};
+                           {4x} ->["$a, \id$", color = gray, dashed, bend right = 30] {3x};
+                           {1x} ->["$\com{a}$", bend right = 20, color = gray, dashed] {3x};
+                           {1x} ->["$\com{a}$", bend right = 25, color = gray, dashed] {4x};
+                           {2x} ->["$\com{a}$", bend right = 20, color = gray, dashed] {4x};
+                           l -> 1x; 4x -> r;
+                           }; 
+                           \node[below = 2.5ex of 1x, align = left](U1){\scriptsize $U_0$};
+                           \node[below = 2.5ex of 2x, align = left](U2){\scriptsize $U_1$};
+                           \node[below = 2.5ex of 3x, align = left](U3){\scriptsize $U_2$};
+                           \node[below = 2.5ex of 4x, align = left](U4){\scriptsize $U_3$};
+                       \end{tikzpicture}.
+    \end{align*}
+    If $U_{0} = U_{1} = \set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}}$ and
+    $U_{2} = U_{3} = \set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$y$}[mynode, fill=gray!40]}};\end{tikzpicture}}$, then
+    this $U$ is an \kl{emptiness-witness}; e.g., for $\tuple{1, 2} \in \com{a}^{\graph[2]}$, $\delta_{\com{a}}^{\graph[3]}(U_{1}) = \set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$y$}[mynode, fill=gray!40]}};\end{tikzpicture}} \subseteq U_{2}$.
+    By the witnesses, we have $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$.
+    Besides this, if $U_{0} = U_{1} = \set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}}$ and 
+    $U_{2} = U_{3} = \set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}, \begin{tikzpicture}[baseline = -.5ex]\graph{{/{$y$}[mynode, fill=gray!40]}};\end{tikzpicture}}$,
+    then this $U$ is also an \kl{emptiness-witness};
+    so, $U$ may not coincide with the reachable states from the pair ``$\src^{\graph[3]} \in U_{\src^{\graph[2]}}$''.
+    \lipicsEnd
+\end{example}
+
+% The characterization above is compatible with \kl{edge-extensions}, as follows:
+% \begin{proposition}\label{proposition: witness monotone}
+%     Let $\graph[3], \graph[2], \graph[2]'$ be \kl{graphs} s.t.\ $\graph[2]'$ is an \kl{edge-extension} of $\graph[2]$.
+%     If a map $U$ is an \kl{emptiness-witness} for $\tuple{\graph[3], \graph[2]'}$, then $U$ is an \kl{emptiness-witness} for $\tuple{\graph[3], \graph[2]}$.
+% \end{proposition}
+% \begin{proof}
+%     Clear by \Cref{definition: witness}.
+% \end{proof}
+
+Next, we give an equivalent notion of ``$\word \in \const{L}_{\graph[3]}$'',
+% \[(\exists \graph[2]' \in \FillS_{\RSUB}(\const{\graph}(\word)), \exists U \colon \domain{\graph[2]'} \to \wp(\domain{\graph[3]}), \mbox{ $U$ is an \kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]'}_{\tilde{\vsig}} = \emptyset$}).\]
+by forgetting saturated edges (gray-colored edges in \Cref{example: witness}) using ``$U$'' of \Cref{proposition: witness}.
+\begin{definition}\label{definition: saturable path}
+    Let $\graph[3]$ be a \kl{NFA} and $\word$ be a \kl{word}.
+    A pair $P = \tuple{\graph[2], U}$ is a \intro*\kl{saturable path} for $\word \in \const{L}_{\graph[3]}$ if the following hold:
+    \begin{description}
+        \item[(P-Ext)\label{definition: saturable path Ext}] $\graph[2]$ is an \kl{edge-extension}\footnote{In this definition, $\top^{\graph[2]}$-, $\id^{\graph[2]}$-, and $\com{\id}^{\graph[2]}$-edges are edge-saturated
+        and $a$- and $\com{a}$-edges in $\id^{\graph[2]}$ (for $a \in \vsig$) are also edge-saturated.
+        This is for preserving \ref{definition: saturable path Con} easily.} of $\const{\graph}(\word)$ such that
+        \begin{itemize}
+                \item $\top^{\graph[2]}$ is a total preorder and $\top^{\graph[2]} \supseteq \set{\tuple{i-1, i} \mid i \in \range{1, n}}$ where $\word = a_1 \dots a_n$,
+                \item $\id^{\graph[2]} = \top^{\graph[2]} \cap \set{\tuple{j, i} \mid \tuple{i, j} \in \top^{\graph[2]}}$ and $\com{\id}^{\graph[2]} = \top^{\graph[2]} \setminus \id^{\graph[2]}$,
+                \item $\forall a \in \vsig$,\  $\tuple{a^{\graph[2]}, \com{a}^{\graph[2]}}$ is either $\tuple{a^{\const{\graph}(\word)} \cup \id^{\graph[2]}, \com{a}^{\const{\graph}(\word)}}$ or $\tuple{a^{\const{\graph}(\word)}, \com{a}^{\const{\graph}(\word)} \cup \id^{\graph[2]}}$.
+            \end{itemize}
+        \item[(P-Con)\label{definition: saturable path Con}]  $\graph[2]$ is \intro*\kl{consistent}:
+        $\forall a \in \vsig,\  a^{\graph[2]^{\FillQ}} \cap \com{a}^{\graph[2]^{\FillQ}} = \emptyset$.
+        \item[(P-Wit)\label{definition: saturable path Wit}] $U \colon \domain{\graph[2]} \to \wp(\domain{\graph[3]})$ is an \kl{emptiness-witness} for $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$.
+        \item[(P-Sat)\label{definition: saturable path Sat}]  $\graph[2]$ is \intro*\kl{saturable}:
+        $\forall a \in \vsig, \forall \tuple{i, j} \in \com{\id}^{\graph[2]}$,\  $\delta_{a}^{\graph[3]}(U_i) \subseteq U_j$ or $\delta_{\com{a}}^{\graph[3]}(U_i) \subseteq U_j$. \lipicsEnd
+    \end{description}
+\end{definition}
+Then, as expected, the existence of \kl{saturable path} can characterize ``$\word \in \const{L}_{\graph[3]}$''.
+\begin{lemma}[\Cref{section: lemma: saturable path}]\label{lemma: saturable path}
+    Let $\graph[3]$ be a \kl{NFA} and $\word$ be a \kl{word}.
+    Then,
+    \[\word \in \const{L}_{\graph[3]} \quad\Leftrightarrow\quad \mbox{there is a \kl{saturable path} for $\word \in \const{L}_{\graph[3]}$.}\]
+\end{lemma}
+
+\begin{example}\label{example: saturable path}
+    We recall the \kl{NFAs} $\graph[3]$ and $\graph[2] \in \FillS_{\RSUB}(\const{\graph}(a \com{a} a))$ in \Cref{example: witness}.
+    The following $P$ is a \kl{saturable path} for $a \com{a} a \in \const{L}_{\graph[3]}$ where $\top$- or $\com{\id}$-labeled edges are omitted:
+    \begin{center}
+        $P \quad=\quad \left(\begin{tikzpicture}[remember picture, baseline = -.5ex]
+            \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{
+            {1x/{$0$}[mysmallnode]}-!-{2x/{$1$}[mysmallnode]}-!-{3x/{$2$}[mysmallnode]}-!-{4x/{$3$}[mysmallnode]}
+            };
+            \node[left = .5em of 1x](l){};
+            \node[right = .5em of 4x](r){};
+            \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            {1x,2x,3x,4x} ->["$a, \id$", out=60, in=120, looseness=10] {1x,2x,3x,4x};
+            {1x} ->["$a$"] {2x};
+            {2x} ->["$\com{a}$"] {3x};
+            {3x} ->["$a, \id$"] {4x};
+            {4x} ->["$a, \id$", bend right = 30] {3x};
+            l -> 1x; 4x -> r;
+            }; 
+            \node[below = .5ex of 1x]{\scriptsize $\set*{\begin{tikzpicture}[baseline = -2.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}}$};
+            \node[below = .5ex of 2x]{\scriptsize $\set*{\begin{tikzpicture}[baseline = -2.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}}$};
+            \node[below = .5ex of 3x]{\scriptsize $\set*{\begin{tikzpicture}[baseline = -2.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}, \begin{tikzpicture}[baseline = -2.5ex]\graph{{/{$y$}[mynode, fill=gray!40]}};\end{tikzpicture} }$};
+            \node[below = .5ex of 4x]{\scriptsize $\set*{\begin{tikzpicture}[baseline = -2.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}, \begin{tikzpicture}[baseline = -2.5ex]\graph{{/{$y$}[mynode, fill=gray!40]}};\end{tikzpicture} }$};
+        \end{tikzpicture}\right)$.
+    \end{center}
+    ($P$ is of the form of a \emph{path graph} by taking the \kl{quotient graph} w.r.t.\ $\id$-labeled edges.)
+$P$ is an abstraction of edge-saturated \kl{graphs}.
+From $P$, we can construct a \kl{graph} $\graph[2] \in \FillS_{\RSUB}(\const{\graph}(a \com{a} a))$ s.t.\ $\ljump{\graph[3]}_{\tilde{\vsig}} \cap \ljump{\graph[2]}_{\tilde{\vsig}} = \emptyset$.
+Because both $\delta_{\com{a}}^{\graph[3]}(\set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}}) \subseteq \set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}, \begin{tikzpicture}[baseline = -.5ex]\graph{{/{$y$}[mynode, fill=gray!40]}};\end{tikzpicture} }$ and $\delta_{a}^{\graph[3]}(\set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}}) \subseteq \set{\begin{tikzpicture}[baseline = -.5ex]\graph{{/{$x$}[mynode, fill=gray!40]}};\end{tikzpicture}, \begin{tikzpicture}[baseline = -.5ex]\graph{{/{$y$}[mynode, fill=gray!40]}};\end{tikzpicture} }$ hold,
+in addition to the \kl{graph} $\graph[2]$ in \Cref{example: witness}, for instance, the following are also possible edge-saturated \kl{graphs}:
+\begin{align*}
+    &\begin{tikzpicture}[baseline = -.5ex, xshift = -4em]
+        \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{
+        {1x/{$0$}[mysmallnode]}-!-{2x/{$1$}[mysmallnode]}-!-{3x/{$2$}[mysmallnode]}-!-{4x/{$3$}[mysmallnode]}
+        };
+        \node[left = .5em of 1x](l){};
+        \node[right = .5em of 4x](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        {1x,2x,3x,4x} ->["$a, \id$", out=60, in=120, looseness=10] {1x,2x,3x,4x};
+        {1x} ->["$a$"] {2x};
+        {2x} ->["$\com{a}$"] {3x};
+        {3x} ->["$a, \id$"] {4x};
+        {4x} ->["$a, \id$", bend right = 30] {3x};
+        {1x} ->["$a$", bend right = 20, color = gray, dashed] {3x};
+        {1x} ->["$a$", bend right = 25, color = gray, dashed] {4x};
+        {2x} ->["$a$", bend right = 20, color = gray, dashed] {4x};
+        l -> 1x; 4x -> r;
+        }; 
+    \end{tikzpicture} & & \begin{tikzpicture}[baseline = -.5ex, xshift = -4em]
+        \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{
+        {1x/{$0$}[mysmallnode]}-!-{2x/{$1$}[mysmallnode]}-!-{3x/{$2$}[mysmallnode]}-!-{4x/{$3$}[mysmallnode]}
+        };
+        \node[left = .5em of 1x](l){};
+        \node[right = .5em of 4x](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        {1x,2x,3x,4x} ->["$a, \id$", out=60, in=120, looseness=10] {1x,2x,3x,4x};
+        {1x} ->["$a$"] {2x};
+        {2x} ->["$\com{a}$"] {3x};
+        {3x} ->["$a, \id$"] {4x};
+        {4x} ->["$a, \id$", bend right = 30] {3x};
+        {1x} ->["$\com{a}$", bend right = 20, dashed, color = gray] {3x};
+        {1x} ->["$a$", bend right = 25, dashed, color = gray] {4x};
+        {2x} ->["$\com{a}$", bend right = 20, dashed, color = gray] {4x};
+        l -> 1x; 4x -> r;
+        }; 
+    \end{tikzpicture}. \tag*{\lipicsEnd}
+\end{align*}
+\end{example}
+By using \kl{saturable paths}, we can replace the existence of such gray-colored edges connecting distant vertices with a ``locally'' defined witness $U$. This rephrasing will be useful for our automata construction.
+
+To give an \kl{NFA} construction, 
+let 
+\[\fml^{\graph[3]}(\mathcal{U}, U) \ \defeq\  \forall a \in \vsig,\forall \tuple{u, u'} \in \mathcal{U}, \delta_{a}^{\graph[3]}(u) \subseteq U \lor \delta_{\com{a}}^{\graph[3]}(u') \subseteq U\]
+and we also replace \ref{definition: saturable path Sat} with a ``local'' condition.
+\begin{proposition}\label{proposition: saturable}
+    Let $\graph[3]$ and $\graph[2]$ be \kl{graphs}. Let $i \in \univ{\graph[2]}$.
+    Then we have:
+    \[(\forall a \in \vsig, \forall j \mbox{ s.t.\ $\tuple{j, i} \in \com{\id}^{\graph[2]}$}, \delta_{a}^{\graph[3]}(U_j) \subseteq U_i \lor \delta_{\com{a}}^{\graph[3]}(U_j) \subseteq U_i) \quad\Leftrightarrow\quad \fml^{\graph[3]}(\bigcup_{j; \tuple{j, i} \in  \com{\id}^{\graph[2]}} U_{j}^2, U_i).\]
+\end{proposition}
+\begin{proof}
+    For each $i, j$, we have:
+    $(\forall a \in \vsig, \delta_{a}^{\graph[3]}(U_j) \subseteq U_i \lor \delta_{\com{a}}^{\graph[3]}(U_j) \subseteq U_i)$ iff $(\forall a \in \vsig, (\forall u \in U_j, \delta_{a}^{\graph[3]}(u) \subseteq U_i) \lor (\forall u' \in U_j, \delta_{\com{a}}^{\graph[3]}(u') \subseteq U_i))$ iff $\fml^{\graph[3]}(U_{j}^2, U_{i})$ (by taking the prenex normal form).
+    By $(\forall j \mbox{ s.t.\ $\tuple{j, i} \in \com{\id}^{\graph[2]}$}, \fml^{\graph[3]}(U_{j}^2, U_{i}))$ iff $\fml^{\graph[3]}(\bigcup_{j; \tuple{j,i} \in \com{\id}^{\graph[2]}} U_{j}^2, U_i)$, this completes the proof.
+\end{proof}
+
+\newcommand{\Aset}{X}
+\subsection{Automata from saturable paths}\label{section: NFA}
+Let $\mathcal{X} \defeq \set{\Aset \in \wp(\tilde{\vsig}_{\id}) \mid \id, \top \in \Aset$, $\com{\id} \not\in \Aset$, and $\forall x \in \vsig, x \in \Aset \leftrightarrow \com{x} \not\in \Aset}$.
+(This set is equivalent to the set $\set{\set{x \in \tilde{\vsig}_{\id} \mid \id^{\graph[2]} \subseteq x^{\graph[2]}} \mid \graph[2] \in \allgraph_{\RSUB}}$.)
+\begin{definition}[NFA construction]\label{definition: NFA}
+    Let $\blacktriangleright$ and $\blacktriangleleft$ be two fresh symbols.
+    For a \kl{graph} $\graph[3]$ and a set $X \in \mathcal{X}$,
+    let $\graph[3]^{\FillS_{X}}$ be the \kl{graph} $\graph[1]$ defined as follows:
+    \begin{itemize}
+        \item $\domain{\graph[1]} \defeq \set{\blacktriangleright, \blacktriangleleft}  \cup Q$
+        where $Q \defeq \set{\tuple{\mathcal{U}, U} \in \wp(\domain{\graph[3]}^2) \times \wp(\domain{\graph[3]}) \mid \fml^{\graph[3]}(\mathcal{U}, U) \land \forall x \in \Aset, \delta_{x}^{\graph[3]}(U) \subseteq U}$,                                                                                                                                                                         
+        \item $\id^{\graph[1]}   \defeq (\set{\blacktriangleright} \times \set{\tuple{\mathcal{U}, U} \in Q \mid \src^{\graph[3]} \in U \land \mathcal{U} = \emptyset}) \cup (\set{\tuple{\mathcal{U}, U} \in Q \mid \tgt^{\graph[3]} \not\in U} \times \set{\blacktriangleleft})$, 
+        \item $x^{\graph[1]}      \defeq \set{\tuple{\tuple{\mathcal{U}, U}, \tuple{\mathcal{U}',U'}} \in Q^2 \mid \fml[2]_{x, \com{\id}}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U') \lor  \fml[2]_{x, \id}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U')}$ for $x \in \tilde{\vsig}$,        
+        \item $\src^{\graph[1]}   \defeq {\blacktriangleright}$,
+        \item $\tgt^{\graph[1]} \defeq  {\blacktriangleleft}$.
+    \end{itemize}
+    Here, $\fml[2]_{x, \com{\id}}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U')$ and $\fml[2]_{x, \id}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U')$ are defined as follows:
+    \begin{itemize}
+        \item $\fml[2]_{x, \com{\id}}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U') \quad\defiff\quad \left(\mathcal{U}' = \mathcal{U} \cup U^2  \land
+        \bigwedge \left\{\begin{aligned}
+                             \delta_{x}^{\graph[3]}(U) \subseteq U',                                             \\
+                             \delta_{\top}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}'}) \subseteq U', \\
+                             \delta_{\com{\id}}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}'}) \subseteq U'
+                         \end{aligned} \right\} \right)$,
+        \item $\fml[2]_{x, \id}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U') \quad\defiff\quad (\mathcal{U}' = \mathcal{U} \land U' = U \land x \in \Aset)$. \lipicsEnd
+    \end{itemize}
+\end{definition}
+By the form of $\graph[3]^{\FillS_{X}}$, if $a_1 \dots a_n \in \ljump{\graph[3]^{\FillS_{X}}}_{\tilde{\vsig}}$, then its run is of the following form:
+\[\begin{tikzpicture}[remember picture, baseline = -.5ex]
+        \graph[grow right = 2.cm, branch down = 3.5ex, nodes={}]{
+        {lx/{\scriptsize $\blacktriangleright$}}-!-
+        {0x/{\scriptsize $\tuple{\mathcal{U}_0, U_0}$}}-!-
+        {1x/{\scriptsize $\tuple{\mathcal{U}_1, U_1}$}}-!-
+        {2x/{\scriptsize $\tuple{\mathcal{U}_2, U_2}$}}-!-
+        {3x/{}[inner sep = 0, outer sep = 0]}-!-
+        {4x/{\scriptsize $\tuple{\mathcal{U}_{n}, U_{n}}$}}-!-
+        {rx/{\scriptsize $\blacktriangleleft$}}
+        };
+        \node[left = .5em of lx](l){};
+        \node[right = .5em of rx](r){};
+        \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+            {lx} ->["$\id$"] {0x} ->["$a_1$"] {1x} ->["$a_2$"] {2x} --["\;$\dots$\;", pos = .8] {3x.center} ->["$a_{n}$"] {4x} ->["$\id$"] {rx};
+            l -> lx; rx -> r;
+        }; 
+    \end{tikzpicture}.\]
+Intuitively, this run corresponds to the following \kl{saturable path} where 
+some $\top$-, $\com{\id}$-, or $\id$-labeled edges are omitted and
+$\begin{tikzpicture}[remember picture, baseline = .5ex]
+    \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{{0x/{}[mynode]}};
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        {0x} ->["$X$", out=60, in=120, looseness=18] {0x};
+    };\end{tikzpicture}$ denotes $x$-labeled edges for $x \in X$:
+\[\begin{tikzpicture}[remember picture, baseline = -.5ex]
+    \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{
+    {0x/{}[mynode]}-!-
+    {1x/{}[mynode]}-!-
+    {2x/{}[mynode]}-!-
+    {3x/{}[inner sep = 0, outer sep = 0]}-!-
+    {4x/{}[mynode, xshift = -4em]}-!-
+    {5x/{}[mynode]}-!-
+    {6x/{}[inner sep = 0, outer sep = 0]}-!-
+    {7x/{}[mynode]}
+    };
+    \node[left = .5em of 0x](l){};
+    \node[right = .5em of 7x](r){};
+    \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+        {0x, 1x, 2x, 4x, 5x, 7x} ->["$X$", out=60, in=120, looseness=18] {0x, 1x, 2x, 4x, 5x, 7x};
+        {0x} ->["$a_1$"] {1x};
+    {1x} ->["$a_2$"] {2x};
+    {2x} ->["\;$\dots$\;"] {4x};
+    {4x} ->["$a_{i}$"] {5x};
+    {4x} ->[bend left = 25] {5x};
+    {5x} --["\;$\dots$\;"] {6x.center};
+    {6x.center} ->["$a_{n}$"] {7x};
+    l -> 0x; 7x -> r;
+    }; 
+    \path (4x) edge[opacity = 0, bend left = 25] node(4x-5x){} (5x);
+    \begin{pgfonlayer}{bg} 
+        \node[above right = -.5em and 4.5em of 4x-5x, fill = white, inner sep = 0](4x-5x-p){\scriptsize $\begin{cases} \id & \mbox{(if $\lnot \fml[2]_{a_{i}, \com{\id}}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})$)}\\
+            \com{\id} & \mbox{(otherwise)}
+        \end{cases}$};
+    \end{pgfonlayer}
+    \draw[color = gray] (4x-5x) -- (4x-5x-p.west);
+    \node[below = .5ex of 0x]{\scriptsize $U_{0}$};
+    \node[below = .5ex of 1x]{\scriptsize $U_{1}$};
+    \node[below = .5ex of 2x]{\scriptsize $U_{2}$};
+    \node[below = .5ex of 4x]{\scriptsize $U_{i-1}$};
+    \node[below = .5ex of 5x]{\scriptsize $U_{i}$};
+    \node[below = .5ex of 7x]{\scriptsize $U_{n}$};
+\end{tikzpicture}.\]
+Here, $\mathcal{U}_{i}$ is used to denote the set $\bigcup_{j; \tuple{j, i} \in  \com{\id}^{\graph[2]}} U_{j}^2$ (cf.\ \Cref{proposition: saturable}) where $\graph[2]$ is the \kl{graph} of the \kl{saturable path} above.
+Additionally, we have $\fml[2]_{a_i, \com{\id}}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})$ if $\tuple{i-1, i} \in \com{\id}^{\graph[2]}$ and we have $\fml[2]_{a_i, \id}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})$ if $\tuple{i-1, i} \in \id^{\graph[2]}$ by construction.
+Based on this correspondence, from a \kl{word} $\word \in \bigcup_{X \in \mathcal{X}}\ljump{\graph[3]^{\FillS_{X}}}_{\tilde{\vsig}}$,
+we can construct a \kl{saturable path} for $\word \in \const{L}_{\graph[3]}$,
+and conversely, from a \kl{saturable path} for $\word \in \const{L}_{\graph[3]}$, we can show $\word \in \bigcup_{X \in \mathcal{X}}\ljump{\graph[3]^{\FillS_{X}}}_{\tilde{\vsig}}$ (see \Cref{section: lemma: sound and completeness}, for details).
+Thus we have the following.
+\begin{lemma}[\Cref{section: lemma: sound and completeness}]\label{lemma: sound and completeness}
+    Let $\graph[3]$ be a \kl{graph}.
+    Then we have
+    $\const{L}_{\graph[3]} = \bigcup_{X \in \mathcal{X}}\ljump{\graph[3]^{\FillS_{X}}}_{\tilde{\vsig}}$.
+\end{lemma}
+% \begin{proof}
+%     Let $\word = a_0 \dots a_{n-1}$.
+%     $\Longleftarrow$:
+%     Let $P = \tuple{\graph[2], U}$ be the \kl{saturable path}.
+%     Let $\Aset \defeq \set{a \in \tilde{\vsig} \mid a^{\graph[2]} \supseteq \Delta_{\domain{\graph[2]}}}$
+%     (note that $X \in \mathcal{X}$ holds, because for $a \in \vsig$, either $a \in X$ or $\com{a} \in X$ holds by \ref{definition: saturable path Ext}).
+%     For each $i$, let $\mathcal{U}_i \defeq \bigcup_{j; \tuple{j, i} \in \com{\id}^{\graph[2]}} U_{j}^{2}$.
+%     Then $\tuple{\mathcal{U}_i, U_i} \in \domain{\graph[3]^{\FillS_{\Aset}}}$ holds by the following:
+%     \begin{itemize}
+%         \item $\fml^{\graph[3]}(\mathcal{U}_i, U_i)$: By \ref{definition: saturable path Sat} with \Cref{proposition: saturable}.
+%         \item $\forall a \in \Aset, \delta_{a}^{\graph[3]}(U_i) \subseteq U_i$:
+%               By $x^{\graph[2]} \supseteq \Delta_{\domain{\graph[2]}}$, $\tuple{i, i} \in a^{\graph[2]}$. Thus by \ref{definition: saturable path Wit}.
+%         \item $\forall a \in \set{\id, \top}, \delta_{a}^{\graph[3]}(U_i) \subseteq U_i$: Then $\tuple{i, i} \in a^{\graph[2]}$ is clear. Thus by \ref{definition: saturable path Wit}.
+%     \end{itemize}
+%     Thus, we have $\word \in \ljump{\graph[3]^{\FillS_{\Aset}}}$ by the following:
+%     \begin{itemize}
+%         \item $\tuple{\blacktriangleright, \tuple{\mathcal{U}_0, U_0}} \in \id^{\graph[3]^{\FillS_{\Aset}}}$:
+%               By $\src^{\graph[3]} \in U_0$ \ref{definition: saturable path Wit} and $\mathcal{U}_0 = \emptyset$.
+%         \item $\tuple{\tuple{\mathcal{U}_n, U_n}, \blacktriangleleft} \in \id^{\graph[3]^{\FillS_{\Aset}}}$:
+%               By $\tgt^{\graph[3]} \not\in U_{n}$ \ref{definition: saturable path Wit}.
+%         \item $\forall i \in \range{1, n}, \tuple{\tuple{\mathcal{U}_{i-1}, U_{i-1}}, \tuple{\mathcal{U}_{i}, U_{i}}} \in a_{i-1}^{\graph[3]^{\FillS_{\Aset}}}$:
+%               We distinguish the following cases:
+%               \begin{itemize}
+%                   \item Case $\tuple{i-1, i} \in \id^{\graph[2]}$:
+%                         We have $\mathcal{U}_{i} = \mathcal{U}_{i-1}$ by $\set{j \mid \tuple{j, i} \in \com{\id}^{\graph[2]}} = \set{j \mid \tuple{j, i-1} \in \com{\id}^{\graph[2]}}$.
+%                         We have $U_{i-1} = U_{i}$ by $U_{i-1} \subseteq \delta_{\id}^{\graph[3]}(U_{i-1}) \subseteq U_{i}$ and $U_{i} \subseteq \delta_{\id}^{\graph[3]}(U_{i}) \subseteq U_{i-1}$ \ref{definition: saturable path Wit}.
+%                         We have $a_{i-1} \in \Aset$ because we have $a_{i-1}^{\graph[2]} \supseteq \id^{\graph[2]}$ by $\tuple{i-1, i} \in a_{i-1}^{\graph[2]} \cap \id^{\graph[2]}$ and \ref{definition: saturable path Ext}.
+%                         Hence, $\fml[2]_{a_{i-1}, \id}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U')$ holds.
+%                   \item Case $\tuple{i-1, i} \in \com{\id}^{\graph[2]}$:
+%                         We have $\mathcal{U}_{i} = \mathcal{U}_{i-1} \cup U_{i-1}^2$ by $\set{j \mid \tuple{j, i} \in \com{\id}^{\graph[2]}} = \set{j \mid \tuple{j, i-1} \in \com{\id}^{\graph[2]}} \cup \set{i-1}$.
+%                         We have both $\delta_{a_{i-1}}^{\graph[3]}(U_{i-1}) \subseteq U_{i}$
+%                         and $\delta_{\com{\id}}^{\graph[3]}(\set{u \mid \tuple{u, u} \in \mathcal{U}_{i}}) = \bigcup_{j < i} \delta_{\com{\id}}^{\graph[3]}(U_{j}) \subseteq U_{i}$ by \ref{definition: saturable path Wit}.
+%                         Hence, $\fml[2]_{a_{i-1}, \com{\id}}^{\Aset}(\mathcal{U}, U, \mathcal{U}', U')$ holds.
+%               \end{itemize}
+%     \end{itemize}
+%     $\Longrightarrow$:
+%     Let $X$ be s.t.\ $\word \in \ljump{\graph[3]^{\FillS_{X}}}_{\tilde{\vsig}}$.
+%     By the form of $\graph[3]^{\FillS_{X}}$, there are $n \in \nat$ and $\mathcal{U}_0, U_{0}, \dots, \mathcal{U}_n, U_{n}$ s.t.\
+%     $\tuple{\blacktriangleright, \tuple{\mathcal{U}_0, U_0}} \in \id^{\graph[3]^{\FillS_{X}}}$, $\tuple{\tuple{\mathcal{U}_n, U_n}, \blacktriangleleft} \in \id^{\graph[3]^{\FillS_{X}}}$, and
+%     $\forall i \in \range{1, n}, \tuple{\tuple{\mathcal{U}_{i-1}, U_{i-1}}, \tuple{\mathcal{U}_{i}, U_{i}}} \in a_{i-1}^{\graph[3]^{\FillS_{X}}}$.
+%     Let $\graph[2]$ be the \kl{edge-extension} of $\const{\graph}(\word)$ defined as follows:
+%     \begin{itemize}
+%         \item $\top^{\graph[2]} = \set{\tuple{x, y} \in \range{0, n}^2 \mid \forall i \in \range{y + 1, x},\  \fml[2]_{a_{i-1}, \id}^{\Aset}(\mathcal{U}_{i-1}, U_{i-1}, \mathcal{U}_{i}, U_{i})}$;
+%         \item $\id^{\graph[2]} = \set{\tuple{x, y} \mid \tuple{x, y} \in \top^{\graph[2]} \land \tuple{y, x} \in \top^{\graph[2]}}$ and $\com{\id}^{\graph[2]} = \top^{\graph[2]} \setminus \id^{\graph[2]}$;
+%         \item $\forall a \in \Aset$, $\tuple{a^{\graph[2]}, \com{a}^{\graph[2]}} = \tuple{a^{\const{\graph}(\word)} \cup \Delta_{\domain{\graph[2]}}, \com{a}^{\const{\graph}(\word)}}$.
+%     \end{itemize}
+%     Then $P \defeq \tuple{\graph[2], U}$ (where $U$ is defined according to $U_0, \dots, U_n$) satisfies each condition of that $P$ is a \kl{saturable path} for $\tuple{\graph[3], \word}$ (see \Cref{section: lemma: sound and completeness}).
+
+%     For example, for the \kl{word} $\word$ and \kl{graphs} $\graph[3]$ in \Cref{example: witness}, if $\mathcal{U}_0, U_{0}, \dots, \mathcal{U}_3, U_{3}$ are the following, then $P = \tuple{\graph[2], U}$ is of the form of the right-hand side (cf.\ \Cref{example: saturable path}):
+%     \begin{align*}
+%         \begin{aligned}
+%             X = \set{a} \qquad \begin{aligned}
+%                                    U_0 = U_1 = \set{\mathtt{A}, \mathtt{C}} \\
+%                                    U_2 = U_3 = \set{\mathtt{A}, \mathtt{B}}
+%                                \end{aligned} \\
+%             \begin{aligned}
+%                 \mathcal{U}_0 = \emptyset \qquad \mathcal{U}_1 = \mathcal{U}_2 = \set{\mathtt{A}, \mathtt{C}}^2 \\
+%                 \mathcal{U}_3 = \mathcal{U}_4 = \set{\mathtt{A}, \mathtt{C}}^2 \cup \set{\mathtt{A}, \mathtt{B}}^2
+%             \end{aligned}
+%         \end{aligned}
+%          &  & P & = \begin{tikzpicture}[remember picture, baseline = -.5ex]
+%                         \graph[grow right = 1.5cm, branch down = 3.5ex, nodes={}]{
+%                         {1x/{$0$}[mysmallnode]}-!-{2x/{$1$}[mysmallnode]}-!-{3x/{$2$}[mysmallnode]}-!-{4x/{$3$}[mysmallnode]}
+%                         };
+%                         \node[left = .5em of 1x](l){};
+%                         \node[right = .5em of 4x](r){};
+%                         \node[above = 2ex of 1x, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a11){$a, \id$};
+%                         \node[above = 2ex of 2x, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a22){$a, \id$};
+%                         \node[above = 2ex of 3x, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a33){$a, \id$};
+%                         \node[above = 2ex of 4x, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a44){$a, \id$};
+%                         \path (1x) edge [draw = gray!20, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a12){$a$}(2x);
+%                         \path (2x) edge [draw = gray!20, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a23){$\com{a}$}(3x);
+%                         \path (3x) edge [draw = gray!20, opacity = 0] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a34){$a$}(4x);
+%                         \path (1x) edge [draw = gray!20, opacity = 0, bend left = 25] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a12'){$\id$}(2x);
+%                         \path (3x) edge [draw = gray!20, opacity = 0, bend left = 25] node[pos= 0.5, inner sep = 1.5pt, font = \scriptsize, opacity = 1](a34'){$\id$}(4x);
+%                         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=gray!20, inner sep=1pt,font= \scriptsize}]{
+%                         1x --[bend right] a11 ->[bend right] 1x;
+%                         2x --[bend right] a22 ->[bend right] 2x;
+%                         3x --[bend right] a33 ->[bend right] 3x;
+%                         4x --[bend right] a44 ->[bend right] 4x;
+%                         1x -- a12 -> 2x;
+%                         2x -- a23 -> 3x;
+%                         3x -- a34 -> 4x;
+%                         1x <-[bend left = 15] a12' ->[bend left = 15] 2x;
+%                         3x <-[bend left = 15] a34' ->[bend left = 15] 4x;
+%                         l -> 1x; 4x -> r;
+%                         };
+%                         \node[below = 2.5ex of 1x]{\scriptsize $\set{\mathtt{A}, \mathtt{C}}$};
+%                         \node[below = 2.5ex of 2x]{\scriptsize $\set{\mathtt{A}, \mathtt{C}}$};
+%                         \node[below = 2.5ex of 3x]{\scriptsize $\set{\mathtt{A}, \mathtt{B}}$};
+%                         \node[below = 2.5ex of 4x]{\scriptsize $\set{\mathtt{A}, \mathtt{B}}$};
+%                     \end{tikzpicture}
+%     \end{align*}
+%     (Here, $\top$- or $\com{\id}$-labeled edges are omitted in $P$.)
+% \end{proof}
+
+\begin{theorem}\label{theorem: PSPACE-complete}
+    The \kl{equational theory w.r.t.\ languages} for $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ is PSPACE-complete.
+\end{theorem}
+\begin{proof}
+    (in PSPACE):
+    Let $\term[1]$ and $\term[2]$ be $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ \kl{terms}.
+    Let $\graph$ and $\graph[3]$ be \kl{NFAs} s.t.\ $\ljump{\graph}_{\tilde{\vsig}} = \ljump{\term[1]}_{\tilde{\vsig}}$ and $\ljump{\graph[3]}_{\tilde{\vsig}} = \ljump{\term[2]}_{\tilde{\vsig}}$.
+    By \Cref{corollary: graph characterization,lemma: sound and completeness}, we have:
+    $\RSUB \models \term[1] \le \term[2]
+    \Leftrightarrow \ljump{\graph[1]}_{\tilde{\vsig}} \cap \const{L}_{\graph[3]} = \emptyset
+    \Leftrightarrow \ljump{\graph}_{\tilde{\vsig}} \cap (\bigcup_{X \in \mathcal{X}} \ljump{\graph[3]^{\FillS_{X}}}_{\tilde{\vsig}}) = \emptyset$.
+    Thus we can reduce the \kl{equational theory} into the emptiness problem of \kl{NFAs} of size exponential to the size of the input \kl{inequation},
+    where we use the union construction for $\cup$ and the product construction for $\cap$ in \kl{NFAs}.
+    In this reduction, using a standard on-the-fly algorithm for the non-emptiness problem of NFAs (essentially the graph reachability problem), we can give a non-deterministic polynomial space algorithm.
+    (Note that the membership of ``$a \in \univ{\graph[3]^{\FillS_{X}}}$'' and ``$\tuple{a, b} \in x^{\graph[3]^{\FillS_{X}}}$'' for each $x \in \tilde{\vsig}_{\id}$ can be easily determined in polynomial space; so, we can construct such an on-the-fly algorithm indeed.)
+    (Hardness):
+    The \kl{equational theory} of $\KAtermclass$ w.r.t.\ languages coincides with the language equivalence problem of regular expressions (\Cref{remark: KA completeness}), which is PSPACE-complete \cite{meyerEquivalenceProblemRegular1972}.
+    Hence, the \kl{equational theory} of $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ is PSPACE-hard.
+\end{proof}
+
+\begin{remark}\label{remark: REL}
+    W.r.t.\ $\REL$, it is open the complexity of the \kl{equational theory} for $\KAtermclass_{\set{\com{x}, \com{\id}, \top}}$ \cite[Remark 45]{nakamuraExistentialCalculiRelations2023}.
+    W.r.t.\ $\RSUB$, each equivalence class induced from $\id$-labeled edges is always an interval;
+    so, the problematic case of \cite[Remark 45]{nakamuraExistentialCalculiRelations2023} (w.r.t.\ $\REL$) does not appear in \Cref{theorem: PSPACE-complete} (w.r.t.\ $\RSUB$).
+    \lipicsEnd
+\end{remark}
+
+% \subsection{NFAs as terms}\label{section: NFA}
+% A \emph{non-deterministic finite automaton with epsilon translations $\empt$} (NFA, for short) $\automaton = \tuple{|\automaton|, \set{a^{\automaton}}_{a \in A}, \lv^{\automaton}, \rv^{\automaton}}$ over a set $A$ (with $A$ containing a designated element $\empt$) is a graph over $A$.
+% The \emph{transition relation} $\delta_{w}^{\automaton}$ of a word $w = a_1 \dots a_n \in (A \setminus \set{\empt})^*$ is defined by:
+% \[\delta_{w}^{\automaton} \defeq (\empt^{\automaton})^* \compo a_1^{\automaton} \compo (\empt^{\automaton})^* \compo \ldots \compo (\empt^{\automaton})^* \compo a_n^{\automaton} \compo (\empt^{\automaton})^*.\]
+% For notational simplicity, for $x \in |\automaton|$ and $X \subseteq |\automaton|$,
+% let $\delta_{w}^{\automaton}(x) \defeq \set{y \mid \tuple{x, y} \in \delta_{w}^{\automaton}}$ and $\delta_{w}^{\automaton}(X) \defeq \bigcup_{x \in X} \delta_{w}^{\automaton}(x)$.
+% The \emph{language} $\ljump{\automaton}$ of $\automaton$ is defined by:
+% \[\ljump{\automaton} \defeq \set{w \in (A \setminus \set{\empt})^* \mid \tgt^{\automaton} \in \delta_{w}^{\automaton}(\src^{\automaton})}.\]
+
+% Let $\SIG_{\eps}^{(-, \smile)} \defeq \set{a, a^{\smile} \mid a \in \SIG^{(-)}} \cup \set{\eps, \eps^{-}}$.
+% As with $\com{\term}$,
+% for each $\term \in \SIG_{\eps}^{(-, \smile)} \cup \set{\emp, \top}$,
+% $\widebreve{\term}$ denotes the following term, where $a \in \SIG^{(-)}$:
+% \begin{align*}
+%     \widebreve{a} & \defeq a^{\smile} & \widebreve{a^{\smile}} & \defeq a & \widebreve{\eps} & \defeq \eps & \widebreve{\eps^{-}} & \defeq \eps^{-} & \widebreve{\top} & \defeq \top & \widebreve{\emp} & \defeq \emp.
+% \end{align*}
+% In the following, we always consider NFAs over the set $\AutSIG$ (where $\eps$ is used for epsilon transitions).
+
+% For an NFA $\automaton$ over $\AutSIG$,
+% the \emph{binary relation} $\jump{\automaton}_{\struc} \subseteq |\automaton|^2$ is defined by:
+% \[\jump{\automaton}_{\struc} \defeq \bigcup_{w \in \ljump{\automaton}} \jump{w}_{\struc}.\]
+
+% Naturally, we can give a construction from $\ExKA$ terms to NFAs using Thompson's construction \cite{Thompson68}, as follows:
+% \begin{definition}\label{definition: NFA def}
+%     The \emph{NFA} $\automaton_t$ of an $\ExKA$ term $\term$ is defined by:
+%     \begin{align*}
+%         \automaton_{a}
+%          & \defeq \begin{tikzpicture}[baseline = -.5ex]
+%                       \graph[grow right = 1.cm, branch down = 2.ex, nodes={mynode, font = \scriptsize}]{
+%                       {s1/{}[draw, circle]}
+%                       -!- {sm/{}[draw, circle]}
+%                       };
+%                       \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+%                       \node[right = 4pt of sm](sml){}; \path (sm) edge[earrow, ->] (sml);
+%                       \path (s1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau1){$a$}(sm);
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                           s1 -- tau1 -> sm;
+%                       };
+%                   \end{tikzpicture}        \mbox{($a \in \WordSIG$)}                       &
+%         \automaton_{\eps}
+%          & \defeq \begin{tikzpicture}[baseline = -.5ex]
+%                       \graph[grow right = 1.cm, branch down = 2.ex, nodes={mynode, font = \scriptsize}]{
+%                       {s1/{}[draw, circle]}
+%                       -!- {sm/{}[draw, circle]}
+%                       };
+%                       \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+%                       \node[right = 4pt of sm](sml){}; \path (sm) edge[earrow, ->] (sml);
+%                       \path (s1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau1){$\empt$}(sm);
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                           s1 -- tau1 -> sm;
+%                       };
+%                   \end{tikzpicture}                   \\
+%         \automaton_{\term[1] \cup \term[2]}
+%          & \defeq \begin{tikzpicture}[baseline = -.5ex]
+%                       \graph[grow right = 1.cm, branch down = 2.5ex, nodes={mynode, font = \scriptsize}]{
+%                       {s1/{}[draw, circle]}
+%                       -!- {s2/{}[draw, circle, above = .5ex], s3/{}[draw, circle, above = .5ex]}
+%                       -!- {t2/{}[draw, circle, above = .5ex], t3/{}[draw, circle, above = .5ex]}
+%                       -!- {t1/{}[draw, circle]}
+%                       };
+%                       \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+%                       \node[right = 4pt of t1](t1l){}; \path (t1) edge[earrow, ->] (t1l);
+%                       \path (s1) edge [draw = white, opacity = 0, bend left = 10] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau12){$\empt$}(s2);
+%                       \path (s1) edge [draw = white, opacity = 0, bend right = 10] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau13){$\empt$}(s3);
+%                       \path (t2) edge [draw = white, opacity = 0, bend left = 10] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau21){$\empt$}(t1);
+%                       \path (t3) edge [draw = white, opacity = 0, bend right = 10] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau31){$\empt$}(t1);
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                       s1 -- {tau12, tau13} -> {s2, s3}; {t2, t3} -- {tau21, tau31} -> t1;
+%                       };
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                       s2 ->["$\automaton_{t}$"] t2;
+%                       s3 ->["$\automaton_{s}$"] t3;
+%                       };
+%                   \end{tikzpicture} &
+%         \automaton_{\emp}
+%          & \defeq \begin{tikzpicture}[baseline = -.5ex]
+%                       \graph[grow right = 1.cm, branch down = 2.ex, nodes={mynode, font = \scriptsize}]{
+%                       {s1/{}[draw, circle]}
+%                       -!- {sm/{}[draw, circle]}
+%                       };
+%                       \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+%                       \node[right = 4pt of sm](sml){}; \path (sm) edge[earrow, ->] (sml);
+%                       %    \path (s1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau1){$a$}(sm);
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                           %    s1 -- tau1 -> sm;
+%                       };
+%                   \end{tikzpicture}                                                       \\
+%         \automaton_{\term[1] \compo \term[2]}
+%          & \defeq \begin{tikzpicture}[baseline = -.5ex]
+%                       \graph[grow right = 1.cm, branch down = 2.5ex, nodes={mynode, font = \scriptsize}]{
+%                       {s1/{}[draw, circle]}
+%                       -!- {c1/{}[draw, circle]}
+%                       -!- {c2/{}[draw, circle]}
+%                       -!- {t1/{}[draw, circle]}
+%                       };
+%                       \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+%                       \node[right = 4pt of t1](t1l){}; \path (t1) edge[earrow, ->] (t1l);
+%                       \path (c1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau1){$\empt$}(c2);
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                       c1 -- {tau1} -> c2;
+%                       };
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                       s1 ->["$\automaton_{t}$"] c1;
+%                       c2 ->["$\automaton_{s}$"] t1;
+%                       };
+%                   \end{tikzpicture}                   & \automaton_{\top}
+%          & \defeq \automaton_{a \cup \com{a}}                                                                                                                      \\
+%         \automaton_{\term[1]^{*}}
+%          & \defeq \begin{tikzpicture}[baseline = -.5ex]
+%                       \graph[grow right = 1.cm, branch down = 2.5ex, nodes={mynode, font = \scriptsize}]{
+%                       {s1/{}[draw, circle]}
+%                       -!- {c1/{}[draw, circle]}
+%                       -!- {c2/{}[draw, circle]}
+%                       -!- {t1/{}[draw, circle]}
+%                       };
+%                       \node[left = 4pt of s1](s1l){} edge[earrow, ->] (s1);
+%                       \node[right = 4pt of t1](t1l){}; \path (t1) edge[earrow, ->] (t1l);
+%                       \path (s1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau1){$\empt$}(c1);
+%                       \path (c2) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau2){$\empt$}(t1);
+%                       \path (c2) edge [draw = white, opacity = 0, bend left = 60] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau3){$\empt$}(c1);
+%                       \path (s1) edge [draw = white, opacity = 0, bend left = 20] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau4){$\empt$}(t1);
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                       s1 -- {tau1} -> c1;
+%                       c2 -- {tau2} -> t1;
+%                       c2 --[bend left = 15] {tau3} ->[bend left = 15] c1;
+%                       s1 --[bend left = 5] {tau4} ->[bend left = 5] t1;
+%                       };
+%                       \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%                       c1 ->["$\automaton_{t}$"] c2;
+%                       };
+%                   \end{tikzpicture}.
+%     \end{align*}
+%     % Here, $\automaton^{\smile}$ denotes the \emph{reversed} automaton of $\automaton$, defined by
+%     % $Q^{\automaton^{\smile}} \defeq Q^{\automaton}$,
+%     % $a^{\automaton^{\smile}} \defeq ((a^{\smile})^{\automaton})^{\smile}$,
+%     % $(a^{\smile})^{\automaton^{\smile}} \defeq (a^{\automaton})^{\smile}$,
+%     % $\tau^{\automaton^{\smile}} \defeq (\tau^{\automaton})^{\smile}$,
+%     % $\src^{\automaton^{\smile}} \defeq \tgt^{\automaton}$, and
+%     % $\tgt^{\automaton^{\smile}} \defeq \src^{\automaton}$, where $R^{\smile}$ denotes $\set{\tuple{y, x} \mid \tuple{x, y} \in R}$ for each binary relation $R$.
+%     % For example, $\automaton_{a \compo b^{\smile}}^{\smile} = \left( \begin{tikzpicture}[baseline = -.5ex]
+%     %         \graph[grow right = 1.cm, branch down = 2.ex, nodes={inner sep = 1.pt, font = \scriptsize}]{
+%     %         {s1/{}[draw, circle]}
+%     %         -!-
+%     %         {s2/{}[draw, circle]}
+%     %         -!-
+%     %         {s3/{}[draw, circle]}
+%     %         -!-
+%     %         {s4/{}[draw, circle]}
+%     %         };
+%     %         \node[left = 4pt of s1](s1l){}; \path (s1l) edge[earrow] (s1);
+%     %         \node[right = 4pt of s4](s4l){}; \path (s4) edge[earrow] (s4l);
+%     %         \path (s1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau1){$a$}(s2);
+%     %         \path (s2) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau2){$\eps$}(s3);
+%     %         \path (s3) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau3){$b^{\smile}$}(s4);
+%     %         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%     %             s1 -> tau1 -> s2 -> tau2 -> s3 -> tau3 -> s4;
+%     %         };
+%     %     \end{tikzpicture} \right)^{\smile} = \begin{tikzpicture}[baseline = -.5ex]
+%     %         \graph[grow right = 1.cm, branch down = 2.ex, nodes={inner sep = 1.pt, font = \scriptsize}]{
+%     %         {s1/{}[draw, circle]}
+%     %         -!-
+%     %         {s2/{}[draw, circle]}
+%     %         -!-
+%     %         {s3/{}[draw, circle]}
+%     %         -!-
+%     %         {s4/{}[draw, circle]}
+%     %         };
+%     %         \node[left = 4pt of s1](s1l){}; \path (s1) edge[earrow] (s1l);
+%     %         \node[right = 4pt of s4](s4l){}; \path (s4l) edge[earrow] (s4);
+%     %         \path (s1) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau1){$a^{\smile}$}(s2);
+%     %         \path (s2) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau2){$\eps$}(s3);
+%     %         \path (s3) edge [draw = white, opacity = 0] node[pos= 0.5, inner sep = 1.pt, font = \scriptsize, opacity = 1](tau3){$b$}(s4);
+%     %         \graph[use existing nodes, edges={color=black, pos = .5, earrow}, edge quotes={fill=white, inner sep=1pt,font= \scriptsize}]{
+%     %             s4 -> tau3 -> s3 -> tau2 -> s2 -> tau1 -> s1;
+%     %         };
+%     %     \end{tikzpicture}$.
+% \end{definition}
+% \begin{proposition}\label{proposition: Thompson}
+%     For every structure $\struc$ and $\ExKA$ term $\term$, we have $\jump{\term}_{\struc} = \jump{\automaton_{\term}}_{\struc}$.
+% \end{proposition}
+% \begin{proof}[Proof Sketch]
+%     Let $\term[2]$ be the term $\term$ in which each $\top$ has been replaced with $a \cup \com{a}$.
+%     Then, $\jump{\term[2]}_{\model} = \jump{\term}_{\model}$ holds by \Cref{equation: I- top 0}
+%     and $\automaton_{\term[2]}$ coincides with $\automaton_{\term}$ (by \Cref{definition: NFA def}).
+%     By viewing $\term[2]$ as the regular expression over $\WordSIG$, we have $\ljump{\term[2]} = \ljump{\automaton_{\term[2]}}$ \cite{Thompson68}.
+%     By straightforward induction on $\term[2]$ using the distributivity, $\jump{\term[2]}_{\struc} = \bigcup_{w \in \ljump{\term[2]}} \jump{w}_{\struc}$ \ifiscameraready \else (\Cref{section: proposition: Thompson})\fi.
+%     Thus $\jump{\term}_{\struc} = \jump{\term[2]}_{\struc} = \bigcup_{w \in \ljump{\term[2]}} \jump{w}_{\struc} = \bigcup_{w \in \ljump{\automaton_{\term[2]}}} \jump{w}_{\struc} = \jump{\automaton_{\term[2]}}_{\struc} = \jump{\automaton_{\term}}_{\struc}$.
+% \end{proof}
+% Thanks to the above proposition, we work directly with NFAs rather than terms in the sequel.
+% % In the following, we use NFAs over $\AutSIG$ instead of $\Termset_{\sig_{\ECoRTC \setminus \set{\cap}}}$.
+
+% \newcommand{\clang}[1]{[#1]_{\mathrm{c}}}
+% % \newcommand{\wlang}[1]{\lfloor #1 \rfloor}
+% \newcommand{\Con}{\mathop{\mathrm{Con}}\nolimits}
+% \subsection{Saturable paths}\label{section: saturable path def}
+% For a word $w \in (\WordSIG)^*$,
+
